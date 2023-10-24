@@ -223,12 +223,12 @@ fi
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to install the SDDM theme? (y,n) ' SDDM
     if [[ $SDDM == "Y" || $SDDM == "y" ]]; then
         echo -e "$CNT - Setting up the login screen."
-        sudo cp -R sddm/gruvbox-sddm /usr/share/sddm/themes/
+        sudo cp -R sddm/sddm-slice /usr/share/sddm/themes/
         sudo chown -R $USER:$USER /usr/share/sddm/themes/
         if [ ! -d /etc/sddm.conf.d ]; then
             sudo mkdir /etc/sddm.conf.d
         fi
-        echo -e "[Theme]\nCurrent=gruvbox-sddm" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>> $INSTLOG
+        echo -e "[Theme]\nCurrent=sddm-slice" | sudo tee -a /etc/sddm.conf.d/10-theme.conf &>> $INSTLOG
     fi
 
 ### Install GTK theme ###
