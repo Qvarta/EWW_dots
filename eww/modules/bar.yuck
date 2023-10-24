@@ -137,7 +137,8 @@
     (box
       :class "bar_module"
       :space-evenly false
-      (label :class "bar_icon" :text " ")
+      (label :class "bar_icon" :text "${power_rev == 'false' ? ' ' : '󰅙  '}")
+      ; :text " "
       (revealer
         :transition "slideright"
         :reveal power_rev
@@ -145,7 +146,6 @@
         (box
           :halign "end"
           :spacing 20
-          (label :class "bar_icon" :text "")
           (eventbox 
             :onclick "${EWW_CMD} update power_info='${strings.logoff}' && ${EWW_CMD} update power_command='hyprctl dispatch exit 0' && ${EWW_CMD} open power"
             :tooltip " ${strings.logoff} " 
