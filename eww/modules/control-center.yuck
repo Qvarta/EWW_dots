@@ -199,7 +199,10 @@
     :spacing 15
     (label 
       :text "󱊣 ${EWW_BATTERY[vars_info.battery].capacity}%" 
-      :class "block_text ${EWW_BATTERY[vars_info.battery].status == 'Charging' ? 'bat_green' : 'bat_red'}"
+      :class "block_text ${
+                          EWW_BATTERY[vars_info.battery].capacity > 70 ? 'color_green' : 
+                          EWW_BATTERY[vars_info.battery].capacity > 30 ? 'color_yellow':
+                          EWW_BATTERY[vars_info.battery].capacity < 30 ? 'color_red' : ''}"
     ) 
     (eventbox
       :class "lbl_btn ${cGraph == 'RAM' ? 'lbl_active' : ''}"
@@ -282,9 +285,17 @@
 (defwidget graph_block[name val description]
   (revealer :transition "crossfade" :reveal {cGraph == "${name}" ? "true" : "false"} :duration "500ms"
     (overlay
-      (graph :style "color: rgb(89, 136, 101);" :height "120" :min "0" :max "100" :thickness "2" :value {val == "" ? 0 : val} :dynamic "true" :time-range "30s")
-      (label :class "duration" :halign "start" :valign "end" :text "30 ${strings.sec}")
-      (label :class "val" :halign "start" :valign "start" :text "${val}${description}")
+      (graph 
+      :class "${val < 40 ? 'color_green' : val < 70 ? 'color_yellow' : 'color_red'}"
+      :height "120" 
+      :min "0" 
+      :max "100" 
+      :thickness "2" 
+      :value {val == "" ? 0 : val} 
+      :dynamic "true" 
+      :time-range "30s")
+      (label :class "duration" :halign "end" :valign "end" :text "30 ${strings.sec}")
+      (label :class "val ${val < 40 ? 'color_green' : val < 70 ? 'color_yellow' : 'color_red'}" :halign "start" :valign "start" :text "${val}${description}")
     )
   )
 )

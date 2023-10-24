@@ -41,7 +41,7 @@
                     )
                 )
             )
-            (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" :style "margin: 10px 20px;" "${strings.cancel}")
+            (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" :style "margin: 10px 20px;min-height: 40px;" "${strings.cancel}")
 
         )
     )
