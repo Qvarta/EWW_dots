@@ -4,7 +4,7 @@
     :geometry (geometry
                 :width "250px"
                 :height "50px"
-                :anchor "center"
+                :anchor "top center"
               )
     (scr_menu)
 )
