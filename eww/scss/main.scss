@@ -1,0 +1,96 @@
+@import './vars.scss';
+@import './bar.scss';
+@import './calendar.scss';
+@import './control-center.scss';
+
+//  ---------------------------------------------------------------------------
+//                                     Window
+//  ---------------------------------------------------------------------------
+* {
+  all: unset;
+  font-family: "Iosevka NF";
+  font-size: 16px;
+  transition: all 0.3s ease-out;
+  color: $fg1;
+  background-color: transparent;
+  text-shadow: $text_shadow;
+}
+.main_container{
+  background-color: $bg1;
+  border-radius: $border_radius;
+  padding: 10px;
+  margin: 10px;
+  border: $border;
+}
+.block {
+  background-color: $bg2; 
+  border-radius: $border_radius;
+  padding: 15px;
+  border: $border;
+}
+.block_icon {
+  font-size: 24px;
+}
+.block_text{
+  font-size: 20px;
+  font-weight: bold;
+}
+.block_large_text{
+  font-size: 23px;
+  font-weight: bold;
+}
+.block_medium_text{
+  font-size: 18px;
+}
+.block_small_text{
+  font-size: 16px;
+}
+.block_name{
+  font-weight:900;
+  font-size: 20px;
+}
+.block_label {
+  font-size: 16px;
+}
+.entry_block{
+  padding: 5px 20px;
+}
+.block_btn {
+  background-color: $bg2; 
+  border-radius: 5px;
+  font-size: 20px;
+  border: $border;
+  &:hover{
+      background-color: $softgray;
+      border-color: $green;
+  }
+}
+.lbl_btn{
+  background-color: $bg2;
+  border: $border;
+  border-radius: 6px;
+}
+.lbl_active{
+  background-color: $softgray;
+  border-color: $yellow;
+}
+.title{
+  font-size: 24px;
+  margin: 10px;
+}
+.block_img_small_icon{
+  font-size: 32px;
+}
+.block_img_medium_icon{
+  font-size: 40px;
+}
+//  ---------------------------------------------------------------------------
+//                                  Tooltip 
+//  ---------------------------------------------------------------------------
+tooltip{
+  border-radius: 5px;
+  border: $border;
+  color: $fg1;
+  text-shadow: $text_shadow;
+  background-color: $bg1;
+}

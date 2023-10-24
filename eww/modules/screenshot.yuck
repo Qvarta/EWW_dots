@@ -1,0 +1,45 @@
+(defwindow screenshot
+    :monitor "0"
+    :namespace "screenshot"
+    :geometry (geometry
+                :width "250px"
+                :height "300px"
+                :anchor "center"
+              )
+    (scr_menu)
+)
+(defwidget scr_menu []
+  (eventbox
+    (box
+      :class "main_container"
+      :orientation "v"
+      :spacing 10
+      (scr_btn 
+        :name "${strings.screen}"
+        :action "${EWW_CMD} ${windows_status.screenshot} screenshot & hyprshot -m output -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
+        :style "background-image: url('images/ui/screenshot_d.png'); border: 2px solid rgb(89, 136, 101);" 
+      )
+      (scr_btn 
+        :name "${strings.window}"
+        :action "${EWW_CMD} ${windows_status.screenshot} screenshot & hyprshot -m window -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
+        :style "background-image: url('images/ui/screenshot_w.png'); border: 2px solid rgb(89, 136, 101);" 
+      )
+      (button :onclick "${EWW_CMD} close screenshot" :class "block_btn" :style "margin: 20px; min-height:40px;" "${strings.cancel}")
+    )
+  )
+)
+(defwidget scr_btn[name style action]
+  (eventbox 
+    :class "big_block"
+    :onclick action
+    :walign "start"
+    (box 
+      :spacing 20
+      (box
+        :class "btn big"
+        :style style
+      )
+      (label  :text name :class "block_name")
+    )
+  )
+)

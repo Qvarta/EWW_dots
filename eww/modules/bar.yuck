@@ -1,0 +1,179 @@
+(defwidget bar []
+  (centerbox
+    :orientation "h"
+    :class "bar_widget"
+    (left)
+    (workspaces)
+    (right))
+)
+; ---------------------------------------------------------------------------
+;                               BAR WIDGETS
+; ---------------------------------------------------------------------------
+(defwidget left []
+  (box
+    :space-evenly false
+    (launcher-widget)
+    (time-widget :hour {time.hour} :minute {time.min})
+    (player-widget :available {track_info.available} :status {windows_status.player} :title {track_info.title} :artist {track_info.artist} :position {track_info.position})
+  )
+)
+(defwidget workspaces []
+  (eventbox 
+    :class "bar_module"
+    (box :space-evenly false
+      (label :text "${workspaces}${current_workspace}" :visible false)
+      (for workspace in workspaces
+        (button :class "workspace_entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}" :onclick "hyprctl dispatch workspace ${workspace.id}"
+        (label :text "${workspace.id}" :class "workspace_label" :xalign 0.5))
+      )
+    )
+  )
+)
+(defwidget right []
+  (box
+    :halign "end"
+    :space-evenly false
+    (language-widget :layout {layout})
+    (tray)
+    (power_menu)
+  )
+)
+; ---------------------------------------------------------------------------
+;                               LEFT WIDGETS
+; ---------------------------------------------------------------------------
+(defwidget time-widget [hour minute]
+  (box
+    :class "bar_module"
+    :spacing 10
+    :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
+    (eventbox
+      :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
+      :onhover "${EWW_CMD} update date_rev=true"
+      :onhoverlost "${EWW_CMD} update date_rev=false"
+      :halign "start"
+      (box
+        :space-evenly false
+        :spacing 10
+        (label :text "${hour}:${minute}" :class "block_text")
+        (revealer
+          :transition "slideright"
+          :reveal date_rev
+          :duration "750ms"
+          (label :class "slide" :text "| ${date}")
+        )
+      )  
+    )
+  )
+)
+(defwidget launcher-widget []
+  (eventbox
+    :onclick "./scripts/window_status rofi"
+    :tooltip "    ${strings.open}/${strings.close} ${strings.app}   " 
+    :class "bar_module"
+    (label :class "bar_icon" :text " ")  
+  )
+)
+(defwidget player-widget [available status title artist position]
+  (eventbox
+    :onclick "cmus-remote -u"
+    :class "bar_module"
+    :visible "${available =='off' ? false : true}"
+    (box
+      :space-evenly false
+      :spacing 5
+      (label :class "block_medium_text" :text "**${title=='' ? 'Track not selected' : artist}:")
+      (label :class "block_text" :text "${title=='' ? 'select track' : title}")  
+      (label :class "block_medium_text" :text "| ${position}**")  
+    )
+  ) 
+)
+; ---------------------------------------------------------------------------
+;                               RIGHT WIDGETS 
+; ---------------------------------------------------------------------------
+(defwidget language-widget [layout]
+  (eventbox
+    :class "bar_module"
+    :onclick "./scripts/kb_layout swkb"
+    :onrightclick "${EWW_CMD} update lang_rev=${!lang_rev}"
+    (label :text "󰌌 ${layout}" :class "block_text") 
+  )
+)
+(defwidget tray[]
+  (eventbox
+    :onclick "${EWW_CMD} ${windows_status.control} control-center"
+    :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
+    :space-evenly false
+    :spacing 20
+    (box
+      :class "bar_module"
+      :space-evenly false
+      (tray_widget :text {wifi_info.icon} :visible  true)
+      (tray_widget :text "" :visible "${bluetooth_state != 'off' ? true : false}")
+      (tray_widget :text "${sound_info.mic_status == 'yes' ? '' : ''}" :visible "${sound_info.mic_status == 'yes' ? true : false}")
+      (tray_widget 
+        :text "${sound_info.sound_volume == '0' ? '󰸈' :
+                      sound_info.sound_volume == 'muted' ? '' :
+                      sound_info.sound_volume < 51 ? '󰖀' :
+                      sound_info.sound_volume < 101 ? '󰕾' : '󰝟'}" 
+        :visible  true
+      )
+      (tray_widget 
+        :text "${EWW_BATTERY[vars_info.battery].capacity < 10 ? " 󰁺" :
+            EWW_BATTERY[vars_info.battery].capacity< 20 ? " 󰁼" :
+            EWW_BATTERY[vars_info.battery].capacity < 40 ? " 󰁼" :
+            EWW_BATTERY[vars_info.battery].capacity < 60 ? " 󰁿" :
+            EWW_BATTERY[vars_info.battery].capacity < 80 ? " 󰂁" :
+            EWW_BATTERY[vars_info.battery].capacity < 100 ? " 󰁹" : " 󰂄"}"
+        :visible  true
+      )
+    )
+  )
+)
+(defwidget power_menu []
+  (eventbox
+    :onclick "${EWW_CMD} update power_rev=${!power_rev}"
+    :onrightclick "${EWW_CMD} update power_rev=false"
+    :tooltip "    ${strings.open}/${strings.close} ${strings.menu} ${strings.power}  "   
+    (box
+      :class "bar_module"
+      :space-evenly false
+      (label :class "bar_icon" :text " ")
+      (revealer
+        :transition "slideright"
+        :reveal power_rev
+        :duration "750ms"
+        (box
+          :halign "end"
+          :spacing 20
+          (label :class "bar_icon" :text "")
+          (eventbox 
+            :onclick "${EWW_CMD} update power_info='${strings.logoff}' && ${EWW_CMD} update power_command='hyprctl dispatch exit 0' && ${EWW_CMD} open power"
+            :tooltip " ${strings.logoff} " 
+            (label :class "bar_icon" :text "󰿅")
+          )
+          (eventbox 
+            :onclick "${EWW_CMD} update power_info='${strings.reboot}' && ${EWW_CMD} update power_command='systemctl reboot' && ${EWW_CMD} open power" 
+            :tooltip "  ${strings.reboot}  "
+            (label :class "bar_icon" :text "")
+          )
+          (eventbox 
+            :onclick "${EWW_CMD} update power_info='${strings.poweroff}' && ${EWW_CMD} update power_command='systemctl poweroff' && ${EWW_CMD} open power"
+            :tooltip "  ${strings.poweroff} "
+            (label :class "bar_icon" :text "󰤆")
+          )
+        )
+      ))  
+  )
+	
+)
+; ---------------------------------------------------------------------------
+;                               TRAY WIDGET
+; ---------------------------------------------------------------------------
+(defwidget tray_widget[text visible]
+  (box
+    :visible visible
+    (label :class "bar_icon" :text text)
+  )
+)
+
+

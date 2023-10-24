@@ -1,0 +1,37 @@
+#!/bin/bash
+
+get_rofi_status(){
+  if pgrep rofi >/dev/null; then
+    pkill rofi
+  else
+      rofi -show drun &
+  fi
+}
+window_status(){
+
+  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list") 
+  declare -A results
+
+  for item in "${window_list[@]}"; do
+    state=$(eww windows | grep "$item" | cut -c1)
+    
+    if [[ "$state" == "*" ]]; then
+      results["$item"]="close"
+    else
+      results["$item"]="open"
+    fi
+  done
+
+  json="{"
+  for key in "${!results[@]}"; do
+    json+="\"$key\":\"${results[$key]}\", "
+  done
+  json="${json%, *} }"
+  echo "$json" | jq -r .
+}
+
+if [[ $1 == "rofi" ]]; then
+  get_rofi_status
+else
+  window_status
+fi

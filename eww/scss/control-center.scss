@@ -1,0 +1,144 @@
+//  ---------------------------------------------------------------------------
+//                                Button block
+//  ---------------------------------------------------------------------------
+.btn{
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    border: 3px solid $softgray;  
+}
+.flat{
+    min-height:40px;
+    min-width: 40px;
+    background-size:60%;
+    border: none;
+    margin-top: 10px;
+}
+.big{
+    min-width: 50px;
+    min-height:50px;
+    background-size:70%;
+}
+.small{
+    min-height:40px;
+    min-width: 40px;
+    background-size:80%;
+}
+.red{
+    border: 3px solid $red;
+}
+.green{
+    border: 3px solid $green;
+}
+.yellow{
+    border: 3px solid $yellow;
+}
+.big_block{
+    background-color: transparent; 
+    min-height: 200px;
+    padding: 10px;
+    &:hover{
+        .btn{
+            background-size:50%;
+            background-color: $softgray;
+        }
+        .block_name{
+            color: $yellow;
+        }
+    }
+}
+.small_block {
+    &:hover{
+        .btn{
+            background-size:60%;
+            background-color: $softgray;
+        } 
+    }
+}
+.img_cont:hover{
+    .img_block{
+        border-color: $green;
+    }
+}
+.img_bg{
+    min-height:90px;
+    background-size:100%;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.img_block{
+    border: $border;
+    padding: 5px;
+    border-radius: 10px;
+}
+//  ---------------------------------------------------------------------------
+//                                Slider block
+//  ---------------------------------------------------------------------------
+.slider_block{
+    border-radius: $border_radius;
+    background-color: $bg1;
+}
+.slider_scale {
+    margin-top: 10px;
+}
+.slider_scale trough {
+    background-color: $darkgray;
+    min-width:17px;
+    border-radius: 12px;
+}
+.slider_scale trough highlight {
+    background-color: $softgray;
+    border: $border;
+    border-radius: 12px;
+}
+//  ---------------------------------------------------------------------------
+//                                Player Widget
+//  ---------------------------------------------------------------------------
+.btn_block{
+    min-width: 100px;
+    min-height: 50px;
+}
+.controls_btn {
+    background-size:60%;
+    background-position:center;
+    background-repeat: no-repeat;
+    &:hover{
+        background-size: 70%;
+    }
+}
+.play {
+    background-image: url('images/ui/play.png');
+}
+.pause {
+    background-image: url('images/ui/pause.png');
+}
+.cover{
+    border-radius: 10px;
+    background-size:100%;
+    background-position:center;
+    background-repeat: no-repeat;
+}
+//  ---------------------------------------------------------------------------
+//                                GRaph Widget
+//  ---------------------------------------------------------------------------
+.val{
+    font-size: 20px;
+    background-color: $bg1;
+    padding: 5px;
+    border-radius: 6px;
+}
+.duration {
+    font-size: 12px;
+    background-color: $bg1;
+    padding: 5px;
+    border-radius: 6px;
+}
+//  ---------------------------------------------------------------------------
+//                                Monitor Widget
+//  ---------------------------------------------------------------------------
+.bat_red{
+    color: $red;
+}
+.bat_green{
+    color: $green;
+}

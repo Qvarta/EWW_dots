@@ -1,0 +1,29 @@
+{
+    "stings":{
+        "network":["WiFi Network","WiFi Сеть"],
+        "logoff":["Logoff","Завершить сеанс"],
+        "reboot":["Reboot","Перезагрузка"],
+        "poweroff":["Power off","Выключить"],
+        "yes":["Yes","Да"],
+        "no":["No","Нет"],
+        "open":["Open","Открыть"],
+        "close":["Close","Закрыть"],
+        "name":["Name","Имя"],
+        "signal":["Signal","Уровень"],
+        "cancel":["Cancel","Отмена"],
+        "blocked":["Blocked","Отключено"],
+        "unblocked":["Disconnected","Нет подключения"],
+        "power":["Power off","Завершения работы"],
+        "menu":["Menu","Меню"],
+        "wallpapers":["Wallpapers","Обои"],
+        "screen":["Screen","Экран"],
+        "window":["Window","Окно"],
+        "controls":["Control Center","Настройки"],
+        "calendar":["Calendar","Календарь"],
+        "app":["App Launcher","Меню приложений"],
+        "probability":["Precip Probability","Вероятность осадков"],
+        "unavailable":["Wheather service unavailable","Сервис погоды недоступен"],        
+        "wind":["Wind","Ветер"],
+        "sec":["seconds","секунд"]        
+    }
+}

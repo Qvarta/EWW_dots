@@ -1,0 +1,290 @@
+; ---------------------------------------------------------------------------
+;                               CONTROL-CENTER-WINDOW
+; ---------------------------------------------------------------------------
+(defwindow control-center
+  :monitor "0"
+  :namespace "control-center"
+  :geometry (geometry
+              :width "150px"
+              :height "200px"
+              :anchor "top right")
+  (control-center)
+)
+; ---------------------------------------------------------------------------
+;                               MAIN WIDGET
+; ---------------------------------------------------------------------------
+(defwidget control-center []
+  (box
+    :orientation "v"
+    :space-evenly false
+    :class "main_container"
+    :spacing 10
+    (box      
+      :space-evenly false 
+      :spacing 10
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 10
+        (box
+          :orientation "v"
+          :class "block"
+          :space-evenly false
+          :spacing 20
+          (big_btn 
+            :name {wifi_info.ssid} 
+            :class "btn big ${wifi_info.ssid=='off' ? 'red': wifi_info.ssid=='on'? 'yellow' : 'green'}"
+            :style "background-image: url('images/ui/wifi.png');" 
+            :text {strings.network} 
+            :action_L "${EWW_CMD} ${windows_status.net_list} net_list" 
+            :action_R "./scripts/wifi toggle")
+          (big_btn 
+            :name {bluetooth_state} 
+            :class "btn big ${bluetooth_state=='off' ? 'red': bluetooth_state=='on'? 'yellow' : 'green'}"
+            :style "background-image: url('images/ui/bluetooth.png');" 
+            :text "Bluetooth" 
+            :action_L "./scripts/bluetooth toggle")
+        )
+        (box
+          :class "block"
+          :spacing 5
+          :space-evenly false
+          (small_btn 
+            :class "btn small ${sound_info.sound_status=='no' ? 'red':'green'}"
+            :style "background-image: url('images/ui/volume.png');" 
+            :action_L "./scripts/sound sound_toggle" 
+            :action_R "pavucontrol &"
+          )
+          (small_btn 
+            :class "btn small ${sound_info.mic_status=='no' ? 'red':'green'}"
+            :style "background-image: url('images/ui/mic.png');" 
+            :action_L "./scripts/sound mic_toggle" 
+            :action_R "pavucontrol &"
+          )
+          (small_btn 
+            :class "btn small"
+            :style "background-image: url('images/ui/background.png');" 
+            :action_L "${EWW_CMD} ${windows_status.chg_bg} chg_bg"
+            ; :action_L "./scripts/bg"
+          )
+          (small_btn 
+            :class "btn small"
+            :style "background-image: url('images/ui/screenshot_d.png');" 
+            :action_L "${EWW_CMD} ${windows_status.screenshot} screenshot"
+          )
+        )
+      )
+      (box
+        :orientation "h"
+        :space-evenly false
+        :class "block"
+        (slider :level {brightness} :max_level {vars_info.max_brightness} :action "brightnessctl set {}" :style "background-image: url('images/ui/brigtness.png');")
+        (slider :level {sound_info.sound_volume} :action "pamixer --set-volume {}" :style "background-image: url('images/ui/volume.png');")
+      )
+    )
+    (today 
+      :visible "${weather_json!= '[]' && weather_json[0].icon != 'null' ? true : false}"
+      :weather {weather_json}
+      :text1 {strings.probability} 
+      :text2 {strings.wind}
+    )
+    (player :available {track_info.available} :style {track_info.style})
+    (graphs :sensor {vars_info.sensor})
+    (monitor :sensor {vars_info.sensor})
+  )
+)
+; ---------------------------------------------------------------------------
+;                               BUTTON WIDGETS
+; ---------------------------------------------------------------------------
+(defwidget big_btn[?name style text ?action_L ?action_R ?class]
+  (eventbox 
+    :class "big_block" 
+    :onclick action_L
+    :onrightclick action_R
+    :space-evenly false
+    (box 
+      :space-evenly false
+      :spacing 20
+      (box
+        :class class
+        :style style
+      )
+      (box
+        :orientation "v"
+        :space-evenly false
+        :valign "center"
+        (label  :text text :class "block_name" :halign "start")
+        (label  
+          :text "${name == 'on' ? '${strings.unblocked}' :
+                  name == 'off' ? '${strings.blocked}' : name}" 
+          :class "block_label" 
+          :halign "start")
+      )
+    )
+  )
+)
+(defwidget small_btn[style action_L ?action_R ?class]
+  (eventbox 
+    :class  "small_block" 
+    :onclick action_L
+    :onrightclick action_R
+    :halign "start"
+    (box
+      :class class
+      :style style
+    )
+  )
+)
+; ---------------------------------------------------------------------------
+;                               SLIDER WIDGET
+; ---------------------------------------------------------------------------
+(defwidget slider [level ?max_level ?action style]
+  (box
+    :space-evenly false
+    :orientation "v"
+    (scale
+      :flipped true
+      :orientation "v"
+      :height 160
+      :class "slider_scale"
+      :value level
+      :draw-value false
+      :min 0
+      :max max_level
+      :onchange action
+    )
+    (box
+      :class "btn flat"
+      :style style
+    )
+  )
+)
+; ---------------------------------------------------------------------------
+;                               PLAYER WIDGETS
+; ---------------------------------------------------------------------------
+(defwidget player [available style]
+  (box
+    :class "block"
+    :visible "${available =='off' ? false : true}"
+    :space-evenly false
+    :spacing 20
+    (box
+      :class "cover"
+      :width 100
+      :style style
+    )
+    (box
+      :orientation "v"
+      :space-evenly false
+      :valign "center"
+      :width 200
+      (label :class "block_text" :text "${track_info.available == 'on' ? substring(track_info.title, 0, 20) :'No track to play'}")
+      (label :text "${track_info.artist}"  :visible "${track_info.available == 'on' ? true : false}")
+      (box
+        :class "btn_block"
+        :spacing 10
+        (eventbox :class "controls_btn" :style "background-image: url('images/ui/prev.png');" :onclick "cmus-remote -r")
+        (eventbox :class "controls_btn ${track_info.status=='playing' ? 'pause' : 'play'}" :onclick "cmus-remote -u")
+        (eventbox :class "controls_btn" :style "background-image: url('./images/ui/next.png');" :onclick "cmus-remote -n")
+      )
+    ) 
+  )
+)
+; ---------------------------------------------------------------------------
+;                               MONITOR WIDGET
+; ---------------------------------------------------------------------------
+(defwidget monitor [sensor]
+  (box
+    :class "monitor"
+    :spacing 15
+    (label 
+      :text "󱊣 ${EWW_BATTERY[vars_info.battery].capacity}%" 
+      :class "block_text ${EWW_BATTERY[vars_info.battery].status == 'Charging' ? 'bat_green' : 'bat_red'}"
+    ) 
+    (eventbox
+      :class "lbl_btn ${cGraph == 'RAM' ? 'lbl_active' : ''}"
+      :height 40
+      :onclick "${EWW_CMD} update cGraph='RAM'"
+      (label :text "󰍛 ${round(EWW_RAM.used_mem_perc, 0)}%" :class "block_text")
+    )
+    (eventbox
+      :class "lbl_btn ${cGraph == 'CPU' ? 'lbl_active' : ''}"
+      :height 40
+      :onclick "${EWW_CMD} update cGraph='CPU'"
+      (label :text " ${round(EWW_CPU.avg, 0)}%" :class "block_text")
+    )   
+    (eventbox
+      :class "lbl_btn ${cGraph == 'TEMP' ? 'lbl_active' : ''}"
+      :height 40
+      :onclick "${EWW_CMD} update cGraph='TEMP'"
+      (label :text " ${EWW_TEMPS[sensor]}%" :class "block_text")
+    ) 
+  )
+)
+; ---------------------------------------------------------------------------
+;                               WEATHER WIDGET
+; ---------------------------------------------------------------------------
+(defwidget today[visible weather ?text1 ?text2]
+  (box
+    :space-evenly false
+    :spacing 30
+    :halign "center"
+    :class "block"
+    :width 350
+    (box
+      :visible {visible}
+      :orientation "v"
+      :space-evenly false
+      (label :text "${weather[0].icon}" :class "block_img_medium_icon")
+      (label :text "${weather[0].temp_max}" :class "block_large_text")
+    )
+    (box
+      :visible {visible}
+      :orientation "v"
+      :valign "center"
+      (label :text "${weather[0].icon_phrase}" :halign "center" :class "block_text")
+      (box
+        :space-evenly false
+        :halign "center"
+        :spacing 10
+        (label :text "${text1}:" :class "block_medium_text")
+        (label :text "${weather[0].prec}" :class "block_medium_text")
+      )
+      (box
+        :space-evenly false
+        :halign "center"
+        :spacing 10
+        (label :text "${text2}:" :class "value")
+        (label :text "${weather[0].wind_speed} 󱗺 ${weather[0].wind_dir}" :class "value")
+      )
+    )
+    (label
+      :visible {!visible}
+      :text "🌐️   ${strings.unavailable}"
+      :class "block_text"
+    )
+  )
+)
+; ---------------------------------------------------------------------------
+;                               GRAPH WIDGET
+; ---------------------------------------------------------------------------
+(defwidget graphs[sensor]
+  (box :width "350" :orientation "v" :space-evenly "false" :halign "center"
+    (box :class "block"
+      (overlay
+        (graph_block :name "RAM" :val "${round(EWW_RAM.used_mem_perc, 0)}" :description "%")
+        (graph_block :name "CPU" :val "${round(EWW_CPU.avg, 0)}" :description "%")
+        (graph_block :name "TEMP" :val "${round(EWW_TEMPS[sensor], 0)}" :description "°C")
+      )
+    )
+  )
+)
+(defwidget graph_block[name val description]
+  (revealer :transition "crossfade" :reveal {cGraph == "${name}" ? "true" : "false"} :duration "500ms"
+    (overlay
+      (graph :style "color: rgb(89, 136, 101);" :height "120" :min "0" :max "100" :thickness "2" :value {val == "" ? 0 : val} :dynamic "true" :time-range "30s")
+      (label :class "duration" :halign "start" :valign "end" :text "30 ${strings.sec}")
+      (label :class "val" :halign "start" :valign "start" :text "${val}${description}")
+    )
+  )
+)

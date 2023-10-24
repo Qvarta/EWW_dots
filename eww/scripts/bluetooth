@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+state=$(bluetoothctl show | grep 'Powered' | awk '{print $2}')
+
+get_name() {
+  output=$(hcitool con)
+  mac_address=$(echo "$output" | grep -oE '([0-9A-Fa-f]{2}:){5}[0-9A-Fa-f]{2}')
+  if [ -n "$mac_address" ]; then
+    echo $(hcitool name $mac_address) 
+  else
+    echo "$([[ $state == "yes" ]] && echo "on" || echo "off")" 
+  fi
+}
+
+case "$1" in
+  "toggle")
+    rfkill toggle bluetooth
+    ;;
+  "name")
+    get_name
+    ;;
+esac
+

@@ -1,0 +1,95 @@
+#!/bin/bash
+
+temp_folder="/tmp"
+default_style="background-image: url('images/cover/default.jpg');"
+
+check_available() {
+  if ! pgrep -x "cmus" > /dev/null; then
+    echo "off"
+  else
+    echo "on"
+  fi
+
+}
+get_status() {
+  cmus_status=$(cmus-remote -C status | grep status | awk {'print $2'})
+  if [[ "$cmus_status" == "paused" ]]; then
+    echo "paused"
+  elif [[ "$cmus_status" == "playing" ]]; then
+    echo "playing"
+  else
+    echo "stopped"
+  fi
+}
+get_title(){
+  title=$(cmus-remote -Q | grep -w "tag title" | sed 's/tag title //' | tr -d '\n')
+  echo $title
+}
+get_artist(){
+  artist=$(cmus-remote -Q | grep -w "tag artist" | cut -d ' ' -f 3-)
+  echo $artist
+}
+get_album(){
+  album=$(cmus-remote -Q | grep -w "tag album" | cut -d ' ' -f 3-)
+  echo $album
+}
+get_abs_duration(){
+    abs_duration=$(cmus-remote -Q | grep -w "duration" | awk '{ print $2}')
+    echo $abs_duration
+}
+get_abs_position(){
+  abs_position=$(cmus-remote -Q | grep -w "position" | awk '{ print $2}')
+  if [ $abs_position -le 2 ]; then
+    get_cover
+  fi
+  echo $abs_position
+}
+get_duration(){
+  duration=$(cmus-remote -Q | grep -w "duration" | awk '{ print $2}')
+  minutes=$((duration / 60))
+  seconds=$((duration % 60))
+  if [ $seconds -lt 10 ]; then
+      formatted_duration="${minutes}:0${seconds}"
+  else
+      formatted_duration="${minutes}:${seconds}"
+  fi
+  echo $formatted_duration  
+}
+get_cover(){
+  mp3_file=`cmus-remote -Q | grep "file" | awk -F 'file ' '{print $2}'`
+  rm -f "$temp_folder/cover.jpg"
+  ffmpeg -i "$mp3_file" -an -vcodec copy "$temp_folder/cover.jpg" 2>/dev/null 
+}
+get_style(){
+  style=$([ -e "$temp_folder/cover.jpg" ] && echo "background-image: url('$temp_folder/cover.jpg');" || echo $default_style)
+  echo $style
+}
+get_position(){
+  position=$(cmus-remote -Q | grep -w "position" | awk '{ print $2}')
+  minutes=$((position / 60))
+  seconds=$((position % 60))
+  if [ $seconds -lt 10 ]; then
+      formatted_position="${minutes}:0${seconds}"
+  else
+      formatted_position="${minutes}:${seconds}"
+  fi
+  echo $formatted_position  
+}
+track_info(){
+    local available="$(check_available)"
+    local status="$(get_status)"
+    local title="$(get_title)"
+    local artist="$(get_artist)"
+    local album="$(get_album)"
+    local abs_duration="$(get_abs_duration)"
+    local abs_position="$(get_abs_position)"
+    local duration="$(get_duration)"
+    local position="$(get_position)"
+    local style="$(get_style)"
+
+    local json="{\"available\": \"$available\", \"status\": \"$status\", \"title\": \"$title\", \"artist\": \"$artist\", \"album\": \"$album\", \"abs_duration\": \"$abs_duration\", \"abs_position\": \"$abs_position\", \"duration\": \"$duration\", \"position\": \"$position\", \"style\": \"$style\"}"
+
+    echo "$json" | jq -r .
+}
+
+track_info

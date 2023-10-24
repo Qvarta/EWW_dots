@@ -1,0 +1,33 @@
+#!/bin/bash
+
+source $HOME/.config/eww/var.conf
+
+get_bg(){
+    json="["
+    first="true"
+
+    for file in $SET_BG/*; do
+        if [ -f "$file" ]; then
+            if [ "$first" = "true" ]; then
+                json+="{\"style\":\"background-image: url('$SET_BG$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
+                first="false"
+            else
+                json+=",{\"style\":\"background-image: url('$SET_BG$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
+            fi
+        fi
+    done
+
+    json+="]"
+    echo $json | jq -r .
+}
+chg_bg(){
+    swww img $1
+}
+case $1 in
+    get)
+        get_bg
+        ;;
+    set)
+        chg_bg $2
+        ;;
+esac

@@ -1,0 +1,55 @@
+(defwindow chg_bg
+    :monitor "0"
+    :namespace "chg_bg"
+    :geometry (geometry
+                :width "200px"
+                :height "300px"
+                :anchor "top right"
+                :x "21%"
+                :y "1%"
+              )
+    (bg_menu)
+)
+(defwidget bg_menu[]
+    (eventbox
+        :class "main_container"
+        :style "padding:15px;"
+        (box
+            :space-evenly false
+            :orientation "v"
+            (label :class "title" :text "${strings.wallpapers}")
+            (scroll
+                :height 300
+                :vscroll true
+                :scrollspeed "24px"
+                (box
+                    :orientation "v"
+                    :style "margin: 20px;"
+                    :spacing 10
+                    (for entry in bg_list
+                        (img
+                            :style {entry.style}
+                            :path {entry.path}
+                        )
+                    )
+                )
+            )
+            (button :onclick "${EWW_CMD} close chg_bg" :class "block_btn" :style "margin: 20px; min-height:40px;" "${strings.cancel}")
+        )
+    )
+)
+(defwidget img [path style]
+    (eventbox 
+        :onclick "./scripts/background set ${path}"
+        :timeout "5s"
+        :class "img_cont"
+        (box
+            :class "img_block"
+            (box
+                :class "img_bg"
+                :style style   
+            )
+        )
+
+    )
+)

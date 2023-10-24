@@ -1,0 +1,81 @@
+(defwindow net_list
+    :monitor "0"
+    :namespace "WIFI_LIST"
+    :geometry (geometry
+                :x "0%"
+                :y "0%"
+                :width "300px"
+                :height "100px"
+                :anchor "center")
+    (net_list)
+)
+(defpoll list_net :initial "[]" :interval "1s" "./scripts/wifi scan")
+(defvar new_ssid "none")
+
+(defwidget net_list[]
+    (eventbox
+        :class "main_container"
+        :style "padding:5px;"
+        (box
+            :space-evenly false
+            :orientation "v"
+            (label :class "title" :text "WiFi")
+            (box
+                :style "margin: 20px;"
+                :class "block"
+                :orientation "v"
+                :spacing 10
+                (box
+                    (label :text "${strings.name}" :class "bar-text")
+                    (label :text "${strings.signal}" :class "bar-text")
+                )
+                (for entry in list_net
+                    (eventbox 
+                        :class "block_btn"
+                        :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
+                        (box
+                            :class "entry_block"
+                            (label :text "${entry.ssid}" :class "bar-text")
+                            (label :text "${entry.signal}" :class "bar-text")
+                        )
+                    )
+                )
+            )
+            (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" :style "margin: 10px 20px;" "${strings.cancel}")
+
+        )
+    )
+)
+(defwindow connect_network 
+    :monitor "0"
+    :namespace "control-center"
+    :geometry (geometry
+                :width "100px"
+                :height "100px"
+                :anchor "center")
+    :focusable "true"
+    (connect_network)
+)
+(defwidget connect_network[]
+    (box
+        :class "main_container"
+        :orientation "v"
+        :spacing 10
+        (box
+            :class "main_container"
+            (label :text "Enter password for ${new_ssid}")
+        )
+        (eventbox
+            :onclick ""
+            (box
+                :class "main_container"
+                (input
+                    :password true
+                    :class "bar-text"
+                    :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
+                )
+            )
+        )
+        (button :onclick "${EWW_CMD} close connect_network" :class "block_btn" :style "margin: 20px;" "${strings.cancel}")   
+    )
+)
