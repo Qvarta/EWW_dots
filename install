@@ -237,7 +237,7 @@ if [[ $THEME == "Y" || $THEME == "y" ]]; then
     echo -e "$CNT - Copy GTK theme..."
     cp -r .themes $HOME &>> $INSTLOG
     echo -e "$CNT - Install the GTK theme..."
-    gsettings set org.gnome.desktop.interface gtk-theme "ChromeOS-Dark-Slate-Rounded"
+    gsettings set org.gnome.desktop.interface gtk-theme "BetterGruvbox"
     echo -e "$CNT - Copy icon theme..."
     cp -r .icons $HOME &>> $INSTLOG
     echo -e "$CNT - Install the icon theme..."
