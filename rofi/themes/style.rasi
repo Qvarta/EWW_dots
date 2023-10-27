@@ -23,7 +23,7 @@ configuration {
     background-alt:              rgb(168, 153, 132);
     foreground:                  rgb(168, 153, 132);
     selected:                    rgb(85, 85, 90);
-    active:                      rgb(89, 136, 101);
+    active:                      rgb(50, 48, 47);
     urgent:                      #707070;
     border-color:                rgb(168, 153, 132);
     hover:                       rgb(58, 57, 55);
