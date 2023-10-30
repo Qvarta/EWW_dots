@@ -109,12 +109,12 @@
       :space-evenly false
       (tray_widget :text {wifi_info.icon} :visible  true)
       (tray_widget :text "" :visible "${bluetooth_state != 'off' ? true : false}")
-      (tray_widget :text "${sound_info.mic_status == 'yes' ? '' : ''}" :visible "${sound_info.mic_status == 'yes' ? true : false}")
+      (tray_widget :text "${sound_info.mic_status == 'yes' ? ' ' : ' '}" :visible "${sound_info.mic_status == 'yes' ? true : false}")
       (tray_widget 
-        :text "${sound_info.sound_volume == '0' ? '󰸈' :
-                      sound_info.sound_volume == 'muted' ? '' :
-                      sound_info.sound_volume < 51 ? '󰖀' :
-                      sound_info.sound_volume < 101 ? '󰕾' : '󰝟'}" 
+        :text "${sound_info.sound_volume == '0' ? '󰸈 ' :
+                      sound_info.sound_volume == 'muted' ? ' ' :
+                      sound_info.sound_volume < 51 ? '󰖀 ' :
+                      sound_info.sound_volume < 101 ? '󰕾 ' : '󰝟 '}" 
         :visible  true
       )
       (tray_widget 

@@ -18,5 +18,8 @@ calendar:indeterminate {
 .date_text{
   margin: 5px;
   border-radius: $border_radius;
+  background-color: transparent;
+}
+.today_text{
   background-color: $softgray;
 }

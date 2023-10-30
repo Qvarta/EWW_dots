@@ -2,14 +2,11 @@
 ;                             CALENDAR WINDOW
 ; ---------------------------------------------------------------------------
 (defwindow calendar
-    :monitor "0"
-    :namespace "calendar"
-    :geometry (geometry
-                :width "350px"
-                :height "150px"
-                :anchor "top left"
-              )
-    (calendar_widget)
+  :stacking "fg"
+  :monitor "0"
+  :namespace "calendar"
+  :geometry (geometry :width "250px" :height "150px" :anchor "top left")
+  (calendar_widget)
 )
 ; ---------------------------------------------------------------------------
 ;                          CALENDAR MAIN WIDGET
@@ -23,11 +20,11 @@
     :width 400
     (box
       :class "main_container"
+      :style "background-color:transparent;border-color:transparent;"
       :orientation "v"
       :spacing 10
       :space-evenly false
       (month_widget)
-      (forecast :weather {weather_json})
     )
   )
 )
@@ -43,32 +40,5 @@
     :valign "center"
     :class "block"
     (calendar :day day :year year)
-  )
-)
-
-(defwidget forecast[weather]
-  (box
-    :class "block"
-    (box
-      :visible "${weather != [] && weather[0].icon != 'null'? true : false}"
-      :orientation "h"
-      (for item in weather
-        (box
-          :orientation "v"
-          :spacing 5
-          :space-evenly false
-          (label :text "${substring(item.date, 0, 2)}" :class "date_text")
-          (label :text "${item.icon}" :class "block_img_small_icon")
-          (label :text "${item.temp_max}" :class "block_medium_text")
-          (label :text "${item.temp_min}" :class "block_small_text")
-
-        )
-      )
-    )
-    (label
-      :visible "${weather != [] && weather[0].icon != 'null' ? false : true}"
-      :text "🌐️   ${strings.unavailable}"
-      :class "block_text"
-    ) 
   )
 )

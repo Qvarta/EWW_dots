@@ -31,6 +31,9 @@
 .block_icon {
   font-size: 24px;
 }
+.block_large_icon {
+  font-size: 42px;
+}
 .block_text{
   font-size: 20px;
   font-weight: bold;
@@ -73,6 +76,15 @@
 .lbl_active{
   background-color: $softgray;
   border-color: $yellow;
+}
+.flat_btn{
+  font-size: 12px;
+  background-color: $bg1;
+  padding: 5px;
+  border-radius: 6px;
+  &:hover{
+    background-color: $softgray;
+  }
 }
 .title{
   font-size: 24px;

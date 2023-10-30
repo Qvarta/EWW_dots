@@ -5,7 +5,7 @@
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
-    border: 3px solid $softgray;  
+    border: 2px solid $gray;  
 }
 .flat{
     min-height:40px;
@@ -24,14 +24,14 @@
     min-width: 40px;
     background-size:80%;
 }
-.red{
-    border: 3px solid $red;
+.border_red{
+    border-color: $red;
 }
-.green{
-    border: 3px solid $green;
+.border_green{
+    border-color: $green;
 }
-.yellow{
-    border: 3px solid $yellow;
+.border_yellow{
+    border-color: $yellow;
 }
 .big_block{
     background-color: transparent; 
@@ -133,6 +133,3 @@
     padding: 5px;
     border-radius: 6px;
 }
-//  ---------------------------------------------------------------------------
-//                                Monitor Widget
-//  ---------------------------------------------------------------------------

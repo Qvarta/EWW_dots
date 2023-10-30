@@ -24,6 +24,7 @@
         "probability":["Precip Probability","Вероятность осадков"],
         "unavailable":["Wheather service unavailable","Сервис погоды недоступен"],        
         "wind":["Wind","Ветер"],
-        "sec":["seconds","секунд"]        
+        "sec":["seconds","секунд"],
+        "now":["Now","Сейчас"]                
     }
 }

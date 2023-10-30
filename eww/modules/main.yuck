@@ -27,7 +27,10 @@
   (defpoll time :interval "5s" `date +'{"hour":"%H","min":"%M"}'`)
   (defpoll date :initial "0" :interval "1m" 'date "+%A %d %B"')
 
-  (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
+  ; (defvar weather_json "[]")
+  (defpoll weather_json :interval "70s" "./scripts/tmp.sh")
+
+  ; (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
   (defvar probability_ru "Вероятность осадков:")
   (defvar probability_en "Precip Probability:")
   (defvar wind_ru "Ветер:")
@@ -37,7 +40,8 @@
   (defvar lang_rev false)
   (defvar monitor_rev false)
   (defvar power_rev false)
-  
+
+  (defvar Cday 1)
   (defvar cGraph "RAM")
 
   (defvar power_info "none")
@@ -52,7 +56,7 @@
     :namespace "main"
     :geometry (geometry
                 :x "0px"
-                :y "2px"
+                :y "5px"
                 :width "99%"
                 :height "24px"
                 :anchor "top center")
