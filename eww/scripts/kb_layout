@@ -10,7 +10,7 @@ get_layout() {
 	[[ "$LAYOUT" == "English" ]] && echo "EN" || echo "RU" 
 }
 set_layout() {
-	hyprctl switchxkblayout $SET_KB 0   
+	hyprctl switchxkblayout $SET_KB 0
 }
 
 if [[ "$1" == "swkb" ]]; then

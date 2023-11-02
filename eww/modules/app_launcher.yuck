@@ -1,0 +1,68 @@
+(defwindow launcher
+    :monitor "0"
+    :namespace "launcher"
+    :geometry (geometry
+                :x "0%"
+                :y "0%"
+                :width "450px"
+                :height "300px"
+                :anchor "center")
+    (applications)
+)
+(defpoll list_app :initial "[]" :interval "10s" "./scripts/applications")
+(defvar icon_default "~/.config/eww/images/ui/applications-development.svg")
+(defwidget applications[]
+    (eventbox
+        :class "main_container"
+        :style "padding:5px;"
+        (box
+            :space-evenly false
+            :orientation "v"
+            (label :class "title" :text "${strings.app}")
+            (scroll
+                :height 590
+                :vscroll true
+                :scrollspeed "24px"
+                :class "block"
+                :style "margin: 20px;"
+                (box
+                    :orientation "v"
+                    :spacing 10
+                    (for entry in list_app
+                        (eventbox 
+                            :tooltip "${vars_info.lang =='EN' ? entry.en : entry.ru}"
+                            :class "block_btn"
+                            :onclick "gtk-launch ${entry.path} & ${EWW_CMD} ${windows_status.launcher} launcher"
+                            (box
+                                :class "entry_block"
+                                :space-evenly false
+                                :spacing 20
+                                (image
+                                :path "${entry.icon =='None' ? icon_default : entry.icon}"
+                                :image-width 48
+                                :image-height 48
+                                :halign "start"
+                                )
+                                (box
+                                    :orientation "v"
+                                    (label :text "${entry.app}" :class "block_medium_text" :halign "start")
+                                    (label :text "${vars_info.lang =='EN' ? entry.en : entry.ru}" :class "block_small_text" :halign "start")
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+            (button 
+                :onclick "${EWW_CMD} ${windows_status.launcher} launcher" 
+                :class "block_btn" 
+                :width 200
+                :height 50
+                :halign "center"
+                :valign "center"
+                :style "margin: 10px;"
+                "${strings.cancel}"
+            )
+        )
+    )
+)

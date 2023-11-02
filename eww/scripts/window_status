@@ -9,7 +9,7 @@ get_rofi_status(){
 }
 window_status(){
 
-  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list") 
+  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list" "launcher") 
   declare -A results
 
   for item in "${window_list[@]}"; do

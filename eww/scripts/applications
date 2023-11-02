@@ -1,0 +1,63 @@
+#!/bin/bash
+icon_dir="$HOME/.icons/Gruvbox/48/apps"
+desktop_dir="/usr/share/applications"
+
+hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Htop" "Vim" "ranger")
+
+json_array=()
+
+get_name() {
+    local desktop_file="$1"
+    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Name=/ { print $2 }' "$desktop_file"
+}
+get_icon() {
+    local desktop_file="$1"
+    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Icon=/ { print $2 }' "$desktop_file"
+}
+get_comment() {
+    local desktop_file="$1"
+    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment=/ { print $2 }' "$desktop_file"
+}
+get_path() (
+    local icon_name="$1"
+    found_file=$(find -L "$icon_dir" -type f -name "*$icon_name*" -print -quit)
+    if [ -n "$found_file" ]; then
+        echo $found_file
+    else
+        echo "None"
+    fi
+)
+get_comment_ru() {
+    local desktop_file="$1"
+    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment\[ru\]=/ { print $2 }' "$desktop_file"
+}
+
+for desktop_file in "$desktop_dir"/*.desktop; do
+    # Проверка, существует ли файл
+    if [ -e "$desktop_file" ]; then
+        # Проверка наличия строки NoDisplay=true в файле .desktop
+        if ! grep -q "NoDisplay=true" "$desktop_file"; then
+            name=$(get_name "$desktop_file")
+            exec=$(basename $desktop_file)
+            icon=$(get_icon "$desktop_file")
+            icon_path=$(get_path "$icon")
+            comment=$(get_comment "$desktop_file")
+            comment_ru=$(get_comment_ru "$desktop_file")          
+            # Проверка, содержит ли Name подстроки из массива hide
+            skip=false
+            for substring in "${hide[@]}"; do
+                if [[ "$name" == *"$substring"* ]]; then
+                    skip=true
+                    break
+                fi
+            done
+
+            # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
+            if [ "$skip" == false ] && [ -n "$name" ] && [ -n "$exec" ]; then
+                json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$exec\",\"en\":\"$comment\",\"ru\":\"$comment_ru\"}")
+            fi
+        fi
+    fi
+done
+
+echo "["$(IFS=,; echo "${json_array[*]}")"]" | jq -r .

@@ -26,8 +26,8 @@
                 :orientation "v"
                 :spacing 10
                 (box
-                    (label :text "${strings.name}" :class "bar-text")
-                    (label :text "${strings.signal}" :class "bar-text")
+                    (label :text "${strings.name}" :class "block_medium_text")
+                    (label :text "${strings.signal}" :class "block_medium_text")
                 )
                 (for entry in list_net
                     (eventbox 
@@ -35,8 +35,8 @@
                         :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
                         (box
                             :class "entry_block"
-                            (label :text "${entry.ssid}" :class "bar-text")
-                            (label :text "${entry.signal}" :class "bar-text")
+                            (label :text "${entry.ssid}" :class "block_medium_text")
+                            (label :text "${entry.signal}" :class "block_medium_text")
                         )
                     )
                 )
@@ -61,19 +61,13 @@
         :class "main_container"
         :orientation "v"
         :spacing 10
+        (label :text "Enter password for ${new_ssid}" :class "block_medium_text")
         (box
             :class "main_container"
-            (label :text "Enter password for ${new_ssid}")
-        )
-        (eventbox
-            :onclick ""
-            (box
-                :class "main_container"
-                (input
-                    :password true
-                    :class "bar-text"
-                    :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
-                )
+            (input
+                :password true
+                :class "block_medium_text"
+                :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
             )
         )
         (button :onclick "${EWW_CMD} close connect_network" :class "block_btn" :style "margin: 20px;" "${strings.cancel}")   

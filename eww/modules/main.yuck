@@ -5,6 +5,7 @@
 (include "./modules/power.yuck")
 (include "./modules/WiFi.yuck")
 (include "./modules/background.yuck")
+(include "./modules/app_launcher.yuck")
   ; ---------------------------------------------------------------------------
   ;                              VARS
   ; ---------------------------------------------------------------------------
@@ -27,8 +28,10 @@
   (defpoll time :interval "5s" `date +'{"hour":"%H","min":"%M"}'`)
   (defpoll date :initial "0" :interval "1m" 'date "+%A %d %B"')
 
-  (defpoll weather_json :interval "70s" "./scripts/tmp.sh")
+  ; (defvar weather_json "[]")
+  ; (defpoll weather_json :interval "70s" "./scripts/tmp.sh")
 
+  (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
   (defvar probability_ru "Вероятность осадков:")
   (defvar probability_en "Precip Probability:")
   (defvar wind_ru "Ветер:")
