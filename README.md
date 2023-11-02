@@ -1,7 +1,7 @@
 # My Eww Dotfiles for Hyprland.
 
 
-This is my eww dotfiles repository. App launcher -rofi, the other widgets are EWW.
+This is my eww dotfiles repository. All widgets are EWW.
 
 ![preview](eww/images/screenshot/1.jpg)
 
@@ -9,7 +9,6 @@ This is my eww dotfiles repository. App launcher -rofi, the other widgets are EW
 
 - hyprland
 - eww
-- rofi
 - jq 
 - curl
 - socat
