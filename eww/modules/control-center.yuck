@@ -226,8 +226,15 @@
     (box
       :visible {visible}
       :height 130
-      (for day in weather_json
-        (current_day :current {day})
+      ; (for day in weather_json
+      ;   (current_day :current {day})   ; не работает overlay с динамически созданными виджетами !!!
+      ; )
+      (overlay
+        (current_day :current {weather_json[0]})
+        (current_day :current {weather_json[1]})
+        (current_day :current {weather_json[2]})
+        (current_day :current {weather_json[3]})
+        (current_day :current {weather_json[4]})
       )
     )
     (box
@@ -260,8 +267,7 @@
   )
 )
 (defwidget current_day[current]
-  (box
-    :visible {Cday == "${current.num}" ? "true" : "false"}
+  (revealer :transition "crossfade" :reveal {Cday == "${current.num}" ? "true" : "false"} :duration "500ms"
     (overlay 
       (box
         :space-evenly false
