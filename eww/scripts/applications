@@ -2,7 +2,7 @@
 
 icon_dir="$HOME/.icons/Gruvbox/48/apps"
 desktop_dir="/usr/share/applications"
-temp_folder="/tmp"
+temp_folder="/tmp/eww"
 tmp_file="applications.json"
 hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Htop" "Vim" "ranger")
 
@@ -45,10 +45,8 @@ create_app_list(){
                 icon=$(get_icon "$desktop_file")
                 if [[ $icon == "" ]]; then
                     icon_path="$HOME/.config/eww/images/ui/no-image.png"
-                    echo $icon_path
                 else
                     icon_path=$(get_path "$icon")
-                    echo $icon_path
                 fi
                 comment=$(get_comment "$desktop_file")
                 comment_ru=$(get_comment_ru "$desktop_file")          
@@ -68,6 +66,9 @@ create_app_list(){
             fi
         fi
     done
+    if [ -d "$temp_folder" ]; then
+         mkdir -p "$temp_folder"
+    fi
     rm -f "$temp_folder/$tmp_file"
     echo "["$(IFS=,; echo "${json_array[*]}")"]" >> $temp_folder/$tmp_file
 }

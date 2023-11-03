@@ -19,8 +19,9 @@ This is my eww dotfiles repository. All widgets are EWW.
 - pavucontrol
 - mako(notification)
 - swww(change background)
-- cmus (palyer)
-- hyprshot (screeshot)
+- imagemagick(background script)
+- cmus (palyer script)
+- hyprshot (screeshot script)
 - Iosevka Nerd Font
 
 ### Installation

@@ -1,7 +1,20 @@
 #!/bin/bash
 
-source $HOME/.config/eww/var.conf
+# @requires: imagemagick
 
+source $HOME/.config/eww/var.conf
+cache_folder="/tmp/eww/thumbnails"
+
+create_thumbnails(){
+    if [ -d "$cache_folder" ]; then
+        rm -r "$cache_folder"
+    fi
+    mkdir -p "$cache_folder"
+
+    for file in $SET_BG/*; do
+        convert $file -resize 5% $cache_folder/$(basename "$file")
+    done
+}
 get_bg(){
     json="["
     first="true"
@@ -9,10 +22,10 @@ get_bg(){
     for file in $SET_BG/*; do
         if [ -f "$file" ]; then
             if [ "$first" = "true" ]; then
-                json+="{\"style\":\"background-image: url('$SET_BG$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
+                json+="{\"style\":\"background-image: url('$cache_folder/$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
                 first="false"
             else
-                json+=",{\"style\":\"background-image: url('$SET_BG$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
+                json+=",{\"style\":\"background-image: url('$cache_folder/$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
             fi
         fi
     done
@@ -24,6 +37,9 @@ chg_bg(){
     swww img $1
 }
 case $1 in
+    cache)
+        create_thumbnails
+        ;;
     get)
         get_bg
         ;;
