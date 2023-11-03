@@ -9,9 +9,10 @@ This is my eww dotfiles repository. All widgets are EWW.
 
 - hyprland
 - eww
-- jq (multiple scripts)
+- jq(multiple scripts)
+- bc(multiple scripts)
 - curl(weather script)
-- socat
+- socat(workspace script)
 - bluez
 - bluez-utils
 - brightnessctl
