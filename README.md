@@ -9,8 +9,8 @@ This is my eww dotfiles repository. All widgets are EWW.
 
 - hyprland
 - eww
-- jq 
-- curl
+- jq (multiple scripts)
+- curl(weather script)
 - socat
 - bluez
 - bluez-utils
@@ -20,8 +20,8 @@ This is my eww dotfiles repository. All widgets are EWW.
 - mako(notification)
 - swww(change background)
 - imagemagick(background script)
-- cmus (palyer script)
-- hyprshot (screeshot script)
+- cmus(palyer script)
+- hyprshot(screeshot script)
 - Iosevka Nerd Font
 
 ### Installation
