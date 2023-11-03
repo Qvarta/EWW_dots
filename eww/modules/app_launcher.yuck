@@ -9,7 +9,6 @@
                 :anchor "center")
     (applications)
 )
-(defpoll list_app :initial "[]" :interval "10s" "./scripts/applications")
 (defvar icon_default "~/.config/eww/images/ui/applications-development.svg")
 (defwidget applications[]
     (eventbox

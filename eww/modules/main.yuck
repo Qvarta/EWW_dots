@@ -28,14 +28,12 @@
   (defpoll time :interval "5s" `date +'{"hour":"%H","min":"%M"}'`)
   (defpoll date :initial "0" :interval "1m" 'date "+%A %d %B"')
 
-  ; (defvar weather_json "[]")
-  ; (defpoll weather_json :interval "70s" "./scripts/tmp.sh")
+  (defpoll list_app :initial "[]" :interval "30s" "./scripts/applications get")
 
-  (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
-  (defvar probability_ru "Вероятность осадков:")
-  (defvar probability_en "Precip Probability:")
-  (defvar wind_ru "Ветер:")
-  (defvar wind_en "Wind:")     
+  ; (defvar weather_json "[]")
+  (defpoll weather_json :interval "1s" "./scripts/tmp.sh")
+
+  ; (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
   
   (defvar date_rev false)
   (defvar lang_rev false)

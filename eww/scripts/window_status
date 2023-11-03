@@ -1,12 +1,5 @@
 #!/bin/bash
 
-get_rofi_status(){
-  if pgrep rofi >/dev/null; then
-    pkill rofi
-  else
-      rofi -show drun &
-  fi
-}
 window_status(){
 
   window_list=("control" "screenshot" "chg_bg" "calendar" "net_list" "launcher") 
@@ -30,8 +23,4 @@ window_status(){
   echo "$json" | jq -r .
 }
 
-if [[ $1 == "rofi" ]]; then
-  get_rofi_status
-else
-  window_status
-fi
+window_status

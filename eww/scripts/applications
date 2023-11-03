@@ -1,10 +1,12 @@
 #!/bin/bash
+
 icon_dir="$HOME/.icons/Gruvbox/48/apps"
 desktop_dir="/usr/share/applications"
-
+temp_folder="/tmp"
+tmp_file="applications.json"
 hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Htop" "Vim" "ranger")
 
-json_array=()
+
 
 get_name() {
     local desktop_file="$1"
@@ -31,33 +33,54 @@ get_comment_ru() {
     local desktop_file="$1"
     awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment\[ru\]=/ { print $2 }' "$desktop_file"
 }
-
-for desktop_file in "$desktop_dir"/*.desktop; do
-    # Проверка, существует ли файл
-    if [ -e "$desktop_file" ]; then
-        # Проверка наличия строки NoDisplay=true в файле .desktop
-        if ! grep -q "NoDisplay=true" "$desktop_file"; then
-            name=$(get_name "$desktop_file")
-            exec=$(basename $desktop_file)
-            icon=$(get_icon "$desktop_file")
-            icon_path=$(get_path "$icon")
-            comment=$(get_comment "$desktop_file")
-            comment_ru=$(get_comment_ru "$desktop_file")          
-            # Проверка, содержит ли Name подстроки из массива hide
-            skip=false
-            for substring in "${hide[@]}"; do
-                if [[ "$name" == *"$substring"* ]]; then
-                    skip=true
-                    break
+create_app_list(){
+    local json_array=()
+    for desktop_file in "$desktop_dir"/*.desktop; do
+        # Проверка, существует ли файл
+        if [ -e "$desktop_file" ]; then
+            # Проверка наличия строки NoDisplay=true в файле .desktop
+            if ! grep -q "NoDisplay=true" "$desktop_file"; then
+                name=$(get_name "$desktop_file")
+                exec=$(basename $desktop_file)
+                icon=$(get_icon "$desktop_file")
+                if [[ $icon == "" ]]; then
+                    icon_path="$HOME/.config/eww/images/ui/no-image.png"
+                    echo $icon_path
+                else
+                    icon_path=$(get_path "$icon")
+                    echo $icon_path
                 fi
-            done
+                comment=$(get_comment "$desktop_file")
+                comment_ru=$(get_comment_ru "$desktop_file")          
+                # Проверка, содержит ли Name подстроки из массива hide
+                skip=false
+                for substring in "${hide[@]}"; do
+                    if [[ "$name" == *"$substring"* ]]; then
+                        skip=true
+                        break
+                    fi
+                done
 
-            # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
-            if [ "$skip" == false ] && [ -n "$name" ] && [ -n "$exec" ]; then
-                json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$exec\",\"en\":\"$comment\",\"ru\":\"$comment_ru\"}")
+                # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
+                if [ "$skip" == false ] && [ -n "$name" ] && [ -n "$exec" ]; then
+                    json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$exec\",\"en\":\"$comment\",\"ru\":\"$comment_ru\"}")
+                fi
             fi
         fi
-    fi
-done
+    done
+    rm -f "$temp_folder/$tmp_file"
+    echo "["$(IFS=,; echo "${json_array[*]}")"]" >> $temp_folder/$tmp_file
+}
+get_app_list(){
+    local app_json=$(cat $temp_folder/$tmp_file)
+    echo $app_json | jq -r .
+}
 
-echo "["$(IFS=,; echo "${json_array[*]}")"]" | jq -r .
+case "$1" in
+  "create")
+    create_app_list
+    ;;
+  "get")
+    get_app_list
+    ;;
+esac

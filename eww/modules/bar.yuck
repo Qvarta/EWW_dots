@@ -67,8 +67,7 @@
 )
 (defwidget launcher-widget []
   (eventbox
-    ; :onclick "./scripts/window_status rofi"
-    :onclick "${EWW_CMD} ${windows_status.launcher} launcher"
+    :onclick "./scripts/applications create & ${EWW_CMD} ${windows_status.launcher} launcher"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   " 
     :class "bar_module"
     (label :class "bar_icon" :text " ")  
