@@ -59,6 +59,12 @@
 .block_label {
   font-size: 16px;
 }
+.block_img_small_icon{
+  font-size: 32px;
+}
+.block_img_medium_icon{
+  font-size: 40px;
+}
 .entry_block{
   padding: 5px 20px;
 }
@@ -95,12 +101,6 @@
   font-size: 24px;
   margin: 10px;
 }
-.block_img_small_icon{
-  font-size: 32px;
-}
-.block_img_medium_icon{
-  font-size: 40px;
-}
 .color_red{
   color: $red;
 }
@@ -109,6 +109,26 @@
 }
 .color_yellow{
   color: $yellow;
+}
+.img_cont:hover{
+  .img_block{
+      border-color: $green;
+  }
+  .img_bg{
+      background-size:120%;
+  }
+}
+.img_bg{
+  min-height:90px;
+  background-size:100%;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.img_block{
+  border: $border;
+  padding: 5px;
+  border-radius: 10px;
+  // border-color: transparent;
 }
 //  ---------------------------------------------------------------------------
 //                                  Tooltip 

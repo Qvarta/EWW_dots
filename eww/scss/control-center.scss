@@ -55,23 +55,7 @@
         } 
     }
 }
-.img_cont:hover{
-    .img_block{
-        border-color: $green;
-    }
-}
-.img_bg{
-    min-height:90px;
-    background-size:100%;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-.img_block{
-    border: $border;
-    padding: 5px;
-    border-radius: 10px;
-    border-color: transparent;
-}
+
 //  ---------------------------------------------------------------------------
 //                                Slider block
 //  ---------------------------------------------------------------------------
@@ -104,7 +88,7 @@
     background-position:center;
     background-repeat: no-repeat;
     &:hover{
-        background-size: 70%;
+        background-size: 80%;
     }
 }
 .play {
