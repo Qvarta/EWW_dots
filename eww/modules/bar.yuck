@@ -81,9 +81,9 @@
     (box
       :space-evenly false
       :spacing 5
-      (label :class "block_medium_text" :text "**${title=='' ? 'Track not selected' : artist}:")
+      (label :class "block_medium_text" :text "${title=='' ? 'Track not selected' : artist}:")
       (label :class "block_text" :text "${title=='' ? 'select track' : title}")  
-      (label :class "block_medium_text" :text "| ${position}**")  
+      (label :class "block_medium_text" :text "| ${position}")  
     )
   ) 
 )
@@ -100,7 +100,7 @@
 )
 (defwidget tray[]
   (eventbox
-    :onclick "${EWW_CMD} ${windows_status.control} control-center"
+    :onclick "./scripts/background cache & ${EWW_CMD} ${windows_status.control} control-center"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
     :space-evenly false
     :spacing 20

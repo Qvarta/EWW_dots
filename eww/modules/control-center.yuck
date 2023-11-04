@@ -33,7 +33,7 @@
             :class "btn big ${wifi_info.ssid=='off' ? 'border_red': wifi_info.ssid=='on'? 'border_yellow' : 'border_green'}"
             :style "background-image: url('images/ui/wifi.png');" 
             :text {strings.network} 
-            :action_L "${EWW_CMD} ${windows_status.net_list} net_list" 
+            :action_L "./scripts/wifi cache & ${EWW_CMD} ${windows_status.net_list} net_list" 
             :action_R "./scripts/wifi toggle")
           (big_btn 
             :name {bluetooth_state} 

@@ -19,12 +19,12 @@
             :orientation "v"
             (label :class "title" :text "${strings.wallpapers}")
             (scroll
-                :height 300
+                :class "block sub_block"
+                :height 380
                 :vscroll true
                 :scrollspeed "24px"
                 (box
                     :orientation "v"
-                    :style "margin: 20px;"
                     :spacing 10
                     (for entry in bg_list
                         (img

@@ -22,7 +22,7 @@
         :style "background-image: url('images/ui/screenshot_w.png'); border: 2px solid rgb(168, 153, 132);" 
       )
     )
-    (button :onclick "${EWW_CMD} close screenshot" :class "block_btn" :style "margin-top: 20px; min-height:40px;" "${strings.cancel}")
+    (button :onclick "${EWW_CMD} close screenshot" :class "block_btn" :style "min-height:40px;" "${strings.cancel}")
   )
 )
 (defwidget scr_btn[name style action]

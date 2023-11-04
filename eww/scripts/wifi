@@ -1,5 +1,7 @@
 #!/bin/bash
 source $HOME/.config/eww/var.conf
+temp_folder="/tmp/eww"
+tmp_file="wifi.json"
 
 wifi_info(){
   local icon="$(wifi_icon)"
@@ -7,6 +9,15 @@ wifi_info(){
   local status=`nmcli radio wifi`
   local json="{\"icon\": \"$icon\", \"ssid\": \"$ssid\", \"status\": \"$status\"}"
   echo "$json" | jq -r .
+}
+cache_wifi(){
+  if [ -d "$temp_folder" ]; then
+    mkdir -p "$temp_folder"
+  fi
+  rm -f "$temp_folder/$tmp_file"
+  local json=$(nmcli -t -f SSID,SIGNAL device wifi list | awk -F: '{printf "{\"ssid\":\"%s\",\"signal\":\"%s\"},",$1,$2}')
+  json="[${json%?}]"
+  echo "$json" | jq 'map(select(.ssid != ""))' >> $temp_folder/$tmp_file  
 }
 wifi_icon() {
   local strength=$(iwconfig $SET_WIFI | grep "Link Quality=" | awk -F'=' '{ print $2 }' | awk -F'/' '{ print $1 }')
@@ -35,9 +46,8 @@ wifi_ssid() {
   fi
 }
 get_wifi_list() {
-  local json=$(nmcli -t -f SSID,SIGNAL device wifi list | awk -F: '{printf "{\"ssid\":\"%s\",\"signal\":\"%s\"},",$1,$2}')
-  json="[${json%?}]"
-  echo "$json" | jq 'map(select(.ssid != ""))' | jq -r . 
+  local wifi_json=$(cat $temp_folder/$tmp_file)
+  echo $wifi_json | jq -r .
 }
 connect_wifi(){
     if nmcli device wifi connect $1 password $2 &> /dev/null; then
@@ -51,10 +61,13 @@ case "$1" in
   "info")
     wifi_info
     ;;
+  "cache")
+    cache_wifi
+    ;;
   "toggle")
     rfkill toggle wifi
     ;;
-  "scan")
+  "get")
     get_wifi_list
     ;;
   "connect")

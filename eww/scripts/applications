@@ -6,8 +6,6 @@ temp_folder="/tmp/eww"
 tmp_file="applications.json"
 hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Htop" "Vim" "ranger")
 
-
-
 get_name() {
     local desktop_file="$1"
     awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Name=/ { print $2 }' "$desktop_file"

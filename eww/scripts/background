@@ -12,7 +12,7 @@ create_thumbnails(){
     mkdir -p "$cache_folder"
 
     for file in $SET_BG/*; do
-        convert $file -resize 5% $cache_folder/$(basename "$file")
+        convert $file -resize 10% $cache_folder/$(basename "$file")
     done
 }
 get_bg(){
