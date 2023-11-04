@@ -11,6 +11,7 @@
         "name":["Name","Имя"],
         "signal":["Signal","Уровень"],
         "cancel":["Cancel","Отмена"],
+        "update":["Update","Обновить"],
         "blocked":["Blocked","Отключено"],
         "unblocked":["Disconnected","Нет подключения"],
         "power":["Power off","Завершения работы"],

@@ -4,7 +4,7 @@
     :geometry (geometry
                 :x "0%"
                 :y "0%"
-                :width "300px"
+                :width "400px"
                 :height "100px"
                 :anchor "center")
     (net_list)
@@ -21,28 +21,42 @@
             :orientation "v"
             (label :class "title" :text "WiFi")
             (box
-                :style "margin: 20px;"
+                :style "margin: 10px;"
                 :class "block"
                 :orientation "v"
                 :spacing 10
+                :space-evenly false
                 (box
                     (label :text "${strings.name}" :class "block_medium_text")
                     (label :text "${strings.signal}" :class "block_medium_text")
                 )
-                (for entry in list_net
-                    (eventbox 
-                        :class "block_btn"
-                        :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
-                        (box
-                            :class "entry_block"
-                            (label :text "${entry.ssid}" :class "block_medium_text")
-                            (label :text "${entry.signal}" :class "block_medium_text")
+                (scroll
+                    :height 200
+                    :vscroll true
+                    :scrollspeed "24px"
+                    ; :class "block"
+                    ; :style "margin: 20px;"
+                    (box
+                        :orientation "v"
+                        :spacing 10
+                        (for entry in list_net
+                            (eventbox 
+                                :class "block_btn"
+                                :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
+                                (box
+                                    :class "entry_block"
+                                    (label :text "${entry.ssid}" :class "block_medium_text")
+                                    (label :text "${entry.signal}" :class "block_medium_text")
+                                )
+                            )
                         )
                     )
                 )
             )
-            (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" :style "margin: 10px 20px;min-height: 40px;" "${strings.cancel}")
-
+            (box
+                (button :onclick "./scripts/wifi cache" :class "block_btn" :style "margin: 10px 20px;min-height: 40px;" "${strings.update}")    
+                (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" :style "margin: 10px 20px;min-height: 40px;" "${strings.cancel}")
+            )
         )
     )
 )

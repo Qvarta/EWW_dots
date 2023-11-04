@@ -30,9 +30,6 @@
 
   (defpoll list_app :initial "[]" :interval "30s" "./scripts/applications get")
 
-  ; (defvar weather_json "[]")
-  ; (defpoll weather_json :interval "1s" "./scripts/tmp.sh")
-
   (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
   
   (defvar date_rev false)
