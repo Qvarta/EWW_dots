@@ -12,8 +12,8 @@
 (defwidget left []
   (box
     :space-evenly false
+    :spacing 30
     (launcher-widget)
-    (time-widget :hour {time.hour} :minute {time.min})
     (player-widget :available {track_info.available} :status {windows_status.player} :title {track_info.title} :artist {track_info.artist} :position {track_info.position})
   )
 )
@@ -33,6 +33,7 @@
   (box
     :halign "end"
     :space-evenly false
+    (time-widget :hour {time.hour} :minute {time.min})
     (language-widget :layout {layout})
     (tray)
     (power_menu)
@@ -41,30 +42,6 @@
 ; ---------------------------------------------------------------------------
 ;                               LEFT WIDGETS
 ; ---------------------------------------------------------------------------
-(defwidget time-widget [hour minute]
-  (box
-    :class "bar_module"
-    :spacing 10
-    :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
-    (eventbox
-      :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
-      :onhover "${EWW_CMD} update date_rev=true"
-      :onhoverlost "${EWW_CMD} update date_rev=false"
-      :halign "start"
-      (box
-        :space-evenly false
-        :spacing 10
-        (label :text "${hour}:${minute}" :class "block_text")
-        (revealer
-          :transition "slideright"
-          :reveal date_rev
-          :duration "750ms"
-          (label :class "slide" :text "| ${date}")
-        )
-      )  
-    )
-  )
-)
 (defwidget launcher-widget []
   (eventbox
     :onclick "./scripts/applications create & ${EWW_CMD} ${windows_status.launcher} launcher"
@@ -90,6 +67,28 @@
 ; ---------------------------------------------------------------------------
 ;                               RIGHT WIDGETS 
 ; ---------------------------------------------------------------------------
+(defwidget time-widget [hour minute]
+  (box
+    :class "bar_module"
+    :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
+    (eventbox
+      :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
+      :onrightclick "${EWW_CMD} update date_rev=${!date_rev}"
+      :halign "start"
+      (box
+        :space-evenly false
+        :spacing 10
+        (label :text "${hour}:${minute}" :class "block_text")
+        (revealer
+          :transition "slideright"
+          :reveal date_rev
+          :duration "750ms"
+          (label :class "slide" :text "| ${date}")
+        )
+      )  
+    )
+  )
+)
 (defwidget language-widget [layout]
   (eventbox
     :class "bar_module"
