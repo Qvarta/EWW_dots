@@ -13,7 +13,7 @@ prep_stage=(
     qt5-graphicaleffects # for sddm themes
     gtk3 
     xdg-desktop-portal-hyprland  
-    polkit-gnome # for pamac
+    # polkit-gnome # for pamac
     lxappearance # for assistant
     pipewire 
     wireplumber 
@@ -24,7 +24,6 @@ prep_stage=(
     cliphist 
     imagemagick
     pacman-contrib
-    pamac-aur
     pamixer 
     pavucontrol 
     alsa-utils
@@ -32,7 +31,12 @@ prep_stage=(
     bluez 
     bluez-utils 
     bluez-tools  
-    python-pillow #for ranger img preview   
+    python-pillow #for ranger img preview  
+    gvfs
+    mtpfs #for android phone
+    jmtpfs 
+    gvfs-mtp
+    gvfs-gphoto2
 )
 
 #the main packages
@@ -43,17 +47,14 @@ install_stage=(
     mako 
     swww 
     swaylock-effects 
-    rofi 
     wlogout 
     hyprshot
     slurp
     cmus
     cava-git
-    mpv
-    gvfs 
+    mpv 
     ranger
     starship
-    neofetch
     swappy
     pinta
     vscodium-bin
@@ -183,7 +184,9 @@ if [[ $INST == "Y" || $INST == "y" ]]; then
     echo -e "$CNT - Cleaning out conflicting xdg portals..."
     yay -R --noconfirm xdg-desktop-portal-gnome xdg-desktop-portal-gtk &>> $INSTLOG
 fi
-
+### Set default terminal ####
+echo -e "$CNT - Installing Kitty by default terminal in Nemo"
+gsettings set org.cinnamon.desktop.default-applications.terminal exec kitty
 
 ### Copy Config Files ###
 read -rep $'[\e[1;33mACTION\e[0m] - Would you like to copy config files? (y,n) ' CFG
