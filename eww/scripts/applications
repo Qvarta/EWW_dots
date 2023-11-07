@@ -7,18 +7,6 @@ tmp_file="applications.json"
 terminal="kitty"
 hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Vim")
 
-get_name() {
-    local desktop_file="$1"
-    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Name=/ { print $2 }' "$desktop_file"
-}
-get_exec() {
-    local desktop_file="$1"
-    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Exec=/ { print $2 }' "$desktop_file"
-}
-get_icon() {
-    local desktop_file="$1"
-    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Icon=/ { print $2 }' "$desktop_file"
-}
 get_icon_path() (
     local icon_name="$1"
     found_file=$(find -L "$icon_dir" -type f -name "*$icon_name*" -print -quit)
@@ -28,13 +16,10 @@ get_icon_path() (
         echo "None"
     fi
 )
-get_comment() {
+get_field() {
     local desktop_file="$1"
-    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment=/ { print $2 }' "$desktop_file"
-}
-get_comment_ru() {
-    local desktop_file="$1"
-    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment\[ru\]=/ { print $2 }' "$desktop_file"
+    local field_name="$2"
+    awk -F= -v field="$field_name" '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && $1 == field { print $2 }' "$desktop_file"
 }
 create_app_list(){
     local json_array=()
@@ -43,16 +28,16 @@ create_app_list(){
         if [ -e "$desktop_file" ]; then
             # Проверка наличия строки NoDisplay=true в файле .desktop
             if ! grep -q "NoDisplay=true" "$desktop_file"; then
-                name=$(get_name "$desktop_file")
+                name=$(get_field "$desktop_file" "Name")
+                icon=$(get_field "$desktop_file" "Icon")
+                comment=$(get_field "$desktop_file" "Comment")
+                comment_ru=$(get_field "$desktop_file" "Comment[ru]")
                 desktop=$(basename $desktop_file)
-                icon=$(get_icon "$desktop_file")
                 icon_path=$(get_icon_path "$icon")
-                comment=$(get_comment "$desktop_file")
-                comment_ru=$(get_comment_ru "$desktop_file") 
                 if ! grep -q "Terminal=true" "$desktop_file"; then
                     command="gtk-launch $desktop" 
                 else
-                    exec=$(get_exec "$desktop_file")
+                    exec=$(get_field "$desktop_file" "Exec")
                     command="$terminal $exec" 
                 fi        
                 # Проверка, содержит ли Name подстроки из массива hide
