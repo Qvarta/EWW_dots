@@ -4,21 +4,22 @@ icon_dir="$HOME/.icons/Gruvbox/48/apps"
 desktop_dir="/usr/share/applications"
 temp_folder="/tmp/eww"
 tmp_file="applications.json"
-hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Htop" "Vim" "ranger")
+terminal="kitty"
+hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Vim")
 
 get_name() {
     local desktop_file="$1"
     awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Name=/ { print $2 }' "$desktop_file"
 }
+get_exec() {
+    local desktop_file="$1"
+    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Exec=/ { print $2 }' "$desktop_file"
+}
 get_icon() {
     local desktop_file="$1"
     awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Icon=/ { print $2 }' "$desktop_file"
 }
-get_comment() {
-    local desktop_file="$1"
-    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment=/ { print $2 }' "$desktop_file"
-}
-get_path() (
+get_icon_path() (
     local icon_name="$1"
     found_file=$(find -L "$icon_dir" -type f -name "*$icon_name*" -print -quit)
     if [ -n "$found_file" ]; then
@@ -27,6 +28,10 @@ get_path() (
         echo "None"
     fi
 )
+get_comment() {
+    local desktop_file="$1"
+    awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment=/ { print $2 }' "$desktop_file"
+}
 get_comment_ru() {
     local desktop_file="$1"
     awk -F= '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && /^Comment\[ru\]=/ { print $2 }' "$desktop_file"
@@ -39,15 +44,17 @@ create_app_list(){
             # Проверка наличия строки NoDisplay=true в файле .desktop
             if ! grep -q "NoDisplay=true" "$desktop_file"; then
                 name=$(get_name "$desktop_file")
-                exec=$(basename $desktop_file)
+                desktop=$(basename $desktop_file)
                 icon=$(get_icon "$desktop_file")
-                if [[ $icon == "" ]]; then
-                    icon_path="$HOME/.config/eww/images/ui/no-image.png"
-                else
-                    icon_path=$(get_path "$icon")
-                fi
+                icon_path=$(get_icon_path "$icon")
                 comment=$(get_comment "$desktop_file")
-                comment_ru=$(get_comment_ru "$desktop_file")          
+                comment_ru=$(get_comment_ru "$desktop_file") 
+                if ! grep -q "Terminal=true" "$desktop_file"; then
+                    command="gtk-launch $desktop" 
+                else
+                    exec=$(get_exec "$desktop_file")
+                    command="$terminal $exec" 
+                fi        
                 # Проверка, содержит ли Name подстроки из массива hide
                 skip=false
                 for substring in "${hide[@]}"; do
@@ -59,7 +66,7 @@ create_app_list(){
 
                 # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
                 if [ "$skip" == false ] && [ -n "$name" ] && [ -n "$exec" ]; then
-                    json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$exec\",\"en\":\"$comment\",\"ru\":\"$comment_ru\"}")
+                    json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$desktop\",\"en\":\"$comment\",\"ru\":\"$comment_ru\", \"command\":\"$command\"}")
                 fi
             fi
         fi
@@ -74,7 +81,6 @@ get_app_list(){
     local app_json=$(cat $temp_folder/$tmp_file)
     echo $app_json | jq -r .
 }
-
 case "$1" in
   "create")
     create_app_list
