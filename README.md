@@ -49,5 +49,5 @@ This is my personal eww dotfiles repository. All widgets are EWW.
 	```bash
         micro ~/.config/eww/var.conf
 	```
-2. For some scripts to work correctly, the packages specified in ### Requirements.
+2. For some scripts to work correctly, the packages specified in Requirements.
 
