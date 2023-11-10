@@ -84,6 +84,14 @@
   border: $border;
   border-radius: 6px;
 }
+.lbl_no_active{
+  background-color: transparent;
+  border-color: transparent;
+  border-radius: 6px;
+  &:hover{
+  background-color: $softgray;
+  }
+}
 .lbl_active{
   background-color: $softgray;
   border-color: $yellow;
@@ -129,6 +137,13 @@
   padding: 5px;
   border-radius: 10px;
   // border-color: transparent;
+}
+.input{
+  padding: 10px;
+  margin: 10px;
+  border: $border;
+  border-radius: 10px;
+  background-color: $bg2;
 }
 //  ---------------------------------------------------------------------------
 //                                  Tooltip 

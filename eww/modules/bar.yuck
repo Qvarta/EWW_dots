@@ -88,7 +88,7 @@
 )
 (defwidget tray[]
   (eventbox
-    :onclick "./scripts/background cache & ${EWW_CMD} ${windows_status.control} control-center"
+    :onclick "${EWW_CMD} ${windows_status.control} control-center"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
     :space-evenly false
     :spacing 20

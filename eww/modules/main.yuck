@@ -33,14 +33,14 @@
   (defpoll year :initial "2000" :interval "24h" "date '+%Y'")
   
   ; (defvar weather_json "[]")
-  ; (defpoll weather_json :interval "1s" "./scripts/tmp.sh")
+  (defpoll weather_json :interval "1s" "./scripts/tmp.sh")
 
-  (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
+  ; (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
   
   (defvar power_rev false)
 
   (defvar new_ssid "none")
-
+  (defvar graph_visible false)
   (defvar cDay 1)
   (defvar cGraph "RAM")
 

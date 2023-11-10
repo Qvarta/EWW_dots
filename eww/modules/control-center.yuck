@@ -80,7 +80,7 @@
     )
     (weather :visible "${weather_json!= '[]' && weather_json[0].icon != 'null' ? true : false}")
     (player :available {track_info.available} :style {track_info.style})
-    (graphs :sensor {vars_info.sensor})
+    (graphs :sensor {vars_info.sensor} :visible {graph_visible})
     (monitor :sensor {vars_info.sensor})
   )
 )
@@ -188,27 +188,31 @@
   (box
     :class "monitor"
     :spacing 15
-    (label 
-      :text "${EWW_BATTERY[vars_info.battery].status == 'Charging' ? '󰂄' : '󱊣'} ${EWW_BATTERY[vars_info.battery].capacity}%" 
-      :class "block_text ${
-                          EWW_BATTERY[vars_info.battery].capacity > 70 ? 'color_green' : 
-                          EWW_BATTERY[vars_info.battery].capacity > 30 ? 'color_yellow':
-                          EWW_BATTERY[vars_info.battery].capacity < 30 ? 'color_red' : ''}"
-    ) 
     (eventbox
-      :class "lbl_btn ${cGraph == 'RAM' ? 'lbl_active' : ''}"
+      :class "lbl_no_active"
+      :onclick "${EWW_CMD} update graph_visible=${!graph_visible}"
+      (label 
+        :text "${EWW_BATTERY[vars_info.battery].status == 'Charging' ? '󰂄' : '󱊣'} ${EWW_BATTERY[vars_info.battery].capacity}%" 
+        :class "block_text ${
+          EWW_BATTERY[vars_info.battery].capacity > 70 ? 'color_green' : 
+          EWW_BATTERY[vars_info.battery].capacity > 30 ? 'color_yellow':
+          EWW_BATTERY[vars_info.battery].capacity < 30 ? 'color_red' : ''}"
+      )
+    )
+    (eventbox
+      :class "${cGraph == 'RAM' && graph_visible == true ? 'lbl_btn lbl_active' : ''}"
       :height 40
       :onclick "${EWW_CMD} update cGraph='RAM'"
       (label :text "󰍛 ${round(EWW_RAM.used_mem_perc, 0)}%" :class "block_text")
     )
     (eventbox
-      :class "lbl_btn ${cGraph == 'CPU' ? 'lbl_active' : ''}"
+      :class "${cGraph == 'CPU'  && graph_visible == true ? 'lbl_btn lbl_active' : ''}"
       :height 40
       :onclick "${EWW_CMD} update cGraph='CPU'"
       (label :text " ${round(EWW_CPU.avg, 0)}%" :class "block_text")
     )   
     (eventbox
-      :class "lbl_btn ${cGraph == 'TEMP' ? 'lbl_active' : ''}"
+      :class "${cGraph == 'TEMP'  && graph_visible == true ? 'lbl_btn lbl_active' : ''}"
       :height 40
       :onclick "${EWW_CMD} update cGraph='TEMP'"
       (label :text " ${EWW_TEMPS[sensor]}°C" :class "block_text")
@@ -308,8 +312,8 @@
 ; ---------------------------------------------------------------------------
 ;                               GRAPH WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget graphs[sensor]
-  (box :width "360" :orientation "v" :space-evenly "false" :halign "center" :class "block"
+(defwidget graphs[sensor visible]
+  (box :width "360" :orientation "v" :space-evenly "false" :halign "center" :class "block" :visible visible
     (overlay
       (graph_block :name "RAM" :val "${round(EWW_RAM.used_mem_perc, 0)}" :description "%")
       (graph_block :name "CPU" :val "${round(EWW_CPU.avg, 0)}" :description "%")

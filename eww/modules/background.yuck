@@ -2,7 +2,7 @@
     :monitor "0"
     :namespace "chg_bg"
     :geometry (geometry
-                :width "200px"
+                :width "240px"
                 :height "300px"
                 :anchor "top right"
                 :x "21%"
