@@ -1,7 +1,7 @@
 # My Eww Dotfiles for Hyprland.
 
 
-This is my eww dotfiles repository. All widgets are EWW.
+This is my personal eww dotfiles repository. All widgets are EWW.
 
 ![preview](eww/images/screenshot/1.jpg)
 
