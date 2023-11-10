@@ -211,7 +211,7 @@
       :class "lbl_btn ${cGraph == 'TEMP' ? 'lbl_active' : ''}"
       :height 40
       :onclick "${EWW_CMD} update cGraph='TEMP'"
-      (label :text " ${EWW_TEMPS[sensor]}%" :class "block_text")
+      (label :text " ${EWW_TEMPS[sensor]}°C" :class "block_text")
     ) 
   )
 )

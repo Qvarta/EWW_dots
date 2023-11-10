@@ -49,5 +49,5 @@ This is my eww dotfiles repository. All widgets are EWW.
 	```bash
         micro ~/.config/eww/var.conf
 	```
-
+2. I use the cmus music player , so the script for the music player widget is written for it.
 

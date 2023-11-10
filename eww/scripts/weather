@@ -12,7 +12,7 @@ URL="http://dataservice.accuweather.com/forecasts/v1/daily/5day/${city}?apikey=$
 
 headers='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
 
-# Загрузка данных из файла 'var' УКАЗАТЬ ПРАВИЛЬНЫЙ ПУТЬ
+# Загрузка данных из файла 'var' УКАЗАТЬ ПРАВИЛЬНЫЙ ПУТЬ!
 icons_json=$(cat $file | jq -r '.codes')
 
 get_json() {
