@@ -26,6 +26,8 @@
         "unavailable":["Wheather service unavailable","Сервис погоды недоступен"],        
         "wind":["Wind","Ветер"],
         "sec":["seconds","секунд"],
+        "password":["Password","Пароль"],
+        "for":["for","для"],
         "now":["Now","Сейчас"]                
     }
 }

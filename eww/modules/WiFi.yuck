@@ -73,7 +73,7 @@
         :class "main_container"
         :orientation "v"
         :spacing 10
-        (label :text "Enter password for ${new_ssid}" :class "block_medium_text")
+        (label :text "${strings.password} ${strings.for} ${new_ssid}" :class "block_medium_text")
         (box
             :class "main_container"
             (input
