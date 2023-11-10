@@ -22,7 +22,7 @@ This is my personal eww dotfiles repository. All widgets are EWW.
 - swww(change background)
 - imagemagick(background script)
 - cmus(palyer script)
-- hyprshot(screeshot script)
+- hyprshot(screenshot script)
 - Iosevka Nerd Font
 
 ### Installation
