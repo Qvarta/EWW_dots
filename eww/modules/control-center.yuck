@@ -243,17 +243,17 @@
       :spacing 10
       (eventbox
         :class "flat_btn"
-        :onclick "${EWW_CMD} update Cday=${Cday == 1 ? arraylength(weather_json) : Cday - 1}"
+        :onclick "${EWW_CMD} update cDay=${cDay == 1 ? arraylength(weather_json) : cDay - 1}"
         (label :text "<<")
       )
       (eventbox
         :class "flat_btn"
-        :onclick "${EWW_CMD} update Cday=1"
+        :onclick "${EWW_CMD} update cDay=1"
         (label :text "${strings.now}")
       )
       (eventbox
         :class "flat_btn"
-        :onclick "${EWW_CMD} update Cday=${Cday == arraylength(weather_json) ? 1 : Cday + 1}"
+        :onclick "${EWW_CMD} update cDay=${cDay == arraylength(weather_json) ? 1 : cDay + 1}"
         (label :text ">>")
       )
     )
@@ -267,7 +267,7 @@
   )
 )
 (defwidget current_day[current]
-  (revealer :transition "crossfade" :reveal {Cday == "${current.num}" ? "true" : "false"} :duration "500ms"
+  (revealer :transition "crossfade" :reveal {cDay == "${current.num}" ? "true" : "false"} :duration "500ms"
     (overlay 
       (box
         :space-evenly false

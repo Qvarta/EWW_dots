@@ -41,7 +41,7 @@
 
   (defvar new_ssid "none")
 
-  (defvar Cday 1)
+  (defvar cDay 1)
   (defvar cGraph "RAM")
 
   (defvar power_info "none")
