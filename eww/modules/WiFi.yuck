@@ -9,8 +9,6 @@
                 :anchor "center")
     (net_list)
 )
-(defpoll list_net :initial "[]" :interval "1s" "./scripts/wifi get")
-(defvar new_ssid "none")
 
 (defwidget net_list[]
     (eventbox

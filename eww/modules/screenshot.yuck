@@ -1,7 +1,7 @@
 (defwindow screenshot
     :monitor "0"
     :namespace "screenshot"
-    :geometry (geometry :width "250px" :height "50px" :anchor "top center")
+    :geometry (geometry :width "250px" :height "50px" :anchor "bottom center")
     (scr_menu)
 )
 (defwidget scr_menu []

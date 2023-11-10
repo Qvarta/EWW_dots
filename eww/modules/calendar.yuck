@@ -5,15 +5,12 @@
   :stacking "fg"
   :monitor "0"
   :namespace "calendar"
-  :geometry (geometry :width "250px" :height "150px" :anchor "top left")
+  :geometry (geometry :width "250px" :height "150px" :anchor "top center")
   (calendar_widget)
 )
 ; ---------------------------------------------------------------------------
 ;                          CALENDAR MAIN WIDGET
 ; ---------------------------------------------------------------------------
-(defpoll day :initial "1" :interval "1h" "date '+%d'")
-(defpoll year :initial "2000" :interval "24h" "date '+%Y'")
-;---------------------------------------------------------------------------
 (defwidget calendar_widget []
   (eventbox
     :onhoverlost "${EWW_CMD} close calendar"

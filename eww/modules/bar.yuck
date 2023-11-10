@@ -33,6 +33,7 @@
   (box
     :halign "end"
     :space-evenly false
+    :spacing 5
     (time-widget :hour {time.hour} :minute {time.min})
     (language-widget :layout {layout})
     (tray)
@@ -73,19 +74,8 @@
     :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
     (eventbox
       :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
-      :onrightclick "${EWW_CMD} update date_rev=${!date_rev}"
       :halign "start"
-      (box
-        :space-evenly false
-        :spacing 10
-        (label :text "${hour}:${minute}" :class "block_text")
-        (revealer
-          :transition "slideright"
-          :reveal date_rev
-          :duration "750ms"
-          (label :class "slide" :text "| ${date}")
-        )
-      )  
+      (label :text "${hour}:${minute}" :class "block_text") 
     )
   )
 )
@@ -93,7 +83,6 @@
   (eventbox
     :class "bar_module"
     :onclick "./scripts/kb_layout swkb"
-    :onrightclick "${EWW_CMD} update lang_rev=${!lang_rev}"
     (label :text "󰌌 ${layout}" :class "block_text") 
   )
 )

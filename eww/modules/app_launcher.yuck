@@ -1,23 +1,41 @@
 (defwindow launcher
     :monitor "0"
+    :windowtype "dialog"
+    ; :focusable "true"
     :namespace "launcher"
     :geometry (geometry
                 :x "0%"
                 :y "0%"
-                :width "450px"
+                :width "550px"
                 :height "300px"
                 :anchor "center")
     (applications)
 )
-(defvar icon_default "~/.config/eww/images/ui/applications-development.svg")
 (defwidget applications[]
-    (eventbox
+    (box
         :class "main_container"
         :style "padding:5px;"
         (box
             :space-evenly false
             :orientation "v"
             (label :class "title" :text "${strings.app}")
+            ; (box
+            ;     :space-evenly false
+            ;     :class ""
+            ;     :spacing 20
+            ;     :width 350
+            ;     :halign "center"
+            ;     (label
+            ;       :text ""
+            ;       :class "block_large_icon"
+            ;     )
+            ;     (input
+            ;       :class "input"
+            ;       :onchange ""
+            ;       :onaccept ""
+            ;       :hexpand true
+            ;     )
+            ; )
             (scroll
                 :height 590
                 :vscroll true
@@ -31,16 +49,16 @@
                         (eventbox 
                             :tooltip "${vars_info.lang =='EN' ? entry.en : entry.ru}"
                             :class "block_btn"
-                            :onclick "gtk-launch ${entry.path} & ${EWW_CMD} ${windows_status.launcher} launcher"
+                            :onclick "${entry.command} & ${EWW_CMD} ${windows_status.launcher} launcher"
                             (box
                                 :class "entry_block"
                                 :space-evenly false
                                 :spacing 20
                                 (image
-                                :path "${entry.icon =='None' ? icon_default : entry.icon}"
-                                :image-width 48
-                                :image-height 48
-                                :halign "start"
+                                    :path "${entry.icon =='None' ? 'images/ui/no_image.png' : entry.icon}"
+                                    :image-width 48
+                                    :image-height 48
+                                    :halign "start"
                                 )
                                 (box
                                     :orientation "v"
