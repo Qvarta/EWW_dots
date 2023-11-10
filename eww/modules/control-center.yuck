@@ -227,9 +227,11 @@
     :class "block"
     :orientation "v"
     :space-evenly false
-    (box
+    (eventbox
       :visible {visible}
       :height 130
+      :onclick "${EWW_CMD} update cDay=1"
+      :onscroll "${EWW_CMD} update cDay=${cDay == arraylength(weather_json) ? 1 : cDay + 1}"
       ; (for day in weather_json
       ;   (current_day :current {day})   ; не работает overlay с динамически созданными виджетами !!!
       ; )
@@ -239,26 +241,6 @@
         (current_day :current {weather_json[2]})
         (current_day :current {weather_json[3]})
         (current_day :current {weather_json[4]})
-      )
-    )
-    (box
-      :visible {visible}
-      :valign "end"
-      :spacing 10
-      (eventbox
-        :class "flat_btn"
-        :onclick "${EWW_CMD} update cDay=${cDay == 1 ? arraylength(weather_json) : cDay - 1}"
-        (label :text "<<")
-      )
-      (eventbox
-        :class "flat_btn"
-        :onclick "${EWW_CMD} update cDay=1"
-        (label :text "${strings.now}")
-      )
-      (eventbox
-        :class "flat_btn"
-        :onclick "${EWW_CMD} update cDay=${cDay == arraylength(weather_json) ? 1 : cDay + 1}"
-        (label :text ">>")
       )
     )
     (box
@@ -281,13 +263,13 @@
         (box
           :orientation "v"
           :space-evenly false
-          :valign "center"
-          (label :text "${current.icon}" :class "block_img_medium_icon")
+          :valign "end"
+          (label :text "${current.icon}" :class "block_large_icon")
           (label :text "${current.temp_max}" :class "block_large_text")
         )
         (box
           :orientation "v"
-          :valign "center"
+          :valign "end"
           (label :text "${current.icon_phrase}" :halign "center" :class "block_text")
           (box
             :space-evenly false
@@ -304,8 +286,8 @@
             (label :text "${current.wind_speed} 󱗺 ${current.wind_dir}" :class "value")
           )
         )
-      )               
-      (label :text "${current.date}" :halign "end" :valign "start" :class "duration" :style "font-size:16px;")
+      )           
+      (label :text "${current.date}" :halign "end" :valign "start" :class "duration block_text")
     )
   )      
 )
@@ -338,3 +320,4 @@
     )
   )
 )
+
