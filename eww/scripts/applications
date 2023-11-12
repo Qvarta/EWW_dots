@@ -5,7 +5,7 @@ desktop_dir="/usr/share/applications"
 temp_folder="/tmp/eww"
 tmp_file="applications.json"
 terminal="kitty"
-hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Vim")
+hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings")
 
 get_icon_path() (
     local icon_name="$1"
@@ -50,7 +50,7 @@ create_app_list(){
                 done
 
                 # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
-                if [ "$skip" == false ] && [ -n "$name" ] && [ -n "$exec" ]; then
+                if [ "$skip" == false ] && [ -n "$name" ]; then
                     json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$desktop\",\"en\":\"$comment\",\"ru\":\"$comment_ru\", \"command\":\"$command\"}")
                 fi
             fi
