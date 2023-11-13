@@ -20,13 +20,23 @@ get_srings(){
         jq -r '.stings | to_entries | map({(.key): .value[1]}) | add' "$file"
     fi
 }
-
+scroll(){
+    if [[ $1 == 'up' ]]; then
+        eww update cDay=$([[ $2 != $3 ]] && echo $(($2 + 1)) || echo 1)
+    elif [[ $1 == 'down' ]]; then
+        eww update cDay=$([[ $2 != 1 ]] && echo $(($2 - 1)) || echo $3)
+    fi
+}
 case $1 in
     vars)
         get_vars
         ;;
     strings)
         get_srings
+        ;;
+    scroll)
+        shift
+        scroll "$@"
         ;;
 esac
 

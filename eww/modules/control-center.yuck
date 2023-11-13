@@ -151,7 +151,7 @@
   )
 )
 ; ---------------------------------------------------------------------------
-;                               PLAYER WIDGETS
+;                               PLAYER WIDGET
 ; ---------------------------------------------------------------------------
 (defwidget player [available style]
   (box
@@ -230,11 +230,8 @@
     (eventbox
       :visible {visible}
       :height 130
-      :onclick "${EWW_CMD} update cDay=1"
-      :onscroll "${EWW_CMD} update cDay=${cDay == arraylength(weather_json) ? 1 : cDay + 1}"
-      ; (for day in weather_json
-      ;   (current_day :current {day})   ; не работает overlay с динамически созданными виджетами !!!
-      ; )
+      :onhoverlost "${EWW_CMD} update cDay=1"
+      :onscroll "./scripts/get_vars scroll {} ${cDay} ${arraylength(weather_json)}"
       (overlay
         (current_day :current {weather_json[0]})
         (current_day :current {weather_json[1]})
@@ -263,13 +260,13 @@
         (box
           :orientation "v"
           :space-evenly false
-          :valign "end"
+          :valign "center"
           (label :text "${current.icon}" :class "block_large_icon")
           (label :text "${current.temp_max}" :class "block_large_text")
         )
         (box
           :orientation "v"
-          :valign "end"
+          :valign "center"
           (label :text "${current.icon_phrase}" :halign "center" :class "block_text")
           (box
             :space-evenly false
@@ -286,8 +283,8 @@
             (label :text "${current.wind_speed} 󱗺 ${current.wind_dir}" :class "value")
           )
         )
-      )           
-      (label :text "${current.date}" :halign "end" :valign "start" :class "duration block_text")
+      )
+      (label :text "${current.date}" :halign "end" :valign "start" :class "duration block_small_text")           
     )
   )      
 )

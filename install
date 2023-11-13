@@ -19,7 +19,6 @@ prep_stage=(
     wireplumber 
     jq 
     socat
-    bc
     wl-clipboard 
     cliphist 
     imagemagick

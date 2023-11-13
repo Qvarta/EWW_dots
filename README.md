@@ -10,7 +10,6 @@ This is my personal eww dotfiles repository. All widgets are EWW.
 - hyprland
 - eww
 - jq(multiple scripts)
-- bc(multiple scripts)
 - curl(weather script)
 - socat(workspace script)
 - bluez
