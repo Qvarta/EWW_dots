@@ -21,7 +21,7 @@ cache_wifi(){
 }
 wifi_icon() {
   local strength=$(iwconfig $SET_WIFI | grep "Link Quality=" | awk -F'=' '{ print $2 }' | awk -F'/' '{ print $1 }')
-  local wf=$(echo "$strength*100/70" | bc)
+  local wf=$(echo "$((strength*100/70))")
   wf=${wf%.*}
   if [ $wf -ge 1 ] && [ $wf -le 30 ]; then
     echo "󰤟 "
