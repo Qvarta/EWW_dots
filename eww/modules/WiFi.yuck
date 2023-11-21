@@ -29,12 +29,11 @@
                     (label :text "${strings.signal}" :class "block_medium_text")
                 )
                 (scroll
-                    :height 200
+                    :height 100
                     :vscroll true
                     :scrollspeed "24px"
-                    ; :class "block"
-                    ; :style "margin: 20px;"
                     (box
+                        :space-evenly false
                         :orientation "v"
                         :spacing 10
                         (for entry in list_net

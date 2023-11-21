@@ -4,15 +4,16 @@
 .bar_widget{
   background-color: $bg1;
   border: $border;
-  border-radius: 20px;
+  // border-color: $bg2;
+  border-radius: 12px;
   padding: 0 10px;
 }
 .bar_module {
-  margin: 0px 10px;
+  margin: 0px 5px;
 }
 .bar_icon{
-  padding: 0px 5px;
-  font-size: 22px;
+  padding: 0px 8px;
+  font-size: 18px;
 }
 .slide{
   font-size: 16px;
@@ -21,19 +22,27 @@
 //                               Workspaces Widget
 //  ---------------------------------------------------------------------------
 .workspace_label{
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
-  padding: 0 10px 0 10px;
+  padding: 0 5px 0 5px;
 }
-.workspace_entry{
-  margin: 5px;
+.workspacesBox {
   border-radius: $border_radius;
-  background-color: $bg1;
+  margin: 3px 5px;
+  // border:$border;
 }
-.occupied:hover{
-  background-color: $darkgray;
+.inactiveWorkspace {
+  padding: 0 10px;
+  background-color: transparent;
+  &:hover{
+    background-color: $softgray;
+  }
 }
-.current{
-  background-color:$softgray;
-  padding: 0 20px;
+.emptyWorkspace {
+  padding: 0 15px;
+  background-color: $fg2;
+}
+.activeWorkspace {
+  padding: 0 25px;
+  background-color: $softgray;
 }

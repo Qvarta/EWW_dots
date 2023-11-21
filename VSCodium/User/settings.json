@@ -1,0 +1,15 @@
+{
+    "workbench.colorTheme": "Gruvbox Mix Dark",
+    "editor.fontSize": 17,
+    "security.workspace.trust.untrustedFiles": "open",
+    "editor.minimap.enabled": false,
+    "editor.fontFamily": "'Droid Sans Mono', 'monospace', monospace,Iosevka NF",
+    "git.autofetch": true,
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "workbench.startupEditor": "none",
+    "explorer.confirmDelete": false,
+    "chatgpt.lang": "en",
+    "workbench.iconTheme": "bearded-icons",
+    "window.zoomLevel": 1
+}

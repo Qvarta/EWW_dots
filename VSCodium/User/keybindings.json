@@ -1,0 +1,13 @@
+// Поместите настраиваемые сочетания клавиш в этот файл, чтобы переопределить сочетания клавиш по умолчанию.auto[]
+[
+    {
+        "key": "alt+-",
+        "command": "editor.foldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    },
+    {
+        "key": "ctrl+k ctrl+0",
+        "command": "-editor.foldAll",
+        "when": "editorTextFocus && foldingEnabled"
+    }
+]

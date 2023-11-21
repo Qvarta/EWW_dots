@@ -84,7 +84,7 @@
     min-height: 50px;
 }
 .controls_btn {
-    background-size:60%;
+    background-size:50%;
     background-position:center;
     background-repeat: no-repeat;
     &:hover{
@@ -99,7 +99,7 @@
 }
 .cover{
     border-radius: 10px;
-    background-size:100%;
+    background-size:cover;
     background-position:center;
     background-repeat: no-repeat;
 }

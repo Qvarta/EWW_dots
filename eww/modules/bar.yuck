@@ -1,6 +1,5 @@
 (defwidget bar []
   (centerbox
-    :orientation "h"
     :class "bar_widget"
     (left)
     (workspaces)
@@ -21,10 +20,13 @@
   (eventbox 
     :class "bar_module"
     (box :space-evenly false
-      (label :text "${workspaces}${current_workspace}" :visible false)
+      (label :text "${current_workspace}" :visible false)
       (for workspace in workspaces
-        (button :class "workspace_entry ${workspace.id == current_workspace ? "current" : ""} ${workspace.windows > 0 ? "occupied" : "empty"}" :onclick "hyprctl dispatch workspace ${workspace.id}"
-        (label :text "${workspace.id}" :class "workspace_label" :xalign 0.5))
+        (button 
+          :class "workspacesBox ${workspace.id == current_workspace ? 'activeWorkspace' : ''} ${workspace.windows > 0 ? 'inactiveWorkspace' : 'emptyWorkspace'}" 
+          :onclick "hyprctl dispatch workspace ${workspace.id}"
+          (label :text "${workspace.id}" :class "workspace_label" :halign "center")
+        )
       )
     )
   )
@@ -33,7 +35,7 @@
   (box
     :halign "end"
     :space-evenly false
-    :spacing 5
+    :spacing 10
     (time-widget :hour {time.hour} :minute {time.min})
     (language-widget :layout {layout})
     (tray)
@@ -90,21 +92,9 @@
   (eventbox
     :onclick "${EWW_CMD} ${windows_status.control} control-center"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
-    :space-evenly false
-    :spacing 20
+    :class "bar_module"
     (box
-      :class "bar_module"
       :space-evenly false
-      (tray_widget :text {wifi_info.icon} :visible  true)
-      (tray_widget :text "" :visible "${bluetooth_state != 'off' ? true : false}")
-      (tray_widget :text "${sound_info.mic_status == 'yes' ? ' ' : ' '}" :visible "${sound_info.mic_status == 'yes' ? true : false}")
-      (tray_widget 
-        :text "${sound_info.sound_volume == '0' ? '󰸈 ' :
-                      sound_info.sound_volume == 'muted' ? ' ' :
-                      sound_info.sound_volume < 51 ? '󰖀 ' :
-                      sound_info.sound_volume < 101 ? '󰕾 ' : '󰝟 '}" 
-        :visible  true
-      )
       (tray_widget 
         :text "${EWW_BATTERY[vars_info.battery].capacity < 10 ? " 󰁺" :
             EWW_BATTERY[vars_info.battery].capacity< 20 ? " 󰁼" :
@@ -114,6 +104,16 @@
             EWW_BATTERY[vars_info.battery].capacity < 100 ? " 󰁹" : " 󰂄"}"
         :visible  true
       )
+      (tray_widget :text {wifi_info.icon} :visible  true)
+      (tray_widget :text "" :visible "${bluetooth_state != 'off' ? true : false}")
+      (tray_widget :text "${sound_info.mic_status == 'yes' ? ' ' : ' '}" :visible "${sound_info.mic_status == 'yes' ? true : false}")
+      (tray_widget 
+        :text "${sound_info.sound_volume == '0' ? '' :
+                      sound_info.sound_volume < 51 ? '󰕾' :
+                      sound_info.sound_volume < 101 ? '' : ''}" 
+        :visible  true
+      )
+
     )
   )
 )
@@ -126,14 +126,13 @@
       :class "bar_module"
       :space-evenly false
       (label :class "bar_icon" :text "${power_rev == 'false' ? ' ' : '󰅙  '}")
-      ; :text " "
       (revealer
         :transition "slideright"
         :reveal power_rev
         :duration "750ms"
         (box
           :halign "end"
-          :spacing 20
+          :spacing 10
           (eventbox 
             :onclick "${EWW_CMD} update power_info='${strings.logoff}' && ${EWW_CMD} update power_command='hyprctl dispatch exit 0' && ${EWW_CMD} open power"
             :tooltip " ${strings.logoff} " 

@@ -2,6 +2,7 @@
 @import './bar.scss';
 @import './calendar.scss';
 @import './control-center.scss';
+@import './desktop.scss';
 
 //  ---------------------------------------------------------------------------
 //                                     Window
@@ -20,7 +21,7 @@
   border-radius: $border_radius;
   padding: 10px;
   margin: 10px;
-  border: $border;
+  border: $border2;
 }
 .block {
   background-color: $bg2; 
@@ -39,7 +40,7 @@
   font-size: 42px;
 }
 .block_text{
-  font-size: 20px;
+  font-size: 16px;
   font-weight: bold;
 }
 .block_large_text{

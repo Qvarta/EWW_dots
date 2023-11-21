@@ -229,7 +229,7 @@
     :space-evenly false
     (eventbox
       :visible {visible}
-      :height 130
+      :height 100
       :onhoverlost "${EWW_CMD} update cDay=1"
       :onscroll "./scripts/get_vars scroll {} ${cDay} ${arraylength(weather_json)}"
       (overlay
@@ -255,7 +255,7 @@
       (box
         :space-evenly false
         :spacing 30
-        :halign "center"
+        :valign "end"
         :width 320
         (box
           :orientation "v"
@@ -267,17 +267,21 @@
         (box
           :orientation "v"
           :valign "center"
-          (label :text "${current.icon_phrase}" :halign "center" :class "block_text")
+          (box
+            :halign "left"
+            :space-evenly false
+            (label :text "${current.icon_phrase}" :halign "left" :class "block_medium_text")
+          )
           (box
             :space-evenly false
-            :halign "center"
+            :halign "left"
             :spacing 10
             (label :text "${strings.probability}:" :class "block_medium_text")
             (label :text "${current.prec}" :class "block_medium_text")
           )
           (box
             :space-evenly false
-            :halign "center"
+            :halign "left"
             :spacing 10
             (label :text "${strings.wind}:" :class "value")
             (label :text "${current.wind_speed} 󱗺 ${current.wind_dir}" :class "value")
@@ -305,7 +309,7 @@
     (overlay
       (graph 
       :class "${val < 40 ? 'color_green' : val < 70 ? 'color_yellow' : 'color_red'}"
-      :height "120" 
+      :height 100 
       :min "0" 
       :max "100" 
       :thickness "2" 
