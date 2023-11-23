@@ -18,14 +18,13 @@
 )
 (defwidget workspaces []
   (eventbox 
-    :class "bar_module"
     (box :space-evenly false
       (label :text "${current_workspace}" :visible false)
       (for workspace in workspaces
         (button 
           :class "workspacesBox ${workspace.id == current_workspace ? 'activeWorkspace' : ''} ${workspace.windows > 0 ? 'inactiveWorkspace' : 'emptyWorkspace'}" 
           :onclick "hyprctl dispatch workspace ${workspace.id}"
-          (label :text "${workspace.id}" :class "workspace_label" :halign "center")
+          ; (label :text "${workspace.id}" :class "workspace_label" :halign "center")
         )
       )
     )
@@ -35,11 +34,17 @@
   (box
     :halign "end"
     :space-evenly false
-    :spacing 10
-    (time-widget :hour {time.hour} :minute {time.min})
-    (language-widget :layout {layout})
-    (tray)
-    (power_menu)
+    :spacing 5
+    (box
+      :space-evenly false
+      (time-widget :hour {time.hour} :minute {time.min})
+      (language-widget :layout {layout})
+    )
+    (box
+      :space-evenly false
+      (tray)
+      (power_menu)
+    )
   )
 )
 ; ---------------------------------------------------------------------------
@@ -49,30 +54,36 @@
   (eventbox
     :onclick "./scripts/applications create & ${EWW_CMD} ${windows_status.launcher} launcher"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   " 
-    :class "bar_module"
     (label :class "bar_icon" :text " ")  
   )
 )
 (defwidget player-widget [available status title artist position]
   (eventbox
     :onclick "cmus-remote -u"
-    :class "bar_module"
     :visible "${available =='off' ? false : true}"
     (box
       :space-evenly false
-      :spacing 5
-      (label :class "block_medium_text" :text "${title=='' ? 'Track not selected' : artist}:")
-      (label :class "block_text" :text "${title=='' ? 'select track' : title}")  
-      (label :class "block_medium_text" :text "| ${position}")  
+      (box
+        :space-evenly false
+        :class "bar_module barLeft"
+        :spacing 5
+        (label :class "block_medium_text" :text "${title=='' ? 'Track not selected' : artist}:")
+        (label :class "block_text" :text "${title=='' ? 'select track' : title}")
+      )
+      (box
+        :class "bar_module barRight"
+        (label :class "block_medium_text" :text "${position}")  
+      )
     )
-  ) 
+ 
+  )
 )
 ; ---------------------------------------------------------------------------
 ;                               RIGHT WIDGETS 
 ; ---------------------------------------------------------------------------
 (defwidget time-widget [hour minute]
   (box
-    :class "bar_module"
+    :class "bar_module barLeft"
     :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
     (eventbox
       :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
@@ -83,18 +94,20 @@
 )
 (defwidget language-widget [layout]
   (eventbox
-    :class "bar_module"
     :onclick "./scripts/kb_layout swkb"
-    (label :text "󰌌 ${layout}" :class "block_text") 
+    (box
+      :class "bar_module barRight"
+      (label :text "󰌌 ${layout}" :class "block_text") 
+    )
   )
 )
 (defwidget tray[]
   (eventbox
     :onclick "${EWW_CMD} ${windows_status.control} control-center"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
-    :class "bar_module"
     (box
       :space-evenly false
+      :class "bar_module barLeft"
       (tray_widget 
         :text "${EWW_BATTERY[vars_info.battery].capacity < 10 ? " 󰁺" :
             EWW_BATTERY[vars_info.battery].capacity< 20 ? " 󰁼" :
@@ -123,7 +136,7 @@
     :onrightclick "${EWW_CMD} update power_rev=false"
     :tooltip "    ${strings.open}/${strings.close} ${strings.menu} ${strings.power}  "   
     (box
-      :class "bar_module"
+      :class "bar_module barRight"
       :space-evenly false
       (label :class "bar_icon" :text "${power_rev == 'false' ? ' ' : '󰅙  '}")
       (revealer
