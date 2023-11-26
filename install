@@ -24,6 +24,7 @@ prep_stage=(
     imagemagick
     pacman-contrib
     pamixer 
+    playerctl
     pavucontrol 
     alsa-utils
     brightnessctl 
