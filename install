@@ -14,7 +14,7 @@ prep_stage=(
     gtk3 
     xdg-desktop-portal-hyprland  
     # polkit-gnome # for pamac
-    lxappearance # for assistant
+    #lxappearance # for assistant
     pipewire 
     wireplumber 
     jq 
