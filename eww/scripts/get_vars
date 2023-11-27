@@ -7,7 +7,10 @@ get_vars(){
     local max_brightness=$(brightnessctl | grep Max | awk '{print $3}')
     local sensor=$(echo $SET_SENSOR)
     local scr_path=$(echo $SET_SCR)
-    local json="{\"lang\": \"$lang\", \"battery\": \"$battery\", \"max_brightness\": \"$max_brightness\", \"sensor\": \"$sensor\", \"scr_path\": \"$scr_path\"}"
+    # local kernel=$(echo "$(hostnamectl --json=pretty | jq .KernelRelease  | sed 's/"//g')")
+    # local user=$(echo "$(whoami)")
+
+    local json="{\"user\": \"$user\", \"kernel\": \"$kernel\", \"lang\": \"$lang\", \"battery\": \"$battery\", \"max_brightness\": \"$max_brightness\", \"sensor\": \"$sensor\", \"scr_path\": \"$scr_path\"}"
     echo "$json" | jq -r .
 }
 get_srings(){

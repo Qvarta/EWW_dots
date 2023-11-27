@@ -21,13 +21,12 @@
   border-radius: $border_radius;
   padding: 10px;
   margin: 10px;
-  border: $border2;
+  border: $border;
 }
 .block {
   background-color: $bg2; 
-  border-radius: $border_radius;
+  border-radius: 10px;
   padding: 15px;
-  border: $border;
 }
 .sub_block{
   padding: 5px;
@@ -38,6 +37,12 @@
 }
 .block_large_icon {
   font-size: 42px;
+}
+.block_medium_icon {
+  font-size: 32px;
+}
+.block_small_icon{
+  font-size: 20px;
 }
 .block_text{
   font-size: 16px;
@@ -69,15 +74,22 @@
 .entry_block{
   padding: 5px 20px;
 }
+.block_scroll{
+  margin: 20px;
+  border:$border; 
+  border-radius:$border_radius; 
+  padding:10px;
+}
 .block_btn {
-  background-color: $bg1; 
+  background-color: $bg2; 
   border-radius: 5px;
   font-size: 20px;
   border: $border;
   border-color: transparent;
   &:hover{
       background-color: $softgray;
-      border-color: $green;
+      border:$border;
+      border-color: $yellow;
   }
 }
 .lbl_btn{
@@ -121,7 +133,7 @@
 }
 .img_cont:hover{
   .img_block{
-      border-color: $green;
+      border-color: $yellow;
   }
   .img_bg{
       background-size:120%;
@@ -137,15 +149,13 @@
   border: $border;
   padding: 5px;
   border-radius: 10px;
-  // border-color: transparent;
 }
 .input{
-  padding: 10px;
-  margin: 10px;
-  border: $border;
-  border-radius: 10px;
-  background-color: $bg2;
+  border-radius: 5px;
+  background-color: $select;
 }
+
+
 //  ---------------------------------------------------------------------------
 //                                  Tooltip 
 //  ---------------------------------------------------------------------------

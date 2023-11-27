@@ -6,36 +6,18 @@
   :monitor "0"
   :namespace "calendar"
   :geometry (geometry :width "250px" :height "150px" :anchor "top center")
-  (calendar_widget)
+  (month_widget)
 )
 ; ---------------------------------------------------------------------------
 ;                          CALENDAR MAIN WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget calendar_widget []
+(defwidget month_widget[]
   (eventbox
     :onhoverlost "${EWW_CMD} close calendar"
-    :width 400
     (box
+      :width 350
       :class "main_container"
-      :style "background-color:transparent;border-color:transparent;"
-      :orientation "v"
-      :spacing 10
-      :space-evenly false
-      (month_widget)
+      (calendar :day day :year year)
     )
-  )
-)
-  ; ---------------------------------------------------------------------------
-  ;                             CALENDAR WIDGETS
-  ; ---------------------------------------------------------------------------
-
-(defwidget month_widget[]
-  (box
-    :orientation "v"
-    :space-evenly false
-    :vexpand true
-    :valign "center"
-    :class "block"
-    (calendar :day day :year year)
   )
 )

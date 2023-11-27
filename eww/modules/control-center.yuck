@@ -16,68 +16,8 @@
     :space-evenly false
     :class "main_container"
     :spacing 10
-    (box      
-      :space-evenly false 
-      :spacing 10
-      (box
-        :orientation "v"
-        :space-evenly false
-        :spacing 10
-        (box
-          :orientation "v"
-          :class "block"
-          :space-evenly false
-          :spacing 20
-          (big_btn 
-            :name {wifi_info.ssid} 
-            :class "btn big ${wifi_info.ssid=='off' ? 'border_red': wifi_info.ssid=='on'? 'border_yellow' : 'border_green'}"
-            :style "background-image: url('images/ui/wifi.png');" 
-            :text {strings.network} 
-            :action_L "${EWW_CMD} ${windows_status.net_list} net_list" 
-            :action_R "./scripts/wifi toggle")
-          (big_btn 
-            :name {bluetooth_state} 
-            :class "btn big ${bluetooth_state=='off' ? 'border_red': bluetooth_state=='on'? 'border_yellow' : 'border_green'}"
-            :style "background-image: url('images/ui/bluetooth.png');" 
-            :text "Bluetooth" 
-            :action_L "./scripts/bluetooth toggle")
-        )
-        (box
-          :class "block"
-          :spacing 10
-          :space-evenly false
-          (small_btn 
-            :class "btn small ${sound_info.sound_status=='no' ? 'border_red':'border_green'}"
-            :style "background-image: url('images/ui/volume.png');" 
-            :action_L "./scripts/sound sound_toggle" 
-            :action_R "pavucontrol &"
-          )
-          (small_btn 
-            :class "btn small ${sound_info.mic_status=='no' ? 'border_red':'border_green'}"
-            :style "background-image: url('images/ui/mic.png');" 
-            :action_L "./scripts/sound mic_toggle" 
-            :action_R "pavucontrol &"
-          )
-          (small_btn 
-            :class "btn small"
-            :style "background-image: url('images/ui/background.png');" 
-            :action_L "${EWW_CMD} ${windows_status.chg_bg} chg_bg"
-          )
-          (small_btn 
-            :class "btn small"
-            :style "background-image: url('images/ui/screenshot_d.png');" 
-            :action_L "${EWW_CMD} ${windows_status.screenshot} screenshot"
-          )
-        )
-      )
-      (box
-        :orientation "h"
-        :space-evenly false
-        :class "block"
-        (slider :level {brightness} :max_level {vars_info.max_brightness} :action "brightnessctl set {}" :style "background-image: url('images/ui/brigtness.png');")
-        (slider :level {sound_info.sound_volume} :action "pamixer --set-volume {}" :style "background-image: url('images/ui/volume.png');")
-      )
-    )
+    (top :style "background-image: url('images/ui/user.png');background-size:70%;" :text {date})
+    (controls)
     (weather :visible "${weather_json!= '[]' && weather_json[0].icon != 'null' ? true : false}")
     (player :available {track_info.available} :style {track_info.style})
     (graphs :sensor {vars_info.sensor} :visible {graph_visible})
@@ -85,8 +25,62 @@
   )
 )
 ; ---------------------------------------------------------------------------
+;                               TOP WIDGET
+; ---------------------------------------------------------------------------
+(defwidget top [style text]
+  (box
+    :space-evenly false
+    :style "padding: 0 10px; margin: 5px 0;"
+    (box :width 40 :class "cover" :style style)
+    (label :text text :class "block_medium_text" :hexpand true)      
+    (eventbox 
+      :onclick "${EWW_CMD} update power_info='${strings.logoff}' && ${EWW_CMD} update power_command='hyprctl dispatch exit 0' && ${EWW_CMD} open power"
+      :tooltip " ${strings.logoff} " 
+      (label :text "󰿅 " :class "block_small_icon color_red")
+    )
+  )
+)
+; ---------------------------------------------------------------------------
+;                               CONTROLS WIDGETS
+; ---------------------------------------------------------------------------
+(defwidget controls[]
+    (box      
+      :space-evenly false 
+      :spacing 15
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 10
+        (big_block)
+        (small_block)
+      )
+      (sliders)
+    )
+)
+; ---------------------------------------------------------------------------
 ;                               BUTTON WIDGETS
 ; ---------------------------------------------------------------------------
+(defwidget big_block[]
+  (box
+    :orientation "v"
+    :class "block"
+    :space-evenly false
+    :spacing 20
+    (big_btn 
+      :name {wifi_info.ssid} 
+      :class "btn big ${wifi_info.ssid=='off' ? 'btn_off': wifi_info.ssid=='on'? 'btn_on' : 'btn_active'}"
+      :style "background-image: url('images/ui/wifi.png');" 
+      :text {strings.network} 
+      :action_L "${EWW_CMD} ${windows_status.net_list} net_list" 
+      :action_R "./scripts/wifi toggle")
+    (big_btn 
+      :name {bluetooth_state} 
+      :class "btn big ${bluetooth_state=='off' ? 'btn_off': bluetooth_state=='on'? 'btn_on' : 'btn_active'}"
+      :style "background-image: url('images/ui/bluetooth.png');" 
+      :text "Bluetooth" 
+      :action_L "./scripts/bluetooth toggle")
+  )
+)
 (defwidget big_btn[?name style text ?action_L ?action_R ?class]
   (eventbox 
     :class "big_block" 
@@ -114,6 +108,35 @@
     )
   )
 )
+(defwidget small_block[]
+  (box
+    :class "block"
+    :spacing 10
+    :space-evenly false
+    (small_btn 
+      :class "btn small ${sound_info.sound_status=='no' ? 'btn_off':'btn_active'}"
+      :style "background-image: url('images/ui/volume.png');" 
+      :action_L "./scripts/sound sound_toggle" 
+      :action_R "pavucontrol &"
+    )
+    (small_btn 
+      :class "btn small ${sound_info.mic_status=='no' ? 'btn_off':'btn_active'}"
+      :style "background-image: url('images/ui/mic.png');" 
+      :action_L "./scripts/sound mic_toggle" 
+      :action_R "pavucontrol &"
+    )
+    (small_btn 
+      :class "btn small btn_on"
+      :style "background-image: url('images/ui/background.png');" 
+      :action_L "./scripts/background cache & ${EWW_CMD} ${windows_status.chg_bg} chg_bg"
+    )
+    (small_btn 
+      :class "btn small btn_on"
+      :style "background-image: url('images/ui/screenshot_d.png');" 
+      :action_L "${EWW_CMD} ${windows_status.screenshot} screenshot"
+    )
+  )
+)
 (defwidget small_btn[style action_L ?action_R ?class]
   (eventbox 
     :class  "small_block" 
@@ -129,6 +152,15 @@
 ; ---------------------------------------------------------------------------
 ;                               SLIDER WIDGET
 ; ---------------------------------------------------------------------------
+(defwidget sliders[]
+  (box
+    :orientation "h"
+    :class "block"
+    :hexpand true
+    (slider :level {brightness} :max_level {vars_info.max_brightness} :action "brightnessctl set {}" :style "background-image: url('images/ui/brigtness.png');")
+    (slider :level {sound_info.sound_volume} :action "pamixer --set-volume {}" :style "background-image: url('images/ui/volume.png');")
+  )
+)
 (defwidget slider [level ?max_level ?action style]
   (box
     :space-evenly false
@@ -136,7 +168,7 @@
     (scale
       :flipped true
       :orientation "v"
-      :height 160
+      :height 150
       :class "slider_scale"
       :value level
       :draw-value false
@@ -260,13 +292,12 @@
         (box
           :orientation "v"
           :space-evenly false
-          :valign "center"
           (label :text "${current.icon}" :class "block_large_icon")
           (label :text "${current.temp_max}" :class "block_large_text")
         )
         (box
           :orientation "v"
-          :valign "center"
+          :valign "end"
           (box
             :halign "left"
             :space-evenly false
@@ -316,9 +347,8 @@
       :value {val == "" ? 0 : val} 
       :dynamic "true" 
       :time-range "30s")
-      (label :class "duration" :halign "end" :valign "end" :text "30 ${strings.sec}")
-      (label :class "val ${val < 40 ? 'color_green' : val < 70 ? 'color_yellow' : 'color_red'}" :halign "start" :valign "start" :text "${val}${description}")
+      (label :class "duration" :halign "start" :valign "end" :text "30 ${strings.sec}")
+      (label :class "val ${val < 40 ? 'color_green' : val < 70 ? 'color_yellow' : 'color_red'}" :halign "end" :valign "start" :text "${val}${description}")
     )
   )
 )
-

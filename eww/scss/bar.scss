@@ -8,10 +8,10 @@
   padding: 0 10px;
 }
 .bar_module {
-  border: 1px solid rgba(0, 0, 0, 0.572);
+  // border: 1px solid rgba(0, 0, 0, 0.572);
   margin: 5px 1px;
-  background-color: $select;
-  padding: 0 10px;
+  background-color: $bg3;
+  padding: 0 15px;
 }
 .barLeft{
   border-radius: 10px 0 0 10px;
@@ -36,13 +36,13 @@
 // }
 .workspacesBox {
   border-radius: $border_radius;
-  margin: 8px 3px;
+  margin: 10px 3px;
 }
 .inactiveWorkspace {
   padding: 0 15px;
   background-color: $softgray;
   &:hover{
-    background-color: $softgray;
+    background-color: $yellow;
   }
 }
 .emptyWorkspace {
@@ -51,5 +51,5 @@
 }
 .activeWorkspace {
   padding: 0 30px;
-  background-color: $fg1;
+  background-color: $yellow;
 }

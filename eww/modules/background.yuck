@@ -3,7 +3,7 @@
     :namespace "chg_bg"
     :geometry (geometry
                 :width "240px"
-                :height "300px"
+                :height "260px"
                 :anchor "top right"
                 :x "21%"
                 :y "1%"
@@ -19,8 +19,8 @@
             :orientation "v"
             (label :class "title" :text "${strings.wallpapers}")
             (scroll
-                :class "block sub_block"
-                :height 380
+                :class "sub_block"
+                :height 360
                 :vscroll true
                 :scrollspeed "24px"
                 (box
@@ -34,7 +34,7 @@
                     )
                 )
             )
-            (button :onclick "${EWW_CMD} close chg_bg" :class "block_btn" :style "margin: 20px; min-height:40px;" "${strings.cancel}")
+            (button :onclick "${EWW_CMD} close chg_bg" :class "block_btn" :style "margin: 15px; min-height:30px;" "${strings.cancel}")
         )
     )
 )

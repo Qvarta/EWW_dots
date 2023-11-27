@@ -2,7 +2,8 @@
 
 window_status(){
 
-  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list" "launcher") 
+  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list" "launcher" "desktop") 
+  
   declare -A results
 
   for item in "${window_list[@]}"; do
@@ -22,5 +23,16 @@ window_status(){
   json="${json%, *} }"
   echo "$json" | jq -r .
 }
+toggle_window(){
+  local status="$(eww get windows_status | jq ".$1" | sed 's/"//g')"
+  echo $(eww $status $1)
+}
 
-window_status
+case "$1" in
+  "status")
+    window_status
+    ;;
+  "toggle")
+    toggle_window desktop
+    ;;
+esac

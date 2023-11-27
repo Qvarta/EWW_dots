@@ -54,7 +54,7 @@
   (eventbox
     :onclick "./scripts/applications create & ${EWW_CMD} ${windows_status.launcher} launcher"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   " 
-    (label :class "bar_icon" :text " ")  
+    (label :class "bar_icon color_green" :text " ")  
   )
 )
 (defwidget player-widget [available status title artist position]
@@ -138,7 +138,7 @@
     (box
       :class "bar_module barRight"
       :space-evenly false
-      (label :class "bar_icon" :text "${power_rev == 'false' ? ' ' : '󰅙  '}")
+      (label :class "bar_icon color_red" :text "${power_rev == 'false' ? ' ' : '󰅙  '}")
       (revealer
         :transition "slideright"
         :reveal power_rev

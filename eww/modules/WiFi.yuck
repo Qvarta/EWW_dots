@@ -1,86 +1,81 @@
 (defwindow net_list
-    :monitor "0"
-    :namespace "WIFI_LIST"
-    :geometry (geometry
-                :x "0%"
-                :y "0%"
-                :width "400px"
-                :height "100px"
-                :anchor "center")
-    (net_list)
+  :monitor "0"
+  :namespace "WIFI_LIST"
+  :geometry (geometry
+    :x "20%"
+    :y "0%"
+    :width "300px"
+    :height "200px"
+  :anchor "right top")
+  (net_list)
 )
 
 (defwidget net_list[]
-    (eventbox
-        :class "main_container"
-        :style "padding:5px;"
-        (box
-            :space-evenly false
-            :orientation "v"
-            (label :class "title" :text "WiFi")
-            (box
-                :style "margin: 10px;"
-                :class "block"
-                :orientation "v"
-                :spacing 10
-                :space-evenly false
-                (box
-                    (label :text "${strings.name}" :class "block_medium_text")
-                    (label :text "${strings.signal}" :class "block_medium_text")
-                )
-                (scroll
-                    :height 100
-                    :vscroll true
-                    :scrollspeed "24px"
-                    (box
-                        :space-evenly false
-                        :orientation "v"
-                        :spacing 10
-                        (for entry in list_net
-                            (eventbox 
-                                :class "block_btn"
-                                :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
-                                (box
-                                    :class "entry_block"
-                                    (label :text "${entry.ssid}" :class "block_medium_text")
-                                    (label :text "${entry.signal}" :class "block_medium_text")
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-            (box
-                (button :onclick "./scripts/wifi cache" :class "block_btn" :style "margin: 10px 20px;min-height: 40px;" "${strings.update}")    
-                (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" :style "margin: 10px 20px;min-height: 40px;" "${strings.cancel}")
-            )
-        )
-    )
-)
-(defwindow connect_network 
-    :monitor "0"
-    :namespace "control-center"
-    :geometry (geometry
-                :width "100px"
-                :height "100px"
-                :anchor "center")
-    :focusable "true"
-    (connect_network)
-)
-(defwidget connect_network[]
+  (box
+    :class "main_container"
+    :style "padding:5px;"
     (box
-        :class "main_container"
-        :orientation "v"
+      :style "margin: 20px;"
+      :orientation "v"
+      :spacing 10
+      :space-evenly false
+      (scroll_widget)
+      (box
         :spacing 10
-        (label :text "${strings.password} ${strings.for} ${new_ssid}" :class "block_medium_text")
-        (box
-            :class "main_container"
-            (input
-                :password true
-                :class "block_medium_text"
-                :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
-            )
-        )
-        (button :onclick "${EWW_CMD} close connect_network" :class "block_btn" :style "margin: 20px;" "${strings.cancel}")   
+        (button :onclick "./scripts/wifi cache" :class "block_btn" :style "min-height: 30px;" "${strings.update}")
+        (button :onclick "${EWW_CMD} ${windows_status.net_list} net_list" :class "block_btn" "${strings.cancel}")
+      )
     )
+  )
+)
+(defwidget scroll_widget[]
+  (scroll
+    :height 220
+    :vscroll true
+    :scrollspeed "24px"
+    (box
+      :space-evenly false
+      :orientation "v"
+      :spacing 10
+      (for entry in list_net
+        (eventbox
+          :class "block_btn"
+          :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
+          (box
+            :class "entry_block"
+            :space-evenly false
+            (label :text "${substring(entry.ssid, 0, 20)}" :class "block_medium_text")
+            (label :text "" :hexpand true)
+            (label :text "${entry.signal}" :class "block_medium_text")
+          )
+        )
+      )
+    )
+  )
+)
+(defwindow connect_network
+  :monitor "0"
+  :namespace "control-center"
+  :geometry (geometry
+    :x "20%"
+    :y "0%"
+    :width "100px"
+    :height "100px"
+  :anchor "right top")
+  :focusable "true"
+  (connect)
+)
+(defwidget connect[]
+  (box
+    :class "main_container"
+    :orientation "v"
+    :spacing 20
+    (label :text "${strings.password} ${strings.for} ${new_ssid}" :class "block_medium_text")
+    (input
+      :password true
+      :class "input block_medium_text"
+      :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
+    )
+    (button :onclick "${EWW_CMD} close connect_network" :class "block_btn" "${strings.cancel}")
+  )
 )

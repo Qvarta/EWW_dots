@@ -1,15 +1,24 @@
 #!/bin/bash
+source $HOME/.config/eww/var.conf
 
-icon_dir="$HOME/.icons/Gruvbox/48/apps"
+# icon_dir="$HOME/.icons/Gruvbox/48/apps"
 desktop_dir="/usr/share/applications"
 temp_folder="/tmp/eww"
 tmp_file="applications.json"
-terminal="kitty"
-hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings")
+favorites_app="fav.json"
+# terminal="kitty"
+# hide=("Avahi" "Wayland" "lstopo" "Qt" "About" "Icon Browser" "YAD settings" "Vim" "LibreOffice Math" "LibreOffice Impress" "LibreOffice Draw" "LibreOffice Base")
+# list=("Pinta" "ranger" "Htop" "Telegram Desktop" "Kooha" "PortProton")
 
+favorites(){
+    input=$(cat $temp_folder/$tmp_file | jq -r '.')
+
+    filtered=$(echo "${input}" | jq --argjson SET_FAV "$(printf '%s\n' "${SET_FAV[@]}" | jq -R . | jq -s .)" 'map(select(.app as $a | $SET_FAV | index($a)))')
+    echo "${filtered}" > $temp_folder/$favorites_app
+}
 get_icon_path() (
     local icon_name="$1"
-    found_file=$(find -L "$icon_dir" -type f -name "*$icon_name*" -print -quit)
+    found_file=$(find -L "$SET_ICONS" -type f -name "*$icon_name*" -print -quit)
     if [ -n "$found_file" ]; then
         echo $found_file
     else
@@ -38,11 +47,11 @@ create_app_list(){
                     command="gtk-launch $desktop" 
                 else
                     exec=$(get_field "$desktop_file" "Exec")
-                    command="$terminal $exec" 
+                    command="$SET_TERM $exec" 
                 fi        
                 # Проверка, содержит ли Name подстроки из массива hide
                 skip=false
-                for substring in "${hide[@]}"; do
+                for substring in "${SET_HIDE[@]}"; do
                     if [[ "$name" == *"$substring"* ]]; then
                         skip=true
                         break
@@ -53,6 +62,8 @@ create_app_list(){
                 if [ "$skip" == false ] && [ -n "$name" ]; then
                     json_array+=("{\"app\":\"$name\", \"icon_name\":\"$icon\", \"icon\":\"$icon_path\", \"path\":\"$desktop\",\"en\":\"$comment\",\"ru\":\"$comment_ru\", \"command\":\"$command\"}")
                 fi
+                # Проверка, есть ли "app" в списке fav
+
             fi
         fi
     done
@@ -61,9 +72,10 @@ create_app_list(){
     fi
     rm -f "$temp_folder/$tmp_file"
     echo "["$(IFS=,; echo "${json_array[*]}")"]" >> $temp_folder/$tmp_file
+    favorites
 }
 get_app_list(){
-    local app_json=$(cat $temp_folder/$tmp_file)
+    local app_json=$(cat $1)
     echo $app_json | jq -r .
 }
 case "$1" in
@@ -71,6 +83,9 @@ case "$1" in
     create_app_list
     ;;
   "get")
-    get_app_list
+    get_app_list $temp_folder/$tmp_file
+    ;;
+  "fav")
+    get_app_list $temp_folder/$favorites_app
     ;;
 esac

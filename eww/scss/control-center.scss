@@ -5,7 +5,7 @@
     background-position: center;
     background-repeat: no-repeat;
     border-radius: 10px;
-    border: 2px solid $gray;  
+    // border: 1px solid $gray;  
 }
 .flat{
     min-height:40px;
@@ -24,18 +24,14 @@
     min-width: 40px;
     background-size:80%;
 }
-.border_red{
-    border-color: $red;
+.btn_active{
+    background-color: $select;
+    border: $border;
 }
-.border_green{
-    border-color: $green;
-}
-.border_yellow{
-    border-color: $yellow;
+.btn_on{
+    background-color: $select;
 }
 .big_block{
-    background-color: transparent; 
-    min-height: 200px;
     padding: 10px;
     &:hover{
         .btn{
@@ -73,7 +69,7 @@
 }
 .slider_scale trough highlight {
     background-color: $softgray;
-    border: $border;
+    // border: $border;
     border-radius: 12px;
 }
 //  ---------------------------------------------------------------------------
@@ -108,13 +104,13 @@
 //  ---------------------------------------------------------------------------
 .val{
     font-size: 20px;
-    background-color: $bg1;
+    background-color: $select;
     padding: 5px;
     border-radius: 6px;
 }
 .duration {
     font-size: 12px;
-    background-color: $bg1;
+    background-color: $select;
     padding: 5px;
     border-radius: 6px;
 }

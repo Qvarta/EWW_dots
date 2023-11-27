@@ -1,0 +1,118 @@
+#!/usr/bin/env bash
+lang="ru"
+id="468390"
+lat="53.14806"
+lon="38.09924"
+api_key="49991515aef07e6b0dff336b19fd6109"
+tmp_file="weather.json"
+# temp_folder="/tmp/eww"
+temp_folder="tmp_app"
+
+URL="api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&appid=${api_key}&units=metric&lang=${lang}"
+headers='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.95 Safari/537.36'
+
+
+get_json() {
+    response=$(curl -s -H "${headers}" "${URL}")
+
+    if [ $? -eq 0 ]; then
+        echo ok
+        # transform_json "${response}"
+        echo $response  >> "tmp_app/testweather.json"
+    else
+        echo not
+        exit 1
+    fi
+}
+echo_json(){
+    echo $(cat $temp_folder/$tmp_file) | jq -r
+}
+test(){
+  test_json=$(cat "tmp_app/openweather.json")
+  transform_json "${test_json}"
+}
+convert_degrees_to_direction() {
+    local degrees=$1
+    local direction=""
+    
+    if (($degrees >= 0 && $degrees <= 11)) || (($degrees > 348 && $degrees <= 360)); then
+        direction="С"
+    elif (($degrees > 11 && $degrees <= 33)); then
+        direction="ССВ"
+    elif (($degrees > 33 && $degrees <= 56)); then
+        direction="ВСВ"
+    elif (($degrees > 56 && $degrees <= 78)); then
+        direction="В"
+    elif (($degrees > 78 && $degrees <= 101)); then
+        direction="ВЮВ"
+    elif (($degrees > 101 && $degrees <= 123)); then
+        direction="ЮВ"
+    elif (($degrees > 123 && $degrees <= 146)); then
+        direction="ЮЮВ"
+    elif (($degrees > 146 && $degrees <= 168)); then
+        direction="Ю"
+    elif (($degrees > 168 && $degrees <= 191)); then
+        direction="ЮЮЗ"
+    elif (($degrees > 191 && $degrees <= 213)); then
+        direction="ЮЗ"
+    elif (($degrees > 213 && $degrees <= 236)); then
+        direction="ЗЮЗ"
+    elif (($degrees > 236 && $degrees <= 258)); then
+        direction="З"
+    elif (($degrees > 258 && $degrees <= 281)); then
+        direction="ЗСЗ"
+    elif (($degrees > 281 && $degrees <= 303)); then
+        direction="СЗ"
+    elif (($degrees > 303 && $degrees <= 326)); then
+        direction="ССЗ"
+    elif (($degrees > 326 && $degrees <= 348)); then
+        direction="СЗ"
+    else
+        direction=""
+    fi
+    
+    echo $direction
+}
+transform_json() {
+  input_json=$1
+  in_date=""
+  rm -f "$temp_folder/$tmp_file"
+
+  echo "{" >> "$temp_folder/$tmp_file"
+  first_date=true
+  jq -c '.list[]' <<< "$input_json" | while read i; do
+    dt=$(jq '.dt' <<< "$i")
+    date=$(date -ud @${dt} '+%d.%m')
+    time=$(date -ud @${dt} '+%H:%M')
+
+    temp=$(jq '.main.temp' <<< "$i")
+    humidity=$(jq '.main.humidity' <<< "$i")
+    pressure=$(jq '.main.pressure' <<< "$i")
+    description=$(jq '.weather[0].description' <<< "$i" | sed 's/"//g')
+    icon=$(jq '.weather[0].icon' <<< "$i" | sed 's/"//g')
+    icon_path="https://openweathermap.org/img/wn/$icon@2x.png"
+    wind_deg=$(jq '.wind.deg' <<< "$i")
+    wind_dir=$(convert_degrees_to_direction $wind_deg)
+    wind_speed=$(jq '.wind.speed' <<< "$i")
+
+    if [ "${in_date}" != "${date}" ]; then
+      if [ "${in_date}" != "" ]; then
+        echo "}," >> "$temp_folder/$tmp_file"
+      fi
+      in_date=${date}
+      echo "\"$in_date\":{" >> "$temp_folder/$tmp_file"
+      first_time=true
+    fi
+
+    if [ "${first_time}" == "false" ]; then
+      echo "," >> "$temp_folder/$tmp_file"
+    fi
+    first_time=false
+    echo "\"$time\":{\"temp\":\"$temp\", \"humidity\":\"$humidity\", \"pressure\":\"$pressure\", \"wind_dir\":\"$wind_dir\", \"wind_speed\":\"$wind_speed\", \"description\":\"$description\",\"icon\":\"$icon_path\"}" >> "$temp_folder/$tmp_file"
+  done
+  echo "}}" >> "$temp_folder/$tmp_file"
+}
+
+get_json
+# test
+# echo_json
