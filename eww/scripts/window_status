@@ -24,8 +24,12 @@ window_status(){
   echo "$json" | jq -r .
 }
 toggle_window(){
-  local status="$(eww get windows_status | jq ".$1" | sed 's/"//g')"
-  echo $(eww $status $1)
+  local state=$(eww windows | grep "$1" | cut -c1)
+  if [[ "$state" == "*" ]]; then
+    echo $(eww close $1)
+  else
+    echo $(eww open $1)
+  fi
 }
 
 case "$1" in
@@ -33,6 +37,6 @@ case "$1" in
     window_status
     ;;
   "toggle")
-    toggle_window desktop
+    toggle_window $2
     ;;
 esac
