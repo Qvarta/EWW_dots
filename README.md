@@ -3,7 +3,11 @@
 
 This is my personal eww dotfiles repository. All widgets are EWW.
 
+OLD:
 ![preview](eww/images/screenshot/1.jpg)
+
+NEW(at work...):
+https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/b4bea2cf-bab9-4639-9bde-b8ec41dc4c35
 
 ### Requirements
 
