@@ -1,7 +1,7 @@
 ; ---------------------------------------------------------------------------
 ;                               TITLE WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget title [?class ?iconL text ?iconR1 ?action1 ?visible1 ?iconR2 ?action2 ?visible2]
+(defwidget title [?class ?iconL ?text ?iconR1 ?action1 ?visible1 ?iconR2 ?action2 ?visible2]
   (box
     :space-evenly false
     :spacing 10

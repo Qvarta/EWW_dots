@@ -11,7 +11,6 @@
     (eventbox
       :visible {visible}
       :onscroll "${EWW_CMD} update weather_rev=${!weather_rev}"
-      ; :onhoverlost "${EWW_CMD} update cDay=1"
       :vexpand true
       (overlay
         (current_day :current {weather_json[0]})

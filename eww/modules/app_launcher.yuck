@@ -18,7 +18,7 @@
     :orientation "v"
     (title
       :text {strings.app}
-      :iconL " "
+      :iconL " "
       :iconR1 " "
       :action1 "${EWW_CMD} ${windows_status.launcher} launcher"
       :visible1 true

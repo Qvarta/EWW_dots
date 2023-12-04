@@ -2,7 +2,7 @@
   :monitor "0"
   :namespace "WIFI_LIST"
   :geometry (geometry
-    :x "23%"
+    :x "21%"
     :y "0%"
     :width "350px"
     :height "100px"
@@ -58,10 +58,10 @@
   :monitor "0"
   :namespace "control-center"
   :geometry (geometry
-    :x "23%"
+    :x "21%"
     :y "0%"
     :width "100px"
-    :height "50px"
+    :height "30px"
   :anchor "right top")
   :focusable "true"
   (connect)
@@ -70,23 +70,30 @@
   (box
     :class "main_container connect"
     :orientation "v"
+    :space-evenly false
+    :spacing 10
     (title
+      :iconL "󱛀 "
       :text "${strings.password}"
-      :iconL "󰿂 "
-      :visible1 false
-      :visible1 false
-      
+      :iconR1 {password ? "󰛑 " : "󰛐 "} 
+      :action1 "${EWW_CMD} update password=${!password}"
+      :visible1 true
+      :iconR2 " "
+      :action2 "${EWW_CMD} close connect_network"
+      :visible2 true
     )
     (box
       :orientation "v"
-      :spacing 10
+      :style "margin-top: 20px;"
+      :width 250
+
       (input
-        :password true
+        :password {password}
         :class "input"
         :height 20
         :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
       )
-      (button :class "button" :onclick "${EWW_CMD} close connect_network" "${strings.cancel}")
+      ; (button :class "button" :onclick "${EWW_CMD} close connect_network" "${strings.cancel}")
     )
   )
 )

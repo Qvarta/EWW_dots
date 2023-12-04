@@ -41,6 +41,7 @@
 (defpoll day :initial "1" :interval "1h" "date '+%d'")
 (defpoll year :initial "2000" :interval "24h" "date '+%Y'")
 
+
 (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
 
 (defvar power_rev false)
@@ -56,7 +57,7 @@
 
 (defvar power_info "none")
 (defvar power_command "none")
-
+(defvar password false)
 
 ; ---------------------------------------------------------------------------
 ;                                MAIN WINDOW
