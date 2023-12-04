@@ -3,7 +3,7 @@
 
 This is my personal eww dotfiles repository. All widgets are EWW.
 
-NEW(at work...):
+at work...
 
 
 
