@@ -3,9 +3,6 @@
 
 This is my personal eww dotfiles repository. All widgets are EWW.
 
-OLD:
-![preview](eww/images/screenshot/1.jpg)
-
 NEW(at work...):
 
 
