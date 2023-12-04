@@ -1,0 +1,70 @@
+//  ---------------------------------------------------------------------------
+//                                Bar Widgets
+//  ---------------------------------------------------------------------------
+.bar {
+  background-color: $bg1;
+  border: $border;
+  border-radius: 20px;
+  padding: 2px 10px;
+
+  .bar_module {
+    margin: 5px 1px;
+    padding: 0 15px;
+
+    &.left {
+      border-radius: 10px 0 0 10px;
+      background-color: $bg3;
+    }
+
+    &.right {
+      border-radius: 0 10px 10px 0;
+      background-color: $bg3;
+    }
+  }
+
+  .bar_icon {
+    padding: 0px 8px;
+    font-size: 18px;
+  }
+
+  .boldText {
+    font-size: 18px;
+    font-weight: bold;
+  }
+
+  .mediumText {
+    font-size: 18px;
+  }
+
+  .smallText {
+    font-size: 16px;
+  }
+}
+
+//  ---------------------------------------------------------------------------
+//                               Workspaces Widget
+//  ---------------------------------------------------------------------------
+
+.workspacesBox {
+  border-radius: $border_radius;
+  margin: 10px 3px;
+
+  &.inactive {
+    padding: 0 15px;
+    background-color: $softgray;
+
+    &:hover {
+      background-color: $yellow;
+    }
+  }
+
+  &.empty {
+    padding: 0 15px;
+    background-color: $fg2;
+  }
+
+  &.active {
+    padding: 0 30px;
+    background-color: $yellow;
+  }
+}

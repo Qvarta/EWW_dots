@@ -1,0 +1,32 @@
+; ---------------------------------------------------------------------------
+;                               BOTTOM WIDGET
+; ---------------------------------------------------------------------------
+(defwidget bottom [sensor]
+  (box
+    :class "monitor"
+    :spacing 15
+    (eventbox
+      :class "lblBtn"
+      :onclick "${EWW_CMD} update graphs_rev=${!graphs_rev}"
+      (label :class "icon" :text " ")
+    )
+    (eventbox
+      :class "${cGraph == 'RAM' && graphs_rev == true ? 'btn active' : ''}"
+      :height 40
+      :onclick "${EWW_CMD} update cGraph='RAM'"
+      (label :text "󰍛 ${round(EWW_RAM.used_mem_perc, 0)}%" :class "text")
+    )
+    (eventbox
+      :class "${cGraph == 'CPU' && graphs_rev == true ? 'btn active' : ''}"
+      :height 40
+      :onclick "${EWW_CMD} update cGraph='CPU'"
+      (label :text " ${round(EWW_CPU.avg, 0)}%" :class "text")
+    )
+    (eventbox
+      :class "${cGraph == 'TEMP' && graphs_rev == true ? 'btn active' : ''}"
+      :height 40
+      :onclick "${EWW_CMD} update cGraph='TEMP'"
+      (label :text " ${EWW_TEMPS[sensor]}°C" :class "text")
+    )
+  )
+)

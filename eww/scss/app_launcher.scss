@@ -1,0 +1,50 @@
+.launcher {
+  .fav_icon {
+    border: $border;
+    border-color: transparent;
+    border-radius: 6px;
+  }
+  .launcherInputBox {
+    border-radius: 10px;
+    background-color: $bg4;
+    margin: 5px 10px;
+  }
+  .launcherInputIcon{
+    font-size: 28px;
+    padding: 0 10px;
+  }
+  .launcherInput{
+    font-size: 22px;
+    border-radius: 0 10px 10px 0;
+    background-color: $bg3;
+  }
+  .fav_btn:hover {
+    .fav_icon {
+      background-color: $softgray;
+      border-color: $yellow;
+    }
+  }
+
+  .app_btn {
+    background-color: $bg3;
+    border-radius: 6px;
+
+    &:hover {
+      background-color: $softgray;
+      border: $border;
+      border-color: $yellow;
+    }
+  }
+
+  .entry {
+    padding: 5px 20px;
+  }
+
+  .mediumText {
+    font-size: 18px;
+  }
+
+  .smallText {
+    font-size: 16px;
+  }
+}

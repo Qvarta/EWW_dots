@@ -1,0 +1,34 @@
+.bg {
+  .button {
+    background-color: $bg2;
+    border-radius: 5px;
+    min-height: 30px;
+    border: $border;
+    border-color: transparent;
+
+    &:hover {
+      background-color: $softgray;
+      border: $border;
+      border-color: $yellow;
+    }
+  }
+  .imgContainer {
+    border: $border;
+    padding: 5px;
+    border-radius: 10px;
+  }
+  .img {
+    min-height: 90px;
+    background-size: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  .imgBtn:hover {
+    .imgContainer {
+      border-color: $yellow;
+    }
+    .img {
+      background-size: 120%;
+    }
+  }
+}

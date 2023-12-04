@@ -1,0 +1,52 @@
+; ---------------------------------------------------------------------------
+;                               QUICK BUTTON WIDGET
+; ---------------------------------------------------------------------------
+(defwidget quickButtons[]
+  (box
+    :spacing 10
+    :class "QuickBtns"
+    (quickBtn
+      :name {wifi_info.ssid}
+      :icon "  "
+      :arrow true
+      :action1 "./scripts/wifi toggle"
+      :action2 "${EWW_CMD} ${windows_status.net_list} net_list"
+      :visible true
+    )
+    (quickBtn
+      :name {bluetooth_state}
+      :icon "󰂯 "
+      :arrow false
+      :action1 "./scripts/bluetooth toggle"
+      :visible false
+    )
+  )
+)
+(defwidget quickBtn[name icon arrow action1 ?action2 visible]
+  (box
+    :class "quickBtn"
+    :space-evenly false
+    (eventbox
+      :class "${arrow ? 'btnLeft' : 'btn'}"
+      :onclick action1
+      :hexpand true
+      (box
+        :hexpand true
+        :space-evenly false
+        (label  :class "btnIcon" :text icon)
+        (label
+          :class "btnText"
+          :hexpand true
+          :halign "start"
+          :text "${name == 'on' ? '${strings.unblocked}' : name == 'off' ? '${strings.blocked}' : substring(name, 0, 10)}"
+        )
+      )
+    )
+    (eventbox
+      :onclick action2
+      :visible visible
+      :class "btnRight ${arrow ? 'dark' : ''}"
+      (label :class "iconArrow" :text "${arrow ? '' : ''}")
+    )
+  )
+)

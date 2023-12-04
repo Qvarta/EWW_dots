@@ -1,0 +1,56 @@
+@import './vars.scss';
+@import './bar.scss';
+@import './calendar.scss';
+@import './desktop.scss';
+@import './title.scss';
+@import './screenshot.scss';
+@import './background.scss';
+@import './app_launcher.scss';
+@import './control_center.scss';
+@import './wifi.scss';
+@import './power.scss';
+
+//  ---------------------------------------------------------------------------
+//                                     Window
+//  ---------------------------------------------------------------------------
+* {
+  all: unset;
+  font-family: "Iosevka NF";
+  font-size: 16px;
+  transition: all 0.3s ease-out;
+  color: $fg1;
+  background-color: transparent;
+  text-shadow: $text_shadow;
+}
+.main_container{
+  background-color: $bg1;
+  border-radius: $border_radius;
+  padding: 15px;
+  margin: 10px;
+  border: $border2;
+}
+.block {
+  background-color: $bg3; 
+  border-radius: 10px;
+  padding: 10px;
+  // border: $border;
+}
+.red {
+  color: $red;
+}
+.green {
+  color: $green;
+}
+.yellow {
+  color: $yellow;
+}
+//  ---------------------------------------------------------------------------
+//                                  Tooltip 
+//  ---------------------------------------------------------------------------
+tooltip{
+  border-radius: 5px;
+  border: $border;
+  color: $fg1;
+  text-shadow: $text_shadow;
+  background-color: $bg1;
+}

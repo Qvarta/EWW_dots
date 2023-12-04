@@ -1,0 +1,85 @@
+; ---------------------------------------------------------------------------
+;                               SLIDER WIDGET
+; ---------------------------------------------------------------------------
+(defwidget sliders[]
+  (box
+    ; :class "block"
+    :space-evenly false
+    :spacing 10
+    :orientation "v"
+    (box
+      :space-evenly false
+      (slider
+        :class {sound_info.sound_status == 'yes' ? '' : 'off'}
+        :level {sound_info.sound_volume}
+        :action "amixer sset Master {}%"
+        :icon  {sound_info.sound_status == 'yes' ? '󰕾 ' : '󰖁 '}
+        :onclick "./scripts/sound sound_toggle"
+        :full false
+        :button true
+        :active {sound_info.sound_status == 'yes' ? 'true' : 'false'}
+      )
+      (button
+        :onclick "${EWW_CMD} update sliders_rev=${!sliders_rev}"
+        :class "sliderArrow"
+        :halign "end"
+        (label :text {sliders_rev ? " " : " "})
+      )
+    )
+    (revealer
+      :reveal sliders_rev
+      :transition "slidedown"
+      (box
+        :orientation "v"
+        :spacing 10
+        (slider
+          :class {sound_info.mic_status == 'yes' ? '' : 'off'}
+          :level {sound_info.mic_volume}
+          :action "amixer sset Capture {}%"
+          :icon {sound_info.mic_status == 'yes' ? ' ' : ' '}
+          :onclick "./scripts/sound mic_toggle"
+          :full true
+          :button true
+          :active {sound_info.mic_status == 'yes' ? 'true' : 'false'}
+        )
+        (slider
+          :level {brightness}
+          :max_level {vars_info.max_brightness}
+          :action "brightnessctl set {}"
+          :icon " "
+          :full true
+          :button false
+        )
+      )
+    )
+  )
+)
+(defwidget slider [level ?max_level action icon ?onclick full button ?class ?active]
+  (box
+    :class "quickSlider ${full ? 'full' : ''}"
+    :space-evenly false
+    :spacing 10
+    :hexpand true
+    (eventbox
+      :onclick onclick
+      :class "sliderBtn"
+      (label
+        :class  {button ? 'aciveIcon' : 'sliderIcon'}
+        :text icon
+        :halign "end"
+      )
+    )
+    (scale
+      :flipped false
+      :active "${active}"
+      :hexpand true
+      :class "sliderScale ${class}"
+      :value level
+      :draw-value false
+      :min 0
+      :max max_level
+      :onchange action
+    )
+    
+  )
+)

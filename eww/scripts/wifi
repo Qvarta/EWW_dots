@@ -1,0 +1,77 @@
+#!/bin/bash
+source $HOME/.config/eww/var.conf
+temp_folder="/tmp/eww"
+tmp_file="wifi.json"
+
+wifi_info(){
+  local json=$(jq -n \
+    --arg icon "$(wifi_icon)" \
+    --arg ssid "$(wifi_ssid)" \
+    --arg status "$(nmcli radio wifi)" \
+    '{icon: $icon, ssid: $ssid, status: $status}')
+  echo "$json" | jq -r .
+}
+cache_wifi(){
+  if [ -d "$temp_folder" ]; then
+    mkdir -p "$temp_folder"
+  fi
+  rm -f "$temp_folder/$tmp_file"
+  local json=$(nmcli -t -f SSID,SIGNAL device wifi list | awk -F: '{printf "{\"ssid\":\"%s\",\"signal\":\"%s\"},",$1,$2}')
+  json="[${json%?}]"
+  echo "$json" | jq 'map(select(.ssid != ""))' >> $temp_folder/$tmp_file  
+}
+wifi_icon() {
+  local strength=$(iwconfig $SET_WIFI | grep "Link Quality=" | awk -F'=' '{ print $2 }' | awk -F'/' '{ print $1 }')
+  local level=$(echo "$((strength*100/70))")
+  level=${level%.*}
+  if [ $level -ge 1 ] && [ $level -le 30 ]; then
+    echo "󰤟 "
+  elif [ $level -ge 31 ] && [ $level -le 60 ]; then
+    echo "󰤢 "
+  elif [ $level -ge 61 ] && [ $level -le 100 ]; then
+    echo "󰤨 "
+  else
+    echo "󰤭 "
+  fi
+}
+wifi_ssid() {
+  local is_blocked=`iwconfig $SET_WIFI | grep -oP 'Tx-Power=\K([^ ]+)'| xargs`
+  local state=`iwconfig $SET_WIFI | grep ESSID | awk -F':' '{ print $2 }' | xargs`
+
+  if [[ $is_blocked == "off" ]]; then
+    echo "off"
+  elif [[ $state == "off/any" ]]; then
+    echo "on"
+  else
+    iwconfig $SET_WIFI | grep ESSID | awk -F'"' '{ print $2 }'
+  fi
+}
+get_wifi_list() {
+  local wifi_json=$(cat $temp_folder/$tmp_file)
+  echo $wifi_json | jq -r .
+}
+connect_wifi(){
+    if nmcli device wifi connect $1 password $2 &> /dev/null; then
+        notify-send  "Сonnected" -i $HOME/.config/eww/images/ui/wifi.png
+    else
+        notify-send  "Error: Invalid password" -i $HOME/.config/eww/images/ui/error.png
+    fi
+}
+
+case "$1" in
+  "info")
+    wifi_info
+    ;;
+  "cache")
+    cache_wifi
+    ;;
+  "toggle")
+    rfkill toggle wifi
+    ;;
+  "get")
+    get_wifi_list
+    ;;
+  "connect")
+    connect_wifi $2 $3
+    ;;
+esac

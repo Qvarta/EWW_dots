@@ -1,0 +1,56 @@
+//  ---------------------------------------------------------------------------
+//                                QUICK BUTTON WIDGET
+//  ---------------------------------------------------------------------------
+.QuickBtns {
+  margin-bottom: 10px;
+
+  .quickBtn {
+    min-height: 50px;
+
+    .btn {
+      border-radius: 10px;
+      background-color: $bg3;
+
+      &:hover {
+        background-color: $softgray;
+      }
+    }
+
+    .btnLeft {
+      border-radius: 10px 0 0 10px;
+      background-color: $bg3;
+      font-size: 24px;
+
+      &:hover {
+        background-color: $softgray;
+      }
+    }
+
+    .btnRight {
+      border-radius: 0 10px 10px 0;
+      background-color: $bg3;
+
+      &.dark {
+        background-color: $bg4;
+
+        &:hover {
+          background-color: $softgray;
+        }
+      }
+    }
+
+    .btnIcon {
+      font-size: 27px;
+      padding-left: 20px;
+      min-width: 40px;
+    }
+
+    .iconArrow {
+      min-width: 40px;
+    }
+
+    .btnText {
+      font-weight: bold;
+    }
+  }
+}

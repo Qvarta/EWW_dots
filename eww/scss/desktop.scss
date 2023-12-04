@@ -1,0 +1,11 @@
+.desktopText {
+  color: $fg1;
+  font-weight: bold;
+  background-color: transparent;
+  &.medium {
+    font-size: 22px;
+  }
+  &.small {
+    font-size: 18px;
+  }
+}

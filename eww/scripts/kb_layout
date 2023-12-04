@@ -1,0 +1,16 @@
+#!/usr/bin/sh
+source $HOME/.config/eww/var.conf
+
+get_layout() {
+	LAYOUT=$(hyprctl devices | grep -A 2 "$SET_KB" | grep keymap | awk '{ print $3 }')
+	[[ "$LAYOUT" == "English" ]] && echo "EN" || echo "RU" 
+}
+
+if [[ "$1" == "swkb" ]]; then
+	hyprctl switchxkblayout $SET_KB next
+elif [[ "$1" == "getkb" ]]; then
+	get_layout
+elif [[ "$1" == "setkb" ]]; then
+	hyprctl switchxkblayout $SET_KB 0
+fi
+

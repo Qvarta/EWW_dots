@@ -1,0 +1,92 @@
+(defwindow net_list
+  :monitor "0"
+  :namespace "WIFI_LIST"
+  :geometry (geometry
+    :x "23%"
+    :y "0%"
+    :width "350px"
+    :height "100px"
+  :anchor "right top")
+  (net_list)
+)
+(defwidget net_list[]
+  (box
+    :class "main_container wifiList"
+    :orientation "v"
+    :spacing 10
+    :space-evenly false
+    (title
+      :text {strings.net_list}
+      :iconL " "
+      :iconR2 " "
+      :action2 "${EWW_CMD} ${windows_status.net_list} net_list"
+      :visible2 true
+      :iconR1 "󰚰 "
+      :action1 "./scripts/wifi cache"
+      :visible1 true
+    )
+    (scroll_widget)
+  )
+)
+(defwidget scroll_widget[]
+  (scroll
+    :height 180
+    :vscroll true
+    :scrollspeed "24px"
+    :class "scroll"
+    (box
+      :space-evenly false
+      :orientation "v"
+      :spacing 10
+      (for entry in list_net
+        (eventbox
+          :class "button"
+          :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
+          (box
+            :class "entry"
+            :space-evenly false
+            (label :text "${substring(entry.ssid, 0, 20)}" :class "text")
+            (label :text "" :hexpand true)
+            (label :text "${entry.signal}" :class "text")
+          )
+        )
+      )
+    )
+  )
+)
+(defwindow connect_network
+  :monitor "0"
+  :namespace "control-center"
+  :geometry (geometry
+    :x "23%"
+    :y "0%"
+    :width "100px"
+    :height "50px"
+  :anchor "right top")
+  :focusable "true"
+  (connect)
+)
+(defwidget connect[]
+  (box
+    :class "main_container connect"
+    :orientation "v"
+    (title
+      :text "${strings.password}"
+      :iconL "󰿂 "
+      :visible1 false
+      :visible1 false
+      
+    )
+    (box
+      :orientation "v"
+      :spacing 10
+      (input
+        :password true
+        :class "input"
+        :height 20
+        :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
+      )
+      (button :class "button" :onclick "${EWW_CMD} close connect_network" "${strings.cancel}")
+    )
+  )
+)

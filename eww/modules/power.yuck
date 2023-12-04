@@ -1,0 +1,39 @@
+(defwindow power
+  :monitor "0"
+  :namespace "power"
+  :geometry (geometry
+    :x "1%"
+    :y "2%"
+    :width "250px"
+    :height "100px"
+  :anchor "center")
+  (confirm_exit :text {power_info} :command {power_command})
+)
+(defwidget confirm_exit[text command]
+  (box
+    :orientation "v"
+    :space-evenly false
+    :class "main_container confirm"
+    
+    (title
+      :text text
+      :iconL " "
+      :visible1 false
+      :visible2 false
+    )
+    (box
+      :class "container"
+      :spacing 20
+      (eventbox
+        :class "button"
+        :onclick "${EWW_CMD} close power && ${command} "
+        (label :text "${strings.yes}" :height 30)
+      )
+      (eventbox
+        :class "button"
+        :onclick "${EWW_CMD} close power "
+        (label :text "${strings.no}" :height 30)
+      )
+    )
+  )
+)

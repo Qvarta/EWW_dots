@@ -1,0 +1,44 @@
+; ---------------------------------------------------------------------------
+;                               PLAYER WIDGET
+; ---------------------------------------------------------------------------
+(defwidget player [available style]
+  (box
+    :class "block player"
+    :visible "${available =='off' ? false : true}"
+    :space-evenly false
+    :spacing 20
+    (box
+      :class "cover"
+      :width 100
+      :style style
+    )
+    (box
+      :orientation "v"
+      :space-evenly false
+      :spacing 5
+      :valign "center"
+      :hexpand true
+      (label :class "artist" :text "${track_info.available == 'on' ? substring(track_info.title, 0, 20) :'No track to play'}")
+      (label :class "song" :text "${track_info.artist}"  :visible "${track_info.available == 'on' ? true : false}")
+      (box
+        :class "buttons"
+        :spacing 10
+        (eventbox
+          :class "button"
+          :onclick "cmus-remote -r"
+          (label :class "iconBtn" :text " ")
+        )
+        (eventbox
+          :class "button"
+          :onclick "cmus-remote -u"
+          (label :class "iconBtn" :text {track_info.status=='playing' ? ' ' : ''})
+        )
+        (eventbox
+          :class "button"
+          :onclick "cmus-remote -n"
+          (label :class "iconBtn" :text " ")
+        )
+      )
+    )
+  )
+)

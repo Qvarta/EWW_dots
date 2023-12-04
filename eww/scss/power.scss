@@ -1,0 +1,18 @@
+.confirm {
+  .button {
+    background-color: $bg2;
+    border-radius: 5px;
+    font-size: 20px;
+    border: $border;
+    border-color: transparent;
+
+    &:hover {
+      background-color: $softgray;
+      border: $border;
+      border-color: $yellow;
+    }
+  }
+  .container {
+    margin: 10px;
+  }
+}

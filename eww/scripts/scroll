@@ -1,0 +1,15 @@
+#!/bin/bash
+
+scroll_track(){
+    if [[ $1 == 'up' ]]; then
+        cmus-remote -n
+    elif [[ $1 == 'down' ]]; then
+        cmus-remote -r
+    fi
+}
+
+case $1 in
+    track)
+        scroll_track $2
+        ;;
+esac

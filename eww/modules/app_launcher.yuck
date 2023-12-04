@@ -1,0 +1,107 @@
+(defwindow launcher
+  :monitor "0"
+  :windowtype "dialog"
+  :focusable true
+  :namespace "launcher"
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "420px"
+    :height "300px"
+  :anchor "top left")
+  (applications)
+)
+(defwidget applications[]
+  (box
+    :space-evenly false
+    :class "main_container launcher"
+    :orientation "v"
+    (title
+      :text {strings.app}
+      :iconL " "
+      :iconR1 " "
+      :action1 "${EWW_CMD} ${windows_status.launcher} launcher"
+      :visible1 true
+      :visible2 false
+    )
+    (box
+      :space-evenly false
+      :class "launcherInputBox"
+      :spacing 10
+      
+      (label
+        :text "󱎰 "
+        :class "launcherInputIcon"
+      )
+      (input
+        :class "launcherInput"
+        :hexpand true
+        :onchange "./scripts/applications filter {}"
+        :onaccept "${EWW_CMD} ${windows_status.launcher} launcher"
+      )
+    )
+    (box
+      :style "padding: 20px 0;"
+      (list_app :list {filtred_app})
+    )
+    (list_favorites :list {favorites_app})
+  )
+)
+(defwidget list_favorites[list]
+  (box
+    :spacing 10
+    (for entry in list
+      (eventbox
+        :class "fav_btn"
+        :onclick "${entry.command} & ${EWW_CMD} ${windows_status.launcher} launcher"
+        (image
+          :class "fav_icon"
+          :image-width 34
+          :image-height 34
+          :path "${entry.icon =='None' ? 'images/ui/no_image.png' : entry.icon}"
+        )
+      )
+    )
+  )
+)
+(defwidget list_app[list]
+  (scroll
+    :height 400
+    :vscroll true
+    (box
+      :orientation "v"
+      :spacing 10
+      :space-evenly false
+      (for entry in list
+        (eventbox
+          :tooltip "${vars_info.lang =='EN' ? entry.en : entry.ru == '' ? entry.en : entry.ru}"
+          :class "app_btn"
+          :onclick "${entry.command} & ${EWW_CMD} ${windows_status.launcher} launcher"
+          :height 20
+          (box
+            :class "entry"
+            :space-evenly false
+            :spacing 20
+            (image
+              :path "${entry.icon =='None' ? 'images/ui/no_image.png' : entry.icon}"
+              :image-width 48
+              :image-height 48
+              :halign "start"
+            )
+            (box
+              :orientation "v"
+              :space-evenly false
+              (label :text "${entry.app}" :class "mediumText" :halign "start")
+              (label
+                :text "${vars_info.lang =='EN' ? substring(entry.en, 0, 32): substring(entry.ru, 0, 32)}"
+                :class "smallText"
+                :visible "${entry.ru =='' ? false : true}"
+                :halign "start"
+              )
+            )
+          )
+        )
+      )
+    )
+  )
+)

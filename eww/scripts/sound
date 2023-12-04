@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+
+# @requires: pactl
+
+get_info(){
+    local json=$(jq -n \
+      --arg mic_status "$(amixer get Capture | grep -q '\[off\]' && echo "no" || echo "yes")" \
+      --arg sound_status "$(amixer get Master | grep -q '\[off\]' && echo "no" || echo "yes")" \
+      --arg mic_volume "$(amixer sget Capture | grep -oP -m 1 '\[\K\d+(?=%)')" \
+      --arg sound_volume "$(amixer sget Master | grep -oP -m 1 '\[\K\d+(?=%)')" \
+      '{mic_status: $mic_status, sound_status: $sound_status, mic_volume: $mic_volume, sound_volume: $sound_volume}')
+
+    echo "$json" | jq -r .
+}
+
+case $1 in
+    info)
+        get_info
+        ;;
+    mic_toggle)
+        amixer set Capture toggle
+        ;;
+    sound_toggle)
+        amixer set Master toggle
+        ;;
+esac

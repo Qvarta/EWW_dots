@@ -1,0 +1,110 @@
+#!/bin/bash
+source $HOME/.config/eww/var.conf
+
+desktop_dir="/usr/share/applications"
+temp_folder="/tmp/eww"
+list_app="applications.json"
+filtered="filtered.json"
+favorites_app="favorites.json"
+
+favorites(){
+    input=$(cat $temp_folder/$list_app | jq -r '.')
+
+    filtered=$(echo "${input}" | jq --argjson SET_FAV "$(printf '%s\n' "${SET_FAV[@]}" | jq -R . | jq -s .)" 'map(select(.app as $a | $SET_FAV | index($a)))')
+    echo "${filtered}" > $temp_folder/$favorites_app
+}
+get_icon_path() (
+    local icon_name="$1"
+    found_file=$(find -L "$SET_ICONS" -type f -name "*$icon_name*" -print -quit)
+    if [ -n "$found_file" ]; then
+        echo $found_file
+    else
+        echo "None"
+    fi
+)
+get_field() {
+    local desktop_file="$1"
+    local field_name="$2"
+    awk -F= -v field="$field_name" '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && $1 == field { print $2 }' "$desktop_file"
+}
+create_app_list(){
+    local json_array=()
+    for desktop_file in "$desktop_dir"/*.desktop; do
+        # Проверка, существует ли файл
+        if [ -e "$desktop_file" ]; then
+            # Проверка наличия строки NoDisplay=true в файле .desktop
+            if ! grep -q "NoDisplay=true" "$desktop_file"; then
+                name=$(get_field "$desktop_file" "Name")
+                icon=$(get_field "$desktop_file" "Icon")
+                comment=$(get_field "$desktop_file" "Comment")
+                comment_ru=$(get_field "$desktop_file" "Comment[ru]")
+                desktop=$(basename $desktop_file)
+                icon_path=$(get_icon_path "$icon")
+                if ! grep -q "Terminal=true" "$desktop_file"; then
+                    command="gtk-launch $desktop" 
+                else
+                    exec=$(get_field "$desktop_file" "Exec")
+                    command="$SET_TERM $exec" 
+                fi        
+                # Проверка, содержит ли Name подстроки из массива hide
+                skip=false
+                for substring in "${SET_HIDE[@]}"; do
+                    if [[ "$name" == *"$substring"* ]]; then
+                        skip=true
+                        break
+                    fi
+                done
+                # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
+                if [ "$skip" == false ] && [ -n "$name" ]; then
+                    new_entry=$(jq -n \
+                    --arg name "$name" \
+                    --arg icon "$icon" \
+                    --arg icon_path "$icon_path" \
+                    --arg desktop "$desktop" \
+                    --arg comment "$comment" \
+                    --arg comment_ru "$comment_ru" \
+                    --arg command "$command" \
+                    '{app: $name, icon_name: $icon, icon: $icon_path, path: $desktop, en: $comment, ru: $comment_ru, command: $command}')
+                    json_array+=("$new_entry")
+                fi
+            fi
+        fi
+    done
+    if [ -d "$temp_folder" ]; then
+         mkdir -p "$temp_folder"
+    fi
+    rm -f "$temp_folder/$list_app"
+    echo '['$(IFS=,; echo "${json_array[*]}")']' > $temp_folder/$list_app    
+}
+get_list(){
+    local app_json=$(cat $1)
+    echo $app_json | jq -r .
+}
+filter_json() {
+    favorites
+    local input_string=${1,,}
+    local input_json=$(cat $temp_folder/$list_app)
+    filtered_json=$(echo "$input_json" | jq --arg input_string "$input_string" '[.[] | select(.app | ascii_downcase | contains($input_string))]')
+    echo "$filtered_json" > $temp_folder/$filtered
+}
+get_filtered(){
+    local app_json=$(cat $1)
+    echo $app_json | jq -r .
+}
+case "$1" in
+  "create")
+    create_app_list
+    ;;
+  "get")
+    get_list $temp_folder/$list_app
+    ;;
+  "fav")
+    get_list $temp_folder/$favorites_app
+    ;;
+  "filter")
+    filter_json $2
+    ;;
+  "filtered")
+    get_filtered $temp_folder/$filtered
+    ;;
+esac

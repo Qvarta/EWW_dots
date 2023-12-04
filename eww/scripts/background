@@ -1,0 +1,70 @@
+#!/bin/bash
+
+# @requires: imagemagick
+
+source $HOME/.config/eww/var.conf
+cache_folder="/tmp/eww/thumbnails"
+
+create_thumbnails(){
+    if [ ! -d "$cache_folder" ]; then
+        mkdir -p "$cache_folder"
+    fi
+
+    for file in $SET_BG/*; do
+        extension="${file##*.}"
+        extension_lc="${extension,,}"
+
+        # Check if the file has a valid extension
+        if [[ "$extension_lc" == "jpg" || "$extension_lc" == "jpeg" || "$extension_lc" == "png" ]]; then
+            destination="$cache_folder/$(basename "$file")"
+            if [ ! -e "$destination" ]; then
+                convert "$file" -resize 10% "$destination"
+            fi
+        fi
+    done
+}
+get_bg(){
+    json="["
+    first="true"
+    count=0
+    in_line=4
+
+    for file in $SET_BG/*; do
+        if [ -f "$file" ]; then
+            if [ "$first" = "true" ]; then
+                json+="["
+                first="false"
+            else
+                if [ $((count % $in_line)) -eq 0 ]; then
+                    json+="],["
+                else
+                    json+=","
+                fi
+            fi
+            json+="{\"style\":\"background-image: url('$cache_folder/$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
+            count=$((count + 1))
+        fi
+    done
+
+    json+="]]"
+    
+    echo $json | jq -r .
+}
+chg_bg(){
+    swww img $1
+}
+
+
+
+case $1 in
+    cache)
+        create_thumbnails
+        ;;
+    get)
+        get_bg
+        ;;
+    set)
+        chg_bg $2
+        ;;
+
+esac

@@ -1,0 +1,52 @@
+//  ---------------------------------------------------------------------------
+//                                SLIDER WIDGET
+//  ---------------------------------------------------------------------------
+.sliderArrow {
+  background-color: $bg4;
+  min-width: 30px;
+  border-radius: 0 10px 10px 0;
+  &:hover {
+    background-color: $softgray;
+  }
+}
+.quickSlider {
+  background-color: $bg3;
+  padding: 0 15px;
+  border-radius: 10px 0 0 10px;
+  &.full {
+    border-radius: 10px;
+  }
+  .sliderScale {
+    trough {
+      background-color: $softgray;
+      min-height: 10px;
+      border-radius: 5px;
+
+      highlight {
+        background-color: $yellow;
+        border-radius: 12px;
+      }
+    }
+    &.off {
+      highlight {
+        background-color: $select;
+      }
+    }
+  }
+  .aciveIcon {
+    font-size: 30px;
+  }
+  .sliderIcon {
+    font-size: 30px;
+  }
+
+  .sliderBtn {
+    padding: 12px;
+    background-color: $bg3;
+    &:hover {
+      .aciveIcon {
+        color: $softgray;
+      }
+    }
+  }
+}

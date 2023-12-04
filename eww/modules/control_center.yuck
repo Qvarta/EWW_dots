@@ -1,0 +1,40 @@
+(include "modules/control_center/top.yuck")
+(include "modules/control_center/controls.yuck")
+(include "modules/control_center/slider.yuck")
+(include "modules/control_center/weather.yuck")
+(include "modules/control_center/player.yuck")
+(include "modules/control_center/graph.yuck")
+(include "modules/control_center/bottom.yuck")
+
+; ---------------------------------------------------------------------------
+;                               CONTROL-CENTER-WINDOW
+; ---------------------------------------------------------------------------
+(defwindow control-center
+  :monitor "0"
+  :namespace "control-center"
+  :geometry (geometry :width "150px" :height "200px" :anchor "top right")
+  (control-center)
+)
+; ---------------------------------------------------------------------------
+;                               MAIN WIDGET
+; ---------------------------------------------------------------------------
+(defwidget control-center []
+  (box
+    :orientation "v"
+    :space-evenly false
+    :class "main_container"
+    :spacing 10
+    (top)
+    (box
+      :space-evenly false
+      :orientation "v"
+      (quickButtons)
+      (sliders)
+    )
+    (weather :visible "${weather_json!= '[]' && weather_json[0].icon != 'null' ? true : false}")
+    (player :available {track_info.available} :style {track_info.style})
+    (graphs :sensor {vars_info.sensor})
+    (bottom :sensor {vars_info.sensor})
+  )
+)
+
