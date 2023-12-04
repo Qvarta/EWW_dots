@@ -4,7 +4,7 @@ source $HOME/.config/eww/var.conf
 desktop_dir="/usr/share/applications"
 temp_folder="/tmp/eww"
 list_app="applications.json"
-filtered="filtered.json"
+filter="filtered.json"
 favorites_app="favorites.json"
 
 favorites(){
@@ -85,10 +85,10 @@ filter_json() {
     local input_string=${1,,}
     local input_json=$(cat $temp_folder/$list_app)
     filtered_json=$(echo "$input_json" | jq --arg input_string "$input_string" '[.[] | select(.app | ascii_downcase | contains($input_string))]')
-    echo "$filtered_json" > $temp_folder/$filtered
+    echo "$filtered_json" > $temp_folder/$filter
 }
 get_filtered(){
-    local app_json=$(cat $1)
+    local app_json=$(cat $temp_folder/$filter)
     echo $app_json | jq -r .
 }
 case "$1" in
@@ -105,6 +105,6 @@ case "$1" in
     filter_json $2
     ;;
   "filtered")
-    get_filtered $temp_folder/$filtered
+    get_filtered
     ;;
 esac
