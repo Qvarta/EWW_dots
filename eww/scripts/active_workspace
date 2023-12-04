@@ -1,7 +1,0 @@
-#!/usr/bin/env bash
-
-# Получение активного рабочего стола
-hyprctl activeworkspace -j | jq -r '.id'
-socat -u UNIX-CONNECT:/tmp/hypr/$HYPRLAND_INSTANCE_SIGNATURE/.socket2.sock - |
-  stdbuf -o0 awk -F '>>|,' -e '/^workspace>>/ {print $2}' -e '/^focusedmon>>/ {print $3}'
-
