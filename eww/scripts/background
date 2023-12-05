@@ -41,6 +41,9 @@ get_bg(){
                     json+=","
                 fi
             fi
+                # style="background-image: url(\"$cache_folder/$(basename "$file")\")"
+                # path="$SET_BG$(basename "$file")"
+                # json[-1]+=$(jq -n --arg style "$style" --arg path "$path" '{style: $style, path: $path}')
             json+="{\"style\":\"background-image: url('$cache_folder/$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
             count=$((count + 1))
         fi

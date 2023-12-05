@@ -1,21 +1,17 @@
 #!/bin/bash
+eww_output=$(eww windows)
 
 window_status(){
-
-  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list" "launcher") 
-  
   declare -A results
-
+  window_list=("control" "screenshot" "chg_bg" "calendar" "net_list" "launcher") 
   for item in "${window_list[@]}"; do
-    state=$(eww windows | grep "$item" | cut -c1)
-    
+    state=$(echo "$eww_output" | grep "$item" | cut -c1)
     if [[ "$state" == "*" ]]; then
       results["$item"]="close"
     else
       results["$item"]="open"
     fi
   done
-
   json="{"
   for key in "${!results[@]}"; do
     json+="\"$key\":\"${results[$key]}\", "
@@ -24,7 +20,7 @@ window_status(){
   echo "$json" | jq -r .
 }
 toggle_window(){
-  local state=$(eww windows | grep "$1" | cut -c1)
+  local state=$(echo "$eww_output" | grep "$1" | cut -c1)
   if [[ "$state" == "*" ]]; then
     echo $(eww close $1)
   else

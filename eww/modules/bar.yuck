@@ -57,25 +57,30 @@
   )
 )
 (defwidget player-widget [available status title artist position]
-  (eventbox
-    :onclick "cmus-remote -u"
-    :onscroll "./scripts/scroll track {}"
-    :visible "${available =='off' ? false : true}"
-    (box
-      :space-evenly false
+  (revealer
+    :reveal  "${available =='off' ? false : true}"
+    :transition "slideright"
+    :duration "350ms"
+    (eventbox
+      :onclick "cmus-remote -u"
+      :onscroll "./scripts/scroll track {}"
+      :visible "${available =='off' ? false : true}"
       (box
         :space-evenly false
-        :class "bar_module left"
-        :spacing 5
-        (label :class "boldText" :text "${title=='' ? 'Track not selected' : '${artist}:'}")
-        (label :class "smallText" :text title :visible {title ? true : false})
+        (box
+          :space-evenly false
+          :class "bar_module left"
+          :spacing 5
+          (label :class "boldText" :text "${title=='' ? 'Track not selected' : '${artist}:'}")
+          (label :class "smallText" :text title :visible {title ? true : false})
+        )
+        (box
+          :class "bar_module right"
+          (label :class "smallText" :text position)
+        )
       )
-      (box
-        :class "bar_module right"
-        (label :class "smallText" :text position)
-      )
+      
     )
-    
   )
 )
 ; ---------------------------------------------------------------------------

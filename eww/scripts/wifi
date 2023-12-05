@@ -3,14 +3,16 @@ source $HOME/.config/eww/var.conf
 temp_folder="/tmp/eww"
 tmp_file="wifi.json"
 
-wifi_info(){
-  local json=$(jq -n \
+
+wifi_info() {
+  local wifiInfo=$(jq -n \
     --arg icon "$(wifi_icon)" \
     --arg ssid "$(wifi_ssid)" \
     --arg status "$(nmcli radio wifi)" \
     '{icon: $icon, ssid: $ssid, status: $status}')
-  echo "$json" | jq -r .
+  jq -r . <<< "$wifiInfo"
 }
+
 cache_wifi(){
   if [ -d "$temp_folder" ]; then
     mkdir -p "$temp_folder"

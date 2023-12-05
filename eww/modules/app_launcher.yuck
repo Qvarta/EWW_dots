@@ -1,6 +1,7 @@
 (defwindow launcher
   :monitor "0"
   :windowtype "dialog"
+  :stacking "overlay"
   :focusable true
   :namespace "launcher"
   :geometry (geometry

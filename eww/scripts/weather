@@ -25,7 +25,6 @@ get_json() {
     if [ $? -eq 0 ]; then
         create_new_json "${response}"
     else
-        echo "[]" | jq -r .
         exit 1
     fi
 }
@@ -52,21 +51,12 @@ create_new_json() {
         temp_min=$(echo "${line}" | jq -r '.Temperature.Minimum.Value' | awk '{printf("%.1f°C\n", $1)}')
         icon=$(echo "${line}" | jq -r '.Day.Icon')
         
-        icon_values=$(echo "${icons_json}" | jq -r '.["'"$icon"'"]')
-        icon_value=$(echo "${icon_values}" | jq -r '.[0]')
-        
-        if [[ $SET_LANG == "RU" ]]; then
-            icon_phrase=$(echo "${icon_values}" | jq -r '.[1]')
-        else 
-             icon_phrase=$(echo "${icon_values}" | jq -r '.[2]')
-        fi
-        
-        if [ -z "$icon_value" ]; then
-            icon_value="$icon"
-        fi
+        icon_value=$(echo "${icons_json}" | jq -r '.["'"$icon"'"][0]')
 
-        if [ -z "$icon_phrase" ]; then
-            icon_phrase="$icon_value"
+        if [[ $SET_LANG == "RU" ]]; then
+            icon_phrase=$(echo "${icons_json}" | jq -r '.["'"$icon"'"][1]')
+        else 
+            icon_phrase=$(echo "${icons_json}" | jq -r '.["'"$icon"'"][2]')
         fi
 
         new_entry=$(jq -n \

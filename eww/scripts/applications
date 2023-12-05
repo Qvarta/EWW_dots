@@ -9,7 +9,6 @@ favorites_app="favorites.json"
 
 favorites(){
     input=$(cat $temp_folder/$list_app | jq -r '.')
-
     filtered=$(echo "${input}" | jq --argjson SET_FAV "$(printf '%s\n' "${SET_FAV[@]}" | jq -R . | jq -s .)" 'map(select(.app as $a | $SET_FAV | index($a)))')
     echo "${filtered}" > $temp_folder/$favorites_app
 }
@@ -27,7 +26,7 @@ get_field() {
     local field_name="$2"
     awk -F= -v field="$field_name" '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && $1 == field { print $2 }' "$desktop_file"
 }
-create_app_list(){
+create_list(){
     local json_array=()
     for desktop_file in "$desktop_dir"/*.desktop; do
         # Проверка, существует ли файл
@@ -93,7 +92,7 @@ get_filtered(){
 }
 case "$1" in
   "create")
-    create_app_list
+    create_list
     ;;
   "get")
     get_list $temp_folder/$list_app
