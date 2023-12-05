@@ -1,5 +1,5 @@
 {
-    "stings":{
+    "strings":{
         "network":["Wifi","Wifi"],
         "logoff":["Exit","Завершить сеанс"],
         "reboot":["Reboot","Перезагрузка"],

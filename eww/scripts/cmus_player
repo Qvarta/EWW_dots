@@ -2,45 +2,39 @@
 
 temp_folder="/tmp"
 default_style="background-image: url('images/ui/default.jpg');"
+player_status=$(cmus-remote -C status | grep status | awk {'print $2'})
+player_tags=$(cmus-remote -Q)
 
 check_available() {
-  # [ ! pgrep -x "cmus" > /dev/null ] && echo "off" || echo "on"
   if ! pgrep -x "cmus" > /dev/null; then
     echo "off"
   else
     echo "on"
   fi
 }
-get_status() {
-  echo $(cmus-remote -C status | grep status | awk {'print $2'})
-}
 get_tag(){
-    tag=$(cmus-remote -Q | grep -w "tag $1" | cut -d ' ' -f 3-)
+    tag=$(echo "$player_tags" | grep -w "tag $1" | cut -d ' ' -f 3-)
     echo $tag
 }
 get_abs_duration(){
-    echo $(cmus-remote -Q | grep -w "duration" | awk '{ print $2}')
+    echo $(echo "$player_tags" | grep -w "duration" | awk '{ print $2}')
 }
 get_abs_position(){
-  abs_position=$(cmus-remote -Q | grep -w "position" | awk '{ print $2}')
+  abs_position=$(echo "$player_tags" | grep -w "position" | awk '{ print $2}')
   if [[ $abs_position -le 2 ]]; then
     get_cover
   fi
   echo $abs_position
 }
 convert(){
-  abs_value=$(cmus-remote -Q | grep -w "$1" | awk '{ print $2}')
+  abs_value=$(echo "$player_tags" | grep -w "$1" | awk '{ print $2}')
   minutes=$((abs_value / 60))
   seconds=$((abs_value % 60))
-  if [ $seconds -lt 10 ]; then
-      converted_value="${minutes}:0${seconds}"
-  else
-      converted_value="${minutes}:${seconds}"
-  fi
-  echo $converted_value 
+  converted_value=$(printf "%d:%02d" $minutes $seconds)
+  echo "$converted_value"
 }
 get_cover(){
-  mp3_file=`cmus-remote -Q | grep "file" | awk -F 'file ' '{print $2}'`
+  mp3_file=`echo "$player_tags" | grep "file" | awk -F 'file ' '{print $2}'`
   rm -f "$temp_folder/cover.jpg"
   ffmpeg -i "$mp3_file" -an -vcodec copy "$temp_folder/cover.jpg" 2>/dev/null 
 }
@@ -52,7 +46,7 @@ track_info(){
   if [[ $(check_available) == "on" ]]; then
     local json=$(jq -n \
       --arg available "$(check_available)" \
-      --arg status "$(get_status)" \
+      --arg status $player_status \
       --arg title "$(get_tag title)" \
       --arg artist "$(get_tag artist)" \
       --arg album "$(get_tag album)" \

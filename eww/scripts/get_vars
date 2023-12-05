@@ -12,14 +12,14 @@ get_vars(){
       '{user: $user, lang: $lang, battery: $battery, max_brightness: $max_brightness, sensor: $sensor, scr_path: $scr_path}')
     echo "$json" | jq -r .
 }
-get_srings(){
+get_strings(){
     local lang=$(echo $SET_LANG)
     local file="$HOME/.config/eww/jsons/string.json"
 
     if [ "$lang" == "EN" ]; then
-        jq -r '.stings | to_entries | map({(.key): .value[0]}) | add' "$file"
+        jq -r '.strings | to_entries | map({(.key): .value[0]}) | add' "$file"
     elif [ "$lang" == "RU" ]; then
-        jq -r '.stings | to_entries | map({(.key): .value[1]}) | add' "$file"
+        jq -r '.strings | to_entries | map({(.key): .value[1]}) | add' "$file"
     fi
 }
 
@@ -28,7 +28,7 @@ case $1 in
         get_vars
         ;;
     strings)
-        get_srings
+        get_strings
         ;;
 esac
 
