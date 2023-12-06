@@ -2,9 +2,10 @@
 //                                Player Widget
 //  ---------------------------------------------------------------------------
 .player {
-  .buttons {
-    min-width: 100px;
-    min-height: 50px;
+  .Right {
+    border-radius: 0 10px 10px 0;
+    background-color: $bg4;
+    padding: 10px 0;
     .button {
       border-radius: 10px;
       .iconBtn {
@@ -17,29 +18,42 @@
         }
       }
     }
+  }
+  .Left {
+    .cover {
+      background-size: cover;
+      border-radius: 10px 0 0 10px;
 
-    .play {
-      background-image: url("images/ui/play.png");
+      background-position: center;
+      background-repeat: no-repeat;
     }
-
-    .pause {
-      background-image: url("images/ui/pause.png");
+    .translucent {
+      border-radius: 10px 0 0 10px;
+      background-color: $select;
     }
-  }
-
-  .artist {
-    font-size: 18px;
-    font-weight: bold;
-  }
-
-  .song {
-    font-size: 16px;
-  }
-
-  .cover {
-    border-radius: 10px;
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
+    .info {
+      padding: 0 10px;
+      .artist {
+        color:rgb(226, 224, 224);
+        font-size: 24px;
+        font-weight: bold;
+      }
+      .track {
+        color:rgb(226, 224, 224);
+        font-size: 20px;
+      }
+    }
+    .sliderScale {
+      trough {
+        background-color: transparent;
+        min-height: 12px;
+  
+        highlight {
+          background-color: $gray;
+          border-top: 2px solid $bg1;
+          border-radius: 0 0 0 10px;
+        }
+      }
+    }
   }
 }

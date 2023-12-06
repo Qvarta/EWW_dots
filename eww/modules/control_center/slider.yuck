@@ -3,7 +3,6 @@
 ; ---------------------------------------------------------------------------
 (defwidget sliders[]
   (box
-    ; :class "block"
     :space-evenly false
     :spacing 10
     :orientation "v"

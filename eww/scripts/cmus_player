@@ -21,7 +21,7 @@ get_abs_duration(){
 }
 get_abs_position(){
   abs_position=$(echo "$player_tags" | grep -w "position" | awk '{ print $2}')
-  if [[ $abs_position -le 2 ]]; then
+  if [[ $abs_position -le 1 ]]; then
     get_cover
   fi
   echo $abs_position

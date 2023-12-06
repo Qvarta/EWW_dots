@@ -32,7 +32,12 @@
       (sliders)
     )
     (weather :visible "${weather_json!= '[]' && weather_json[0].icon != 'null' ? true : false}")
-    (player :available {track_info.available} :style {track_info.style})
+    (player 
+      :available {track_info.available} 
+      :style {track_info.style} 
+      :level {track_info.abs_position}
+      :max_level {track_info.abs_duration}
+    )
     (graphs :sensor {vars_info.sensor})
     (bottom :sensor {vars_info.sensor})
   )

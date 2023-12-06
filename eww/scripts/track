@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# Задаем начальное значение информации о текущей песне
+previous_song=$(cmus-remote -Q | grep -Po "(?<=tag title ).*")
+
+# Бесконечный цикл для опроса состояния cmus
+while true; do
+    # Получаем текущую информацию о песне
+    current_song=$(cmus-remote -Q | grep -Po "(?<=tag title ).*")
+
+    # Проверяем, изменилась ли песня
+    if [[ "$current_song" != "$previous_song" ]]; then
+        # Выводим информацию о смене песни
+        artist=$(cmus-remote -Q | grep -Po "(?<=tag artist ).*")
+        title=$(cmus-remote -Q | grep -Po "(?<=tag title ).*")
+        album=$(cmus-remote -Q | grep -Po "(?<=tag album ).*")
+        echo "Сейчас играет: $artist - $title ($album)"
+
+        # Обновляем значение предыдущей песни
+        previous_song="$current_song"
+    fi
+
+    # Пауза для избежания частого опроса
+    sleep 1
+done

@@ -1,43 +1,63 @@
 ; ---------------------------------------------------------------------------
 ;                               PLAYER WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget player [available style]
+(defwidget player [available style level max_level]
   (box
-    :class "block player"
+    :class "player"
     :visible "${available =='off' ? false : true}"
     :space-evenly false
-    :spacing 20
-    (box
-      :class "cover"
-      :width 100
-      :style style
+    :height 130
+    :spacing 2
+    (overlay
+      :class "Left"
+      (box
+        :space-evenly false
+        :class "cover"
+        :spacing 5
+        :width 310
+        :hexpand true
+        :style style
+      )
+      (box
+        :class "translucent"
+      )
+      (box
+        :class "info"
+        :orientation "v"
+        :spacing 5
+        :valign "center"
+        (label :class "artist" :text "${track_info.artist}"  :visible "${track_info.available == 'on' ? true : false}")
+        (label :class "track" :text "${track_info.available == 'on' ? track_info.title :'No track to play'}")
+      )
+      (scale
+        :valign "end"
+        :class "sliderScale"
+        :value level
+        :min 0
+        :max max_level
+        :onchange "cmus-remote -k {}"
+      )
     )
     (box
+      :class "Right"
       :orientation "v"
-      :space-evenly false
-      :spacing 5
-      :valign "center"
-      :hexpand true
-      (label :class "artist" :text "${track_info.available == 'on' ? substring(track_info.title, 0, 20) :'No track to play'}")
-      (label :class "song" :text "${track_info.artist}"  :visible "${track_info.available == 'on' ? true : false}")
-      (box
-        :class "buttons"
-        :spacing 10
-        (eventbox
-          :class "button"
-          :onclick "cmus-remote -r"
-          (label :class "iconBtn" :text " ")
-        )
-        (eventbox
-          :class "button"
-          :onclick "cmus-remote -u"
-          (label :class "iconBtn" :text {track_info.status=='playing' ? ' ' : ''})
-        )
-        (eventbox
-          :class "button"
-          :onclick "cmus-remote -n"
-          (label :class "iconBtn" :text " ")
-        )
+      :halign "end"
+      :spacing 10
+      :width 50
+      (eventbox
+        :class "button"
+        :onclick "cmus-remote -r"
+        (label :class "iconBtn" :text " ")
+      )
+      (eventbox
+        :class "button"
+        :onclick "cmus-remote -u"
+        (label :class "iconBtn" :text {track_info.status=='playing' ? ' ' : ''})
+      )
+      (eventbox
+        :class "button"
+        :onclick "cmus-remote -n"
+        (label :class "iconBtn" :text " ")
       )
     )
   )
