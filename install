@@ -46,6 +46,7 @@ install_stage=(
     eww-git
     mako 
     swww 
+    swayidle
     swaylock-effects 
     wlogout 
     hyprshot
@@ -194,7 +195,7 @@ if [[ $CFG == "Y" || $CFG == "y" ]]; then
     echo -e "$CNT - Copying config files..."
     # Setup each appliaction
     # check for existing config folders and backup 
-    for DIR in hypr kitty mako swaylock wlogout rofi eww ranger cava cmus
+    for DIR in hypr kitty micro mako swaylock swayidle eww ranger cava cmus
     do 
         DIRPATH=~/.config/$DIR
         if [ -d "$DIRPATH" ]; then 
