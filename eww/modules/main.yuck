@@ -31,7 +31,7 @@
 (defpoll bluetooth_state :interval "1s" "./scripts/bluetooth name")
 (defpoll layout :interval "0.5s"  "./scripts/kb_layout getkb")
 (defpoll wifi_info :initial "[]" :interval "1s" "./scripts/wifi info")
-(defpoll wifi_cash :initial "[]" :interval "1h" "./scripts/wifi cache")
+(defpoll wifi_cash :initial "[]" :interval "10s" "./scripts/wifi cache")
 (defpoll list_net :initial "[]" :interval "1s" "./scripts/wifi get")
 (defpoll brightness :initial "255" :interval "1s" "brightnessctl g")
 
