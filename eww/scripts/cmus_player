@@ -43,22 +43,33 @@ get_style(){
   echo $style
 }
 track_info(){
-  if [[ $(check_available) == "on" ]]; then
+  local available=$(check_available)
+  if [[ $(echo $available) == "on" ]]; then
+    local title=$(get_tag title)
+    local artist=$(get_tag artist)
+    local album=$(get_tag album)
+    local abs_duration=$(get_abs_duration)
+    local duration=$(convert $abs_duration)
+    local abs_position=$(get_abs_position)
+    local position=$(convert $abs_position)
+    local style=$(get_style)
+
     local json=$(jq -n \
-      --arg available "$(check_available)" \
+      --arg available $available \
       --arg status $player_status \
-      --arg title "$(get_tag title)" \
-      --arg artist "$(get_tag artist)" \
-      --arg album "$(get_tag album)" \
-      --arg abs_duration "$(get_abs_duration)" \
-      --arg duration "$(convert $(get_abs_duration))" \
-      --arg abs_position "$(get_abs_position)" \
-      --arg position "$(convert $(get_abs_position))" \
-      --arg style "$(get_style)" \
+      --arg title "$title" \
+      --arg artist "$artist" \
+      --arg album "$album" \
+      --arg abs_duration "$abs_duration" \
+      --arg duration "$duration" \
+      --arg abs_position "$abs_position" \
+      --arg position "$position" \
+      --arg style "$style" \
       '{available: $available, status: $status, title: $title, artist: $artist, album: $album, album: $album, abs_duration: $abs_duration, abs_position: $abs_position, duration: $duration, position: $position, style: $style}')
   else
-    local json=$(jq -n --arg available "$(check_available)" '{available: $available}')
+    local json=$(jq -n --arg available $available '{available: $available}')
   fi
+
   echo "$json" | jq -r .
 }
 track_info
