@@ -46,16 +46,19 @@
       :width 50
       (eventbox
         :class "button"
+        :cursor "pointer"
         :onclick "cmus-remote -r"
         (label :class "iconBtn" :text " ")
       )
       (eventbox
         :class "button"
+        :cursor "pointer"
         :onclick "cmus-remote -u"
         (label :class "iconBtn" :text {track_info.status=='playing' ? ' ' : ''})
       )
       (eventbox
         :class "button"
+        :cursor "pointer"
         :onclick "cmus-remote -n"
         (label :class "iconBtn" :text " ")
       )

@@ -50,6 +50,7 @@
     :onclick "./scripts/background set ${path}"
     :timeout "5s"
     :class "imgBtn"
+    :cursor "pointer"
     (box
       :class "imgContainer"
       (box

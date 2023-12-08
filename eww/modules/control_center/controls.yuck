@@ -30,6 +30,7 @@
       :class "${arrow ? 'btnLeft' : 'btn'}"
       :onclick action1
       :hexpand true
+      :cursor "pointer"
       (box
         :hexpand true
         :space-evenly false
@@ -46,6 +47,7 @@
       :onclick action2
       :visible visible
       :class "btnRight ${arrow ? 'dark' : ''}"
+      :cursor "pointer"
       (label :class "iconArrow" :text "${arrow ? '' : ''}")
     )
   )

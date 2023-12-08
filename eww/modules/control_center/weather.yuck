@@ -92,6 +92,7 @@
   (eventbox
     :onclick "${EWW_CMD} update cDay=${number} && ${EWW_CMD} update weather_rev=${!weather_rev}"
     :class "day"
+    :cursor "pointer"
     (box
       :orientation "v"
       :spacing 5

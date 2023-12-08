@@ -53,6 +53,7 @@
     :spacing 10
     (for entry in list
       (eventbox
+        :cursor "pointer"
         :class "fav_btn"
         :onclick "${entry.command} & ${EWW_CMD} ${windows_status.launcher} launcher"
         (image
@@ -75,6 +76,7 @@
       :space-evenly false
       (for entry in list
         (eventbox
+          :cursor "pointer"
           :tooltip "${vars_info.lang =='EN' ? entry.en : entry.ru == '' ? entry.en : entry.ru}"
           :class "app_btn"
           :onclick "${entry.command} & ${EWW_CMD} ${windows_status.launcher} launcher"

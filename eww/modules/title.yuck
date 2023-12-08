@@ -13,6 +13,7 @@
       :space-evenly false
       (eventbox
         :class "titleBtn"
+        :cursor "pointer"
         :onclick action1
         :visible visible1
         :width 40
@@ -20,6 +21,7 @@
       )
       (eventbox
         :class "titleBtn"
+        :cursor "pointer"
         :onclick action2
         :visible visible2
         :width 40

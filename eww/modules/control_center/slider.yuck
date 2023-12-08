@@ -18,9 +18,11 @@
         :button true
         :active {sound_info.sound_status == 'yes' ? 'true' : 'false'}
       )
-      (button
+      (eventbox
         :onclick "${EWW_CMD} update sliders_rev=${!sliders_rev}"
         :class "sliderArrow"
+        :cursor "pointer"
+        :width 30
         :halign "end"
         (label :text {sliders_rev ? " " : " "})
       )
@@ -62,6 +64,7 @@
     (eventbox
       :onclick onclick
       :class "sliderBtn"
+      :cursor {button ? 'pointer' : ''}
       (label
         :class  {button ? 'aciveIcon' : 'sliderIcon'}
         :text icon

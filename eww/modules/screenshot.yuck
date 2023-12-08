@@ -30,6 +30,7 @@
   (eventbox
     :onclick action
     :class "shBtnBlock"
+    :cursor "pointer"
     (box
       :orientation "v"
       :space-evenly false

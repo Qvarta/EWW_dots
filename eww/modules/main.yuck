@@ -40,8 +40,7 @@
 (defpoll day :initial "1" :interval "1h" "date '+%d'")
 (defpoll year :initial "2000" :interval "24h" "date '+%Y'")
 
-; (defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
-(defpoll weather_json :initial "[]" :interval "10s" "./test/test_weather")
+(defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
 
 (defvar power_rev false)
 (defvar sliders_rev false)

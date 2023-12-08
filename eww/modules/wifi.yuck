@@ -41,6 +41,7 @@
       (for entry in list_net
         (eventbox
           :class "button"
+          :cursor "pointer"
           :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
           (box
             :class "entry"

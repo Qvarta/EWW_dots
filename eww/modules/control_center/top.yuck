@@ -30,12 +30,14 @@
         :class "titleBtn"
         :onclick "${EWW_CMD} ${windows_status.screenshot} screenshot"
         :width 40
+        :cursor "pointer"
         (label :class "iconR" :text "󰄄 ")
       )
       (eventbox
         :class "titleBtn"
         :onclick "./scripts/background cache & ${EWW_CMD} ${windows_status.chg_bg} chg_bg"
         :width 40
+        :cursor "pointer"
         (label :class "iconR" :text "󰹑 ")
       )
     )

@@ -24,6 +24,7 @@
 )
 (defwidget workspaces []
   (eventbox
+    :cursor "pointer"
     (box :space-evenly false
       (label :text "${current_workspace}" :visible false)
       (for workspace in workspaces
@@ -58,6 +59,7 @@
 (defwidget launcher-widget []
   (eventbox
     :onclick "./scripts/applications create & ./scripts/applications filter & ${EWW_CMD} ${windows_status.launcher} launcher"
+    :cursor "pointer"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   "
     (label :class "bar_icon green" :text " ")
   )
@@ -70,6 +72,7 @@
     (eventbox
       :onclick "cmus-remote -u"
       :onscroll "./scripts/scroll track {}"
+      :cursor "pointer"
       :visible "${available =='off' ? false : true}"
       (box
         :space-evenly false
@@ -92,12 +95,14 @@
     (eventbox
       :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
       :halign "start"
+      :cursor "pointer"
       (label :text "${hour}:${minute}" :class "boldText")
     )
   )
 )
 (defwidget language-widget [layout]
   (eventbox
+    :cursor "pointer"
     :onclick "./scripts/kb_layout swkb"
     (box
       :class "bar_module right"
@@ -107,6 +112,7 @@
 )
 (defwidget tray[]
   (eventbox
+    :cursor "pointer"
     :onclick "./scripts/wifi cache & ${EWW_CMD} ${windows_status.control} control-center"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
     (box
