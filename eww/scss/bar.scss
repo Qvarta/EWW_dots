@@ -21,6 +21,9 @@
       border-radius: 0 10px 10px 0;
       background-color: $bg4;
     }
+    &.stopped {
+      background-color: $bg4;
+    }
   }
 
   .bar_icon {

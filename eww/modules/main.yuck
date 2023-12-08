@@ -8,6 +8,7 @@
 (include "./modules/background.yuck")
 (include "./modules/app_launcher.yuck")
 (include "./modules/desktop.yuck")
+(include "./test/rr.yuck")
 ; ---------------------------------------------------------------------------
 ;                              VARS
 ; ---------------------------------------------------------------------------

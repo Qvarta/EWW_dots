@@ -13,11 +13,11 @@
     :space-evenly false
     :spacing 30
     (launcher-widget)
-    (player-widget 
-      :available {track_info.available} 
-      :status {windows_status.player} 
-      :title {track_info.title} 
-      :artist {track_info.artist} 
+    (player-widget
+      :available {track_info.available}
+      :status {windows_status.player}
+      :title {track_info.title}
+      :artist {track_info.artist}
       :play false
     )
   )
@@ -76,9 +76,11 @@
       :visible "${available =='off' ? false : true}"
       (box
         :space-evenly false
-        :class "bar_module"
+        :class "bar_module ${track_info.status=='stopped' ? 'stopped' :'' }"
         :spacing 5
-        (label :class "boldText ${track_info.status=='playing' ? 'yellow' : ''}" :text "${title=='' ? 'Track not selected' : '${artist}:'}")
+        (label
+          :class "boldText ${track_info.status=='playing' ? 'yellow' : ''}"
+          :text "${title=='' ? 'Click to play' : '${artist}:'}")
         (label :class "smallText" :text title :visible {title ? true : false})
       )
       

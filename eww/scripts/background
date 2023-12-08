@@ -28,22 +28,16 @@ create_thumbnails(){
     done
 }
 get_bg(){
-    json="["
-    first="true"
+    json="[["
     count=0
     in_line=4
 
     for file in $SET_BG/*; do
         if [ -f "$file" ]; then
-            if [ "$first" = "true" ]; then
-                json+="["
-                first="false"
-            else
                 if [ $((count % $in_line)) -eq 0 ]; then
                     json+="],["
                 else
                     json+=","
-                fi
             fi
             json+="{\"style\":\"background-image: url('$cache_folder/$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
             count=$((count + 1))
@@ -51,8 +45,7 @@ get_bg(){
     done
 
     json+="]]"
-    
-    echo $json | jq -r .
+    echo $json | jq 'map(select(length > 0))'
 }
 chg_bg(){
     swww img $1
