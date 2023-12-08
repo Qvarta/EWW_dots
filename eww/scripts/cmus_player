@@ -1,45 +1,32 @@
 #!/bin/bash
 
-temp_folder="/tmp"
+temp_folder="/tmp/eww/covers"
+
+if [ ! -d "$temp_folder" ]; then
+  mkdir -p "$temp_folder"
+fi
+
 default_style="background-image: url('images/ui/default.jpg');"
 player_status=$(cmus-remote -C status | grep status | awk {'print $2'})
 player_tags=$(cmus-remote -Q)
 
 check_available() {
-  if ! pgrep -x "cmus" > /dev/null; then
-    echo "off"
-  else
-    echo "on"
-  fi
+  pgrep -x "cmus" > /dev/null && echo "on" || echo "off"
 }
 get_tag(){
     tag=$(echo "$player_tags" | grep -w "tag $1" | cut -d ' ' -f 3-)
     echo $tag
 }
-get_abs_duration(){
-    echo $(echo "$player_tags" | grep -w "duration" | awk '{ print $2}')
-}
-get_abs_position(){
-  abs_position=$(echo "$player_tags" | grep -w "position" | awk '{ print $2}')
-  if [[ $abs_position -le 1 ]]; then
-    get_cover
-  fi
-  echo $abs_position
-}
-convert(){
-  abs_value=$(echo "$player_tags" | grep -w "$1" | awk '{ print $2}')
-  minutes=$((abs_value / 60))
-  seconds=$((abs_value % 60))
-  converted_value=$(printf "%d:%02d" $minutes $seconds)
-  echo "$converted_value"
-}
-get_cover(){
-  mp3_file=`echo "$player_tags" | grep "file" | awk -F 'file ' '{print $2}'`
-  rm -f "$temp_folder/cover.jpg"
-  ffmpeg -i "$mp3_file" -an -vcodec copy "$temp_folder/cover.jpg" 2>/dev/null 
+get_value(){
+  value=$(echo "$player_tags" | grep -w "$1" | awk '{ print $2}')
+  echo $value
 }
 get_style(){
-  style=$([ -e "$temp_folder/cover.jpg" ] && echo "background-image: url('$temp_folder/cover.jpg');" || echo $default_style)
+  mp3_file=`echo "$player_tags" | grep "file" | awk -F 'file ' '{print $2}'`
+  if [[ ! -f "$temp_folder/$1.jpg" ]]; then
+    ffmpeg -i "$mp3_file" -an -vcodec copy "$temp_folder/$1.jpg" 2>/dev/null
+  fi
+  style=$([ -e "$temp_folder/$1.jpg" ] && echo "background-image: url('$temp_folder/$1.jpg');" || echo $default_style)
   echo $style
 }
 track_info(){
@@ -48,12 +35,9 @@ track_info(){
     local title=$(get_tag title)
     local artist=$(get_tag artist)
     local album=$(get_tag album)
-    local abs_duration=$(get_abs_duration)
-    local duration=$(convert $abs_duration)
-    local abs_position=$(get_abs_position)
-    local position=$(convert $abs_position)
-    local style=$(get_style)
-
+    local duration=$(get_value duration)
+    local position=$(get_value position)
+    local style=$(get_style $title)
     local json=$(jq -n \
       --arg available $available \
       --arg status $player_status \
@@ -65,7 +49,7 @@ track_info(){
       --arg abs_position "$abs_position" \
       --arg position "$position" \
       --arg style "$style" \
-      '{available: $available, status: $status, title: $title, artist: $artist, album: $album, album: $album, abs_duration: $abs_duration, abs_position: $abs_position, duration: $duration, position: $position, style: $style}')
+      '{available: $available, status: $status, title: $title, artist: $artist, album: $album, album: $album, duration: $duration, position: $position, style: $style}')
   else
     local json=$(jq -n --arg available $available '{available: $available}')
   fi

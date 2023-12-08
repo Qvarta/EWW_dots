@@ -35,8 +35,8 @@
     (player 
       :available {track_info.available} 
       :style {track_info.style} 
-      :level {track_info.abs_position}
-      :max_level {track_info.abs_duration}
+      :level {track_info.position}
+      :max_level {track_info.duration}
     )
     (graphs :sensor {vars_info.sensor})
     (bottom :sensor {vars_info.sensor})

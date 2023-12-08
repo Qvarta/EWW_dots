@@ -5,6 +5,10 @@
 source $HOME/.config/eww/var.conf
 cache_folder="/tmp/eww/thumbnails"
 
+if [ ! -d "$cache_folder" ]; then
+  mkdir -p "$cache_folder"
+fi
+
 create_thumbnails(){
     if [ ! -d "$cache_folder" ]; then
         mkdir -p "$cache_folder"
@@ -53,8 +57,6 @@ get_bg(){
 chg_bg(){
     swww img $1
 }
-
-
 
 case $1 in
     cache)

@@ -13,7 +13,13 @@
     :space-evenly false
     :spacing 30
     (launcher-widget)
-    (player-widget :available {track_info.available} :status {windows_status.player} :title {track_info.title} :artist {track_info.artist} :position {track_info.position})
+    (player-widget 
+      :available {track_info.available} 
+      :status {windows_status.player} 
+      :title {track_info.title} 
+      :artist {track_info.artist} 
+      :play false
+    )
   )
 )
 (defwidget workspaces []
@@ -51,12 +57,12 @@
 ; ---------------------------------------------------------------------------
 (defwidget launcher-widget []
   (eventbox
-    :onclick "./scripts/applications filter & ${EWW_CMD} ${windows_status.launcher} launcher"
+    :onclick "./scripts/applications create & ./scripts/applications filter & ${EWW_CMD} ${windows_status.launcher} launcher"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   "
     (label :class "bar_icon green" :text " ")
   )
 )
-(defwidget player-widget [available status title artist position]
+(defwidget player-widget [available status title artist ?play]
   (revealer
     :reveal  "${available =='off' ? false : true}"
     :transition "slideright"
@@ -67,17 +73,10 @@
       :visible "${available =='off' ? false : true}"
       (box
         :space-evenly false
-        (box
-          :space-evenly false
-          :class "bar_module left"
-          :spacing 5
-          (label :class "boldText" :text "${title=='' ? 'Track not selected' : '${artist}:'}")
-          (label :class "smallText" :text title :visible {title ? true : false})
-        )
-        (box
-          :class "bar_module right"
-          (label :class "smallText" :text position)
-        )
+        :class "bar_module"
+        :spacing 5
+        (label :class "boldText ${track_info.status=='playing' ? 'yellow' : ''}" :text "${title=='' ? 'Track not selected' : '${artist}:'}")
+        (label :class "smallText" :text title :visible {title ? true : false})
       )
       
     )

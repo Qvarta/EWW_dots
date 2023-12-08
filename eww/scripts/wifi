@@ -53,10 +53,10 @@ get_wifi_list() {
   echo $wifi_json | jq -r .
 }
 connect_wifi(){
-    if nmcli device wifi connect $1 password $2 &> /dev/null; then
-        notify-send  "Сonnected" -i $HOME/.config/eww/images/ui/wifi.png
+    if !nmcli device wifi connect $1 password $2 &> /dev/null; then
+        notify-send  "Сonnected to $1"
     else
-        notify-send  "Error: Invalid password" -i $HOME/.config/eww/images/ui/error.png
+        notify-send  "Error: Invalid password for $1"
     fi
 }
 

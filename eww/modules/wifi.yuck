@@ -22,7 +22,7 @@
       :action2 "${EWW_CMD} ${windows_status.net_list} net_list"
       :visible2 true
       :iconR1 "󰚰 "
-      :action1 "./scripts/wifi cache"
+      :action1 "nmcli device wifi rescan & ./scripts/wifi cache"
       :visible1 true
     )
     (scroll_widget)
