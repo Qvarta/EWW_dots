@@ -18,11 +18,11 @@
     (title
       :text {strings.net_list}
       :iconL " "
-      :iconR2 " "
+      :iconR2 "󰅚 "
       :action2 "${EWW_CMD} ${windows_status.net_list} net_list"
       :visible2 true
       :iconR1 "󰚰 "
-      :action1 "nmcli device wifi rescan & ./scripts/wifi cache"
+      :action1 "nmcli device wifi rescan"
       :visible1 true
     )
     (scroll_widget)
@@ -79,7 +79,7 @@
       :iconR1 {password ? "󰛑 " : "󰛐 "} 
       :action1 "${EWW_CMD} update password=${!password}"
       :visible1 true
-      :iconR2 " "
+      :iconR2 "󰅚 "
       :action2 "${EWW_CMD} close connect_network"
       :visible2 true
     )

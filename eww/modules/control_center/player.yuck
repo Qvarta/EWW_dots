@@ -24,10 +24,17 @@
       (box
         :class "info"
         :orientation "v"
-        :spacing 5
+        :spacing 10
+        :space-evenly false
         :valign "center"
         (label :class "artist" :text "${track_info.artist}"  :visible "${track_info.available == 'on' ? true : false}")
-        (label :class "track" :text "${track_info.available == 'on' ? track_info.title :'No track to play'}")
+        (label 
+          :halign "center"
+          :wrap true
+          :justify "center"
+          :class "track" 
+          :text "${track_info.title}"  
+          :visible "${track_info.available == 'on' ? true : false}")
       )
       (scale
         :valign "end"

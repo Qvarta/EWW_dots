@@ -10,16 +10,11 @@ if [ ! -d "$cache_folder" ]; then
 fi
 
 create_thumbnails(){
-    if [ ! -d "$cache_folder" ]; then
-        mkdir -p "$cache_folder"
-    fi
-
+    local valid_extensions=("jpg" "jpeg" "png")
     for file in $SET_BG/*; do
         extension="${file##*.}"
         extension_lc="${extension,,}"
-
-        # Check if the file has a valid extension
-        if [[ "$extension_lc" == "jpg" || "$extension_lc" == "jpeg" || "$extension_lc" == "png" ]]; then
+    if [[ " ${valid_extensions[@]} " =~ " $extension_lc " ]]; then
             destination="$cache_folder/$(basename "$file")"
             if [ ! -e "$destination" ]; then
                 convert "$file" -resize 10% "$destination"
@@ -32,7 +27,7 @@ get_bg(){
     count=0
     in_line=4
 
-    for file in $SET_BG/*; do
+    for file in $cache_folder/*; do
         if [ -f "$file" ]; then
                 if [ $((count % $in_line)) -eq 0 ]; then
                     json+="],["
@@ -47,6 +42,7 @@ get_bg(){
     json+="]]"
     echo $json | jq 'map(select(length > 0))'
 }
+
 chg_bg(){
     swww img $1
 }

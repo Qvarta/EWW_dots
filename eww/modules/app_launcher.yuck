@@ -1,6 +1,6 @@
 (defwindow launcher
   :monitor "0"
-  :windowtype "dialog"
+  :windowtype "normal"
   :stacking "overlay"
   :focusable true
   :namespace "launcher"
@@ -20,10 +20,12 @@
     (title
       :text {strings.app}
       :iconL " "
-      :iconR1 " "
-      :action1 "${EWW_CMD} ${windows_status.launcher} launcher"
-      :visible1 true
-      :visible2 false
+      :iconR1 "󱓽 "
+      :action1 "${EWW_CMD} ${windows_status.launcher} launcher & kitty  -- bash -c 'sudo pacman -Syu; exec bash'"
+      :visible1 {checkupdates}
+      :iconR2 "󰅚 "
+      :action2 "${EWW_CMD} ${windows_status.launcher} launcher"
+      :visible2 true
     )
     (box
       :space-evenly false
@@ -96,10 +98,11 @@
               :space-evenly false
               (label :text "${entry.app}" :class "mediumText" :halign "start")
               (label
-                :text "${vars_info.lang =='EN' ? substring(entry.en, 0, 32): substring(entry.ru, 0, 32)}"
+                :text "${vars_info.lang =='EN' ? entry.en : entry.ru}"
+                :wrap true
+                :xalign 0
                 :class "smallText"
                 :visible "${entry.ru =='' ? false : true}"
-                :halign "start"
               )
             )
           )

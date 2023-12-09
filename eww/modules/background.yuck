@@ -17,7 +17,7 @@
     (title
       :text {strings.wallpapers}
       :iconL " "
-      :iconR1 " "
+      :iconR1 "󰅚 "
       :action1 "${EWW_CMD} close chg_bg" 
       :visible1 true
       :visible2 false

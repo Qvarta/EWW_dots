@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if checkupdates &> /dev/null; then 
+    echo "true" 
+else 
+    echo "false"
+fi
