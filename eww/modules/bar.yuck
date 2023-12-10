@@ -14,11 +14,10 @@
     :spacing 30
     (launcher-widget)
     (player-widget
-      :available {track_info.available}
-      :status {windows_status.player}
+      :available {cmus_status !='' ? true : false}
+      :status {cmus_status}
       :title {track_info.title}
       :artist {track_info.artist}
-      :play false
     )
   )
 )
@@ -64,26 +63,24 @@
     (label :class "bar_icon green" :text " ")
   )
 )
-(defwidget player-widget [available status title artist ?play]
+(defwidget player-widget [available status title artist]
   (revealer
-    :reveal  "${available =='off' ? false : true}"
+    :reveal  available
     :transition "slideright"
     :duration "350ms"
     (eventbox
       :onclick "cmus-remote -u"
       :onscroll "./scripts/scroll track {}"
       :cursor "pointer"
-      :visible "${available =='off' ? false : true}"
       (box
         :space-evenly false
-        :class "bar_module ${track_info.status=='stopped' ? 'stopped' :'' }"
+        :class "bar_module ${status=='Stopped' ? 'stopped' :''}"
         :spacing 5
         (label
-          :class "boldText ${track_info.status=='playing' ? 'yellow' : ''}"
+          :class "boldText ${status=='Playing' ? 'yellow' : ''}"
           :text "${title=='' ? 'Click to play' : '${artist}:'}")
-        (label :class "smallText" :text title :visible {title ? true : false})
+        (label :class "smallText" :text title)
       )
-      
     )
   )
 )

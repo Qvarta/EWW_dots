@@ -1,10 +1,10 @@
 ; ---------------------------------------------------------------------------
 ;                               PLAYER WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget player [available style level max_level]
+(defwidget player [available status style position duration]
   (box
     :class "player"
-    :visible "${available =='off' ? false : true}"
+    :visible available
     :space-evenly false
     :height 130
     :spacing 2
@@ -27,21 +27,21 @@
         :spacing 10
         :space-evenly false
         :valign "center"
-        (label :class "artist" :text "${track_info.artist}"  :visible "${track_info.available == 'on' ? true : false}")
+        (label :class "artist" :text "${track_info.artist}")
         (label 
           :halign "center"
           :wrap true
           :justify "center"
           :class "track" 
           :text "${track_info.title}"  
-          :visible "${track_info.available == 'on' ? true : false}")
+        )
       )
       (scale
         :valign "end"
         :class "sliderScale"
-        :value level
+        :value position
         :min 0
-        :max max_level
+        :max duration
         :onchange "cmus-remote -k {}"
       )
     )
@@ -61,7 +61,7 @@
         :class "button"
         :cursor "pointer"
         :onclick "cmus-remote -u"
-        (label :class "iconBtn" :text {track_info.status=='playing' ? ' ' : ''})
+        (label :class "iconBtn" :text {status=='Playing' ? ' ' : ''})
       )
       (eventbox
         :class "button"

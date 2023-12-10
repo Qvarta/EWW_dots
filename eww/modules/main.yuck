@@ -8,7 +8,6 @@
 (include "./modules/background.yuck")
 (include "./modules/app_launcher.yuck")
 (include "./modules/desktop.yuck")
-(include "./test/rr.yuck")
 ; ---------------------------------------------------------------------------
 ;                              VARS
 ; ---------------------------------------------------------------------------
@@ -17,12 +16,12 @@
 (defpoll windows_status :initial "[]" :interval "0.3s" "./scripts/window_status status")
 
 (defpoll filtred_app :initial "[]" :interval "1s" "./scripts/applications filtered")
-
 (defpoll favorites_app :initial "[]" :interval "1h" "./scripts/applications fav")
 
 (defpoll bg_list :initial "[]" :interval "2s" "./scripts/background get")
 
-(defpoll track_info :initial "[]" :interval "1s" "./scripts/cmus_player info")
+(deflisten cmus_status :initial "" "playerctl -F -p cmus status")
+(defpoll track_info :initial "{'title': '','artist': '','duration': '0','position':'0'}" :interval "1s" "./scripts/cmus_player info")
 (defpoll sound_info :initial "[]" :interval "1s" "./scripts/sound info")
 
 (deflisten workspaces :initial "[]" "./scripts/workspaces")
@@ -42,7 +41,7 @@
 
 (defpoll checkupdates :initial false :interval "1h" "if checkupdates &> /dev/null; then echo true; else echo false; fi")
 
-(defpoll weather_json :initial "[]" :interval "1h" "./scripts/weather")
+(defpoll weather_json :initial "[]" :interval "10s" "./test/test_weather")
 
 (defvar power_rev false)
 (defvar sliders_rev false)

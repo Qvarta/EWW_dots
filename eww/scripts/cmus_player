@@ -1,18 +1,16 @@
 #!/bin/bash
 
+# @requires: payerctl cmus
+
+default_style="background-image: url('images/ui/default.jpg');"
+player_tags=$(cmus-remote -Q)
+player_status=$(playerctl -p cmus status 2>/dev/null) 
 temp_folder="/tmp/eww/covers"
 
 if [ ! -d "$temp_folder" ]; then
   mkdir -p "$temp_folder"
 fi
 
-default_style="background-image: url('images/ui/default.jpg');"
-player_status=$(cmus-remote -C status | grep status | awk {'print $2'})
-player_tags=$(cmus-remote -Q)
-
-check_available() {
-  pgrep -x "cmus" > /dev/null && echo "on" || echo "off"
-}
 get_tag(){
     tag=$(echo "$player_tags" | grep -w "tag $1" | cut -d ' ' -f 3-)
     echo $tag
@@ -30,30 +28,24 @@ get_style(){
   echo $style
 }
 track_info(){
-  local available=$(check_available)
-  if [[ $(echo $available) == "on" ]]; then
+  if [[ $(echo $player_status) != "" ]]; then
     local title=$(get_tag title)
     local artist=$(get_tag artist)
-    local album=$(get_tag album)
     local duration=$(get_value duration)
     local position=$(get_value position)
     local style=$(get_style $title)
     local json=$(jq -n \
-      --arg available $available \
-      --arg status $player_status \
-      --arg title "$title" \
-      --arg artist "$artist" \
-      --arg album "$album" \
-      --arg abs_duration "$abs_duration" \
-      --arg duration "$duration" \
-      --arg abs_position "$abs_position" \
-      --arg position "$position" \
-      --arg style "$style" \
-      '{available: $available, status: $status, title: $title, artist: $artist, album: $album, album: $album, duration: $duration, position: $position, style: $style}')
-  else
-    local json=$(jq -n --arg available $available '{available: $available}')
-  fi
+        --arg title "$title" \
+        --arg artist "$artist" \
+        --arg album "$album" \
+        --arg abs_duration "$abs_duration" \
+        --arg duration "$duration" \
+        --arg abs_position "$abs_position" \
+        --arg position "$position" \
+        --arg style "$style" \
+        '{title: $title, artist: $artist, duration: $duration, position: $position, style: $style}')
 
-  echo "$json" | jq -r .
+    echo "$json" | jq -r .
+  fi
 }
 track_info

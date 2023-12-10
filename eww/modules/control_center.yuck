@@ -33,10 +33,11 @@
     )
     (weather :visible "${weather_json!= '[]' && weather_json[0].icon != 'null' ? true : false}")
     (player 
-      :available {track_info.available} 
+      :available {cmus_status !='' ? true : false}
+      :status {cmus_status}
       :style {track_info.style} 
-      :level {track_info.position}
-      :max_level {track_info.duration}
+      :position {track_info.position}
+      :duration {track_info.duration}
     )
     (graphs :sensor {vars_info.sensor})
     (bottom :sensor {vars_info.sensor})

@@ -1,7 +1,7 @@
 ; ---------------------------------------------------------------------------
 ;                               TITLE WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget title [?class ?iconL ?text ?iconR1 ?action1 ?visible1 ?iconR2 ?action2 ?visible2]
+(defwidget title [?class ?iconL ?text ?iconR1 ?action1 ?visible1 ?iconR2 ?action2 ?visible2 ?color]
   (box
     :space-evenly false
     :spacing 10
@@ -17,7 +17,7 @@
         :onclick action1
         :visible visible1
         :width 40
-        (label :text iconR1 :class "iconR")
+        (label :text iconR1 :class "iconR ${color}")
       )
       (eventbox
         :class "titleBtn"

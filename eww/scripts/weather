@@ -47,8 +47,8 @@ create_new_json() {
             wind_dir=$(echo "${line}" | jq -r '.Day.Wind.Direction.English')
         fi
 
-        temp_max=$(echo "${line}" | jq -r '.Temperature.Maximum.Value' | awk '{printf("%.1f°C\n", $1)}')
-        temp_min=$(echo "${line}" | jq -r '.Temperature.Minimum.Value' | awk '{printf("%.1f°C\n", $1)}')
+        temp_max=$(echo "${line}" | jq -r '.Temperature.Maximum.Value' | awk '{printf("%.1f\n", $1)}')
+        temp_min=$(echo "${line}" | jq -r '.Temperature.Minimum.Value' | awk '{printf("%.1f\n", $1)}')
         icon=$(echo "${line}" | jq -r '.Day.Icon')
         
         icon_value=$(echo "${icons_json}" | jq -r '.["'"$icon"'"][0]')

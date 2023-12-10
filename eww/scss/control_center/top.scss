@@ -17,37 +17,17 @@
       }
     }
   }
-  .battery {
-    trough {
-      background-color: $select;
-      min-width: 90px;
-      min-height: 30px;
-      border-radius: 10px;
-      border: $border;
-
-      highlight {
-        background-color: $bg1;
-        border-radius: 12px;
-      }
-    }
-    &.green {
-      highlight {
-        background-color: $green;
-      }
-    }
-    &.yellow {
-      highlight {
-        background-color: $yellow;
-      }
-    }
-    &.red {
-      highlight {
-        background-color: $red;
-      }
-    }
-  }
   .value {
     font-weight: bold;
     font-size: 20px;
+    animation-name: spin;
+    animation-duration: 3s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+  }
+}
+@keyframes spin {
+  to {
+    -gtk-icon-transform: rotate(1turn);
   }
 }

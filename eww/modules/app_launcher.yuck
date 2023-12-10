@@ -26,6 +26,7 @@
       :iconR2 "󰅚 "
       :action2 "${EWW_CMD} ${windows_status.launcher} launcher"
       :visible2 true
+      :color "red"
     )
     (box
       :space-evenly false
