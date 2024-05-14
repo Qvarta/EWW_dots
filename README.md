@@ -15,8 +15,8 @@ https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/a8014461-3ad9-461a-ad10-d
 
 ### Requirements
 
-- hyprland
-- eww
+- hyprland v0.40.0
+- eww 0.5.0
 - jq(multiple scripts)
 - curl(weather script)
 - socat(workspace script)
