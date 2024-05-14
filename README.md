@@ -7,7 +7,7 @@
 
 This is my personal eww dotfiles repository. All widgets are EWW.
 
-at work...
+at work....
 
 https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/a8014461-3ad9-461a-ad10-d2b30076e683
 
