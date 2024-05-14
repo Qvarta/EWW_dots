@@ -1,15 +1,27 @@
 .wifiList {
   .button {
-    background-color: $bg3;
+    background-color: $background2;
     border-radius: 5px;
     border: $border;
-    min-height: 30px;
+    min-height: 50px;
     border-color: transparent;
 
     &:hover {
-      background-color: $softgray;
-      border: $border;
-      border-color: $yellow;
+      background-color: $color4;
+    }
+  }
+  .button2{
+    background-color: $background3;
+    border-radius: 6px;
+    border: $border;
+    min-height: 50px;
+    border-color: transparent;
+
+    &:hover {
+      background-color: $color4;
+    }
+    .text {
+      font-size: 24px;
     }
   }
   .entry {
@@ -23,26 +35,31 @@
 }
 
 .connect {
-  .input {
-    border-radius: 5px;
-    background-color: $bg3;
-    font-size: 32px;
+  .btnLeft{
+    background-color: $background3;
+    border-radius: 6px 0 0 6px;
+    &:hover {
+      background-color: $color4;
+    }
   }
-
+  .input {
+    background-color: $background2;
+    border-radius: 0 6px 6px 0;
+    font-size: 22px;
+  }
   .text {
     font-size: 18px;
   }
-  .button {
-    background-color: $bg2;
-    border-radius: 5px;
-    border: $border;
-    min-height: 30px;
-    border-color: transparent;
+  .btnBack{
+    background-color: $background3;
+    border-radius: 6px;
+    min-height: 50px;
 
     &:hover {
-      background-color: $softgray;
-      border: $border;
-      border-color: $yellow;
+      background-color: $color4;
+    }
+    .text {
+      font-size: 24px;
     }
   }
 }

@@ -1,0 +1,17 @@
+#!/bin/bash
+get_monitor_info() {
+    monitor_info=$(xrandr)
+    resolution_x=$(echo "$monitor_info" | grep -oP '\d+x\d+' | head -n 1 | cut -d 'x' -f 1)
+    echo "$resolution_x"
+}
+get_relative_cursor(){
+    read -r x y <<< $(hyprctl cursorpos | sed 's/,//')
+    max_x=$(get_monitor_info)
+    if (($x + 100 > $max_x)); then
+        echo "$((x-100))x$((y - 60))"
+    else
+        echo "$((x))x$((y - 60))"
+    fi
+}
+get_relative_cursor
+eww open --screen 0 --toggle --size "10x10" --pos $(get_relative_cursor) --anchor "top left" $1

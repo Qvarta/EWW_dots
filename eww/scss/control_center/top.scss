@@ -13,7 +13,7 @@
     border-radius: 5px;
     &:hover {
       .iconR {
-        color: $yellow;
+        color: $color4;
       }
     }
   }
@@ -24,10 +24,5 @@
     animation-duration: 3s;
     animation-timing-function: linear;
     animation-iteration-count: infinite;
-  }
-}
-@keyframes spin {
-  to {
-    -gtk-icon-transform: rotate(1turn);
   }
 }

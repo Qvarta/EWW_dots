@@ -17,7 +17,7 @@
     (box
       :width 350
       :class "main_container"
-      (calendar :day day :year year)
+      (calendar :day {formattime(EWW_TIME, "%e")} :year {formattime(EWW_TIME, "%Y")})
     )
   )
 )

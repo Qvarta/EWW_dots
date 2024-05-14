@@ -1,0 +1,25 @@
+#!/bin/bash
+source $HOME/.config/eww/jsons/hide.conf
+
+while true; do
+    hide_string=$(printf '%s\n' "${HIDE[@]}")
+    searchStr=$(eww get searchStr)
+    input_json=$(eww get applications)
+
+    if [[ -z "$input_json" ]]; then
+        bash scripts/applications/createAppList
+    fi
+    
+    for item in $hide_string; do
+        input_json=$(echo "$input_json" | jq --arg path "$item" 'map(select(.path != $path))')
+    done
+
+    if [[ ! -z "$searchStr" ]]; then
+        input_string=${searchStr,,}
+        input_json=$(echo "$input_json" | jq --arg input_string "$input_string" '[.[] | select(.app | ascii_downcase | contains($input_string))]') 
+    fi
+
+    echo "$input_json"
+    eww update searchApp="$input_json"
+    sleep 1
+done

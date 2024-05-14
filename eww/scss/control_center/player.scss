@@ -4,7 +4,7 @@
 .player {
   .Right {
     border-radius: 0 10px 10px 0;
-    background-color: $bg4;
+    background-color: $background3;
     padding: 10px 0;
     .button {
       border-radius: 10px;
@@ -12,46 +12,46 @@
         font-size: 20px;
       }
       &:hover {
-        background-color: $select;
         .iconBtn {
-          color: $yellow;
+          color: $color4;
         }
       }
     }
   }
   .Left {
+    border: 2px solid $background3;
+    border-radius: 10px 0 0 10px;;
     .cover {
-      background-size: cover;
-      border-radius: 10px 0 0 10px;
-
+      margin: 10px;
+      background-size: contain;
+      border-radius: 10px;
       background-position: center;
       background-repeat: no-repeat;
     }
-    .translucent {
-      border-radius: 10px 0 0 10px;
-      background-color: $select;
-    }
+
     .info {
       padding: 0 10px;
       .artist {
         color:rgb(226, 224, 224);
-        font-size: 24px;
+        font-size: 20px;
         font-weight: bold;
       }
       .track {
+
         color:rgb(226, 224, 224);
-        font-size: 20px;
+        font-size: 16px;
       }
     }
     .sliderScale {
+      border-top: 1px solid $background;
       trough {
-        background-color: $softgray;
+        background-color: $foreground2;
         min-height: 12px;
+        border-radius: 0 0 0 8px;
   
         highlight {
-          background-color: $gray;
-          border-top: 2px solid $bg1;
-          border-radius: 0 0 0 10px;
+          background-color: $foreground;
+          border-radius: 0 0 0 8px;
         }
       }
     }

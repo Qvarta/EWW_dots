@@ -1,0 +1,71 @@
+#!/bin/bash
+source $HOME/.config/eww/var.conf
+
+wifi_info() {
+  local wifiInfo=$(jq -n \
+    --arg icon "$(wifi_icon)" \
+    --arg ssid "$(wifi_ssid)" \
+    --arg status "$(nmcli radio wifi)" \
+    '{icon: $icon, ssid: $ssid, status: $status}')
+  jq -r . <<< "$wifiInfo"
+}
+wifi_icon() {
+  local strength=$(iwconfig $SET_WIFI | grep "Link Quality=" | awk -F'=' '{ print $2 }' | awk -F'/' '{ print $1 }')
+  local level=$(echo "$((strength*100/70))")
+  level=${level%.*}
+  if [ $level -ge 1 ] && [ $level -le 30 ]; then
+    echo "󰤟 "
+  elif [ $level -ge 31 ] && [ $level -le 60 ]; then
+    echo "󰤢 "
+  elif [ $level -ge 61 ] && [ $level -le 100 ]; then
+    echo "󰤨 "
+  else
+    echo "󰤭 "
+  fi
+}
+wifi_ssid() {
+  local is_blocked=`iwconfig $SET_WIFI | grep -oP 'Tx-Power=\K([^ ]+)'| xargs`
+  local state=`iwconfig $SET_WIFI | grep ESSID | awk -F':' '{ print $2 }' | xargs`
+
+  if [[ $is_blocked == "off" ]]; then
+    echo "off"
+  elif [[ $state == "off/any" ]]; then
+    echo "on"
+  else
+    iwconfig $SET_WIFI | grep ESSID | awk -F'"' '{ print $2 }'
+  fi
+}
+get_wifi_list() {
+  local json=$(nmcli -t -f SSID,SIGNAL device wifi list | awk -F: '{printf "{\"ssid\":\"%s\",\"signal\":\"%s\"},",$1,$2}')
+  json="[${json%?}]"
+  echo "$json" | jq 'map(select(.ssid != ""))'
+}
+disconnect_wifi(){
+  # Получаем имя текущего подключения к Wi-Fi
+  connection=$(nmcli -t -f NAME,TYPE con show --active | grep -v 'loopback' | cut -d ':' -f1)
+  if [[ -n "$connection" ]]; then
+      notify-send "Отключение от сети $connection"
+      nmcli con down "$connection"
+  fi
+}
+
+connect_wifi(){
+  notify-send "Подключение к сети $1"
+  nmcli device wifi connect $1 password $2
+}
+
+case "$1" in
+  "info")
+    wifi_info
+    ;;
+  "toggle")
+    rfkill toggle wifi
+    ;;
+  "disconnect")
+    disconnect_wifi
+    ;;
+  "connect")
+    connect_wifi $2 $3
+    ;;
+esac
+

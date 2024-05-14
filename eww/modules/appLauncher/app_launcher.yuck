@@ -1,0 +1,150 @@
+(defvar numS 0)
+
+(defwindow launcher
+  :monitor "0"
+  :windowtype "normal"
+  :stacking "fg"
+  :focusable true
+  :namespace "launcher"
+  :geometry (geometry
+    :x "0%"
+    :y "0%"
+    :width "400px"
+    :height "300px"
+  :anchor "top left")
+  (applications)
+)
+(defwidget applications[]
+  (box
+    :space-evenly false
+    :class "main_container launcher"
+    :orientation "v"
+    (stack
+      :selected numS
+      :transition "slideleft"
+      :same-size false
+        (titleLauncher
+          :iconL "󱎰 "
+          :actionL "${EWW_CMD} update numS=1"
+          :text {strings.app}
+          :iconR "󱓽 "
+          :actionR "./scripts/window_toggle launcher & kitty -e yay -Syu"
+          :visibleR {checkupdates}
+          :colorR "red"
+        )
+        (box
+          :space-evenly false
+          :class "launcherInputBox"
+          :spacing 10
+          
+          (label
+            :text "󱎰 "
+            :class "launcherInputIcon"
+          )
+          (input
+            :class "launcherInput"
+            :hexpand true
+            :onchange "${EWW_CMD} update searchStr={}"
+            :onaccept "./scripts/window_toggle launcher & ${EWW_CMD} update numS=1"
+          )
+        )
+    )
+    (box
+      :style "padding: 7px 0;"
+      (listApp :list {searchApp})
+    )
+    (listFavorites :list {favorites_app})
+  )
+)
+(defwidget titleLauncher [?iconL ?actionL ?colorL ?text ?iconR ?actionR ?visibleR ?colorR]
+  (centerbox
+    :space-evenly false
+    (eventbox
+      :class "titleBtn"
+      :cursor "pointer"
+      :halign "start"
+      :onclick actionL
+      :width 40
+      (label :text iconL :class "iconBig ${colorL}")
+    )
+    (label :class "titleLaucher" :text text)
+    (eventbox
+      :halign "end"
+      :class "titleBtn"
+      :cursor "pointer"
+      :onclick actionR
+      :visible visibleR
+      :width 40
+      (label :text iconR :class "iconSmall ${colorR}")
+    )
+  )
+)
+(defwidget listFavorites[list]
+  (box
+    :spacing 10
+    (for entry in list
+      (eventbox
+        :cursor "pointer"
+        :class "fav_btn"
+        :onclick "${entry.command} & ./scripts/window_toggle launcher"
+        :onrightclick "scripts/applications/favoritesApp remove ${entry.path}"
+        (image
+          :class "fav_icon"
+          :image-width 34
+          :image-height 34
+          :path "${entry.icon =='None' ? 'images/ui/no_image.png' : entry.icon}"
+        )
+      )
+    )
+  )
+)
+(defwidget listApp[list]
+  (scroll
+    :height 400
+    :vscroll true
+    (box
+      :orientation "v"
+      :spacing 10
+      :space-evenly false
+      (for entry in list
+        (entryApp :entry {entry})
+      )
+    )
+  )
+)
+(defwidget entryApp[entry]
+  (box
+    :space-evenly false
+    (box
+      :class "btnLeft"
+      (image
+        :class "appIcon"
+        :path "${entry.icon =='None' ? 'images/ui/no_image.png' : entry.icon}"
+        :image-width 48
+        :image-height 48
+      )
+    )
+    (eventbox
+      :cursor "pointer"
+      :tooltip "${vars_info.lang =='EN' ? entry.en : entry.ru == '' ? entry.en : entry.ru}"
+      :class "btnCenter"
+      :hexpand true
+      :onclick "${entry.command} & ./scripts/window_toggle launcher"
+      :onrightclick "${EWW_CMD} update currentApp=${entry.path} & ./scripts/open_popup popup"
+      :height 20
+      (box
+        :class "entry"
+        :orientation "v"
+        :space-evenly false
+        (label :text "${entry.app}" :class "mediumText" :halign "start")
+        (label
+          :text "${vars_info.lang =='EN' ? entry.en : entry.ru == '' ? entry.en : entry.ru}"
+          :wrap true
+          :xalign 0
+          :class "smallText"
+          :visible "${entry.ru =='' ? false : true}"
+        )
+      )
+    )
+  )
+)

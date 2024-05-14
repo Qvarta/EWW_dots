@@ -1,15 +1,14 @@
 #!/bin/bash
 
-# @requires: imagemagick
+# @requires: imagemagick pywal
 
 source $HOME/.config/eww/var.conf
 cache_folder="/tmp/eww/thumbnails"
 
-if [ ! -d "$cache_folder" ]; then
-  mkdir -p "$cache_folder"
-fi
-
 create_thumbnails(){
+    if [ ! -d "$cache_folder" ]; then
+        mkdir -p "$cache_folder"
+    fi
     local valid_extensions=("jpg" "jpeg" "png")
     for file in $SET_BG/*; do
         extension="${file##*.}"
@@ -34,7 +33,11 @@ get_bg(){
                 else
                     json+=","
             fi
-            json+="{\"style\":\"background-image: url('$cache_folder/$(basename "$file")')\", \"path\":\"$SET_BG$(basename "$file")\"}"
+            local line=$(jq -n \
+            --arg style "background-image: url('$cache_folder/$(basename "$file")')" \
+            --arg path "$SET_BG$(basename "$file")" \
+            '{style: $style, path: $path}')
+            json+=$line
             count=$((count + 1))
         fi
     done
@@ -42,9 +45,29 @@ get_bg(){
     json+="]]"
     echo $json | jq 'map(select(length > 0))'
 }
-
-chg_bg(){
+set_bg(){
     swww img $1
+    if [[ $2 == "pywal" ]]; then
+        pkill eww
+        wal -i $1 &
+        wait
+        cp "$HOME/.cache/wal/colors.scss" "$HOME/.config/eww/scss/colors.scss" &
+        wait
+        eww daemon & eww open main
+    fi
+}
+update(){
+    if [[ $1 == "delete" ]]; then
+        rm -rf $cache_folder
+    fi
+    create_thumbnails &
+    wait
+    eww update bg_list="$(get_bg)"
+}
+del_img(){
+    rm $1 $cache_folder/$(basename "$1")
+    notify-send Deleted $1
+    update
 }
 
 case $1 in
@@ -55,7 +78,12 @@ case $1 in
         get_bg
         ;;
     set)
-        chg_bg $2
+        set_bg $2 $3
         ;;
-
+    update)
+        update $2
+        ;;
+    delete)
+        del_img $2
+        ;;
 esac

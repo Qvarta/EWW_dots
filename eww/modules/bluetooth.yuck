@@ -1,0 +1,40 @@
+(defwidget scroll_devices[]
+  (box
+    :class "wifiList sub_container"
+    :space-evenly false
+    :orientation "v"
+    (scroll
+      :height 140
+      :vscroll true
+      :scrollspeed "24px"
+      :class "scroll"
+      (box
+        :space-evenly false
+        :orientation "v"
+        :spacing 10
+        (for entry in list_devices
+          (eventbox
+            :class "button"
+            :cursor "pointer"
+            :onclick ""
+            (box
+              :class "entry"
+              :space-evenly false
+              (label :text "${substring(entry.name, 0, 20)}" :class "text")
+              (label :text "" :hexpand true)
+              (label :text "${entry.address}" :class "text")
+            )
+          )
+        )
+      )
+    )
+    (eventbox
+      :class "button2"
+      :cursor "pointer"
+      :space-evenly false
+      :onclick "${EWW_CMD} update widgetNum=0"
+      (label :class "text" :text "󰜱 ")
+    )
+  )
+)
+

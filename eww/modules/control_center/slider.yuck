@@ -12,7 +12,8 @@
         :class {sound_info.sound_status == 'yes' ? '' : 'off'}
         :level {sound_info.sound_volume}
         :action "amixer sset Master {}%"
-        :icon  {sound_info.sound_status == 'yes' ? '󰕾 ' : '󰖁 '}
+        :icon {sound_info.sound_status == 'yes' ? '󰕾 ' : '󰖁 '}
+        :status {sound_info.sound_status == 'yes' ? 'on' : 'off'}
         :onclick "./scripts/sound sound_toggle"
         :full false
         :button true
@@ -38,6 +39,7 @@
           :level {sound_info.mic_volume}
           :action "amixer sset Capture {}%"
           :icon {sound_info.mic_status == 'yes' ? ' ' : ' '}
+          :status {sound_info.mic_status == 'yes' ? 'on' : 'off'}
           :onclick "./scripts/sound mic_toggle"
           :full true
           :button true
@@ -48,6 +50,7 @@
           :max_level {vars_info.max_brightness}
           :action "brightnessctl set {}"
           :icon " "
+          :status "on"
           :full true
           :button false
         )
@@ -55,7 +58,7 @@
     )
   )
 )
-(defwidget slider [level ?max_level action icon ?onclick full button ?class ?active]
+(defwidget slider [level ?max_level action icon ?onclick full button ?class ?active status]
   (box
     :class "quickSlider ${full ? 'full' : ''}"
     :space-evenly false
@@ -66,7 +69,7 @@
       :class "sliderBtn"
       :cursor {button ? 'pointer' : ''}
       (label
-        :class  {button ? 'aciveIcon' : 'sliderIcon'}
+        :class  "${status == 'on' ? 'on' : 'off'} ${button ? 'aciveIcon' : 'sliderIcon'}"
         :text icon
         :halign "end"
       )

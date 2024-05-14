@@ -1,57 +1,40 @@
-(defwindow net_list
-  :monitor "0"
-  :namespace "WIFI_LIST"
-  :geometry (geometry
-    :x "21%"
-    :y "0%"
-    :width "350px"
-    :height "100px"
-  :anchor "right top")
-  (net_list)
-)
+
 (defwidget net_list[]
   (box
-    :class "main_container wifiList"
-    :orientation "v"
-    :spacing 10
+    :class "wifiList sub_container"
     :space-evenly false
-    (title
-      :text {strings.net_list}
-      :iconL " "
-      :iconR2 "󰅚 "
-      :action2 "${EWW_CMD} ${windows_status.net_list} net_list"
-      :visible2 true
-      :iconR1 "󰚰 "
-      :action1 "nmcli device wifi rescan"
-      :visible1 true
-    )
-    (scroll_widget)
-  )
-)
-(defwidget scroll_widget[]
-  (scroll
-    :height 180
-    :vscroll true
-    :scrollspeed "24px"
-    :class "scroll"
-    (box
-      :space-evenly false
-      :orientation "v"
-      :spacing 10
-      (for entry in list_net
-        (eventbox
-          :class "button"
-          :cursor "pointer"
-          :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ${EWW_CMD} ${windows_status.net_list} net_list"
-          (box
-            :class "entry"
-            :space-evenly false
-            (label :text "${substring(entry.ssid, 0, 20)}" :class "text")
-            (label :text "" :hexpand true)
-            (label :text "${entry.signal}" :class "text")
+    :orientation "v"
+    (scroll
+      :height 140
+      :vscroll true
+      :scrollspeed "24px"
+      :class "scroll"
+      (box
+        :space-evenly false
+        :orientation "v"
+        :spacing 10
+        (for entry in list_net
+          (eventbox
+            :class "button"
+            :cursor "pointer"
+            :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ./scripts/wifi/wifiInfo disconnect"
+            (box
+              :class "entry"
+              :space-evenly false
+              (label :text "${substring(entry.ssid, 0, 20)}" :class "text")
+              (label :text "" :hexpand true)
+              (label :text "${entry.signal}" :class "text")
+            )
           )
         )
       )
+    )
+    (eventbox
+      :class "button2"
+      :cursor "pointer"
+      :space-evenly false
+      :onclick "${EWW_CMD} update widgetNum=0"
+      (label :class "text" :text "󰜱 ")
     )
   )
 )
@@ -59,11 +42,9 @@
   :monitor "0"
   :namespace "control-center"
   :geometry (geometry
-    :x "21%"
-    :y "0%"
-    :width "100px"
+    :width "300px"
     :height "30px"
-  :anchor "right top")
+  :anchor "center")
   :focusable "true"
   (connect)
 )
@@ -73,28 +54,31 @@
     :orientation "v"
     :space-evenly false
     :spacing 10
-    (title
-      :iconL "󱛀 "
-      :text "${strings.password}"
-      :iconR1 {password ? "󰛑 " : "󰛐 "} 
-      :action1 "${EWW_CMD} update password=${!password}"
-      :visible1 true
-      :iconR2 "󰅚 "
-      :action2 "${EWW_CMD} close connect_network"
-      :visible2 true
-    )
     (box
-      :orientation "v"
-      :style "margin-top: 20px;"
-      :width 250
-
+      :space-evenly false
+      :spacing 5
+      :height 40
+      (eventbox
+        :class "btnLeft"
+        :cursor "pointer"
+        :width 50
+        :onclick "${EWW_CMD} update password=${!password}"
+        (label  :class "text" :text {password ? "󰛑 " : "󰛐 "})
+      )
       (input
         :password {password}
         :class "input"
-        :height 20
-        :onaccept "${EWW_CMD} close connect_network && scripts/wifi connect ${new_ssid} {}"
+        :hexpand true
+     
+        :onaccept "${EWW_CMD} close connect_network && ${EWW_CMD} update widgetNum=0 && scripts/wifi/wifiInfo connect ${new_ssid} {}"
       )
-      ; (button :class "button" :onclick "${EWW_CMD} close connect_network" "${strings.cancel}")
+    )
+    (eventbox
+      :class "btnBack"
+      :cursor "pointer"
+      :width 20
+      :onclick "${EWW_CMD} update widgetNum=0 && ${EWW_CMD} close connect_network"
+      (label  :class "text" :text "󰜱 ")
     )
   )
 )

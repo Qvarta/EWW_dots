@@ -1,7 +1,7 @@
 ; ---------------------------------------------------------------------------
 ;                               TOP WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget top []
+(defwidget tiltleControls []
   (box
     :space-evenly false
     :class "CcTop"
@@ -19,38 +19,20 @@
         :text "${EWW_BATTERY[vars_info.battery].status == 'Charging' ? '󱐌' : ''} ${EWW_BATTERY[vars_info.battery].capacity}%"
       )
     )
-    ; (box
-      ;   :halign "start"
-      ;   (overlay
-        ;     (scale
-          ;       :class "battery ${ EWW_BATTERY[vars_info.battery].capacity > 70 ? 'green' :
-          ;       EWW_BATTERY[vars_info.battery].capacity > 30 ? 'green':
-          ;       EWW_BATTERY[vars_info.battery].capacity < 30 ? 'red' : ''}"
-          ;       :min 0
-          ;       :max 100
-          ;       :value {EWW_BATTERY[vars_info.battery].capacity}
-          ;       :active "false"
-        ;     )
-        ;     (label
-          ;       :class "value"
-          ;       :text "${EWW_BATTERY[vars_info.battery].status == 'Charging' ? '󱐌' : ''} ${EWW_BATTERY[vars_info.battery].capacity}%"
-        ;     )
-      ;   )
-    ; )
     (label :hexpand true)
     (box
       :halign "end"
       :space-evenly false
       (eventbox
         :class "titleBtn"
-        :onclick "${EWW_CMD} ${windows_status.screenshot} screenshot"
+        :onclick "./scripts/window_toggle screenshot"
         :width 40
         :cursor "pointer"
         (label :class "iconR" :text "󰄄 ")
       )
       (eventbox
         :class "titleBtn"
-        :onclick "./scripts/background cache & ${EWW_CMD} ${windows_status.chg_bg} chg_bg"
+        :onclick "./scripts/background cache & ./scripts/window_toggle chg_bg"
         :width 40
         :cursor "pointer"
         (label :class "iconR" :text "󰹑 ")

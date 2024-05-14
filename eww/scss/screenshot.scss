@@ -2,7 +2,7 @@
   background-position: center;
   background-repeat: no-repeat;
   border-radius: 10px;
-  background-color: $select;
+  background-color: $background2;
   min-width: 50px;
   min-height: 50px;
   background-size: 70%;
@@ -23,11 +23,11 @@
   &:hover {
     .shBtn {
       background-size: 50%;
-      background-color: $softgray;
+      background-color: $color4;
     }
 
     .shBtnNname {
-      color: $yellow;
+      color: $foreground;
     }
   }
 }

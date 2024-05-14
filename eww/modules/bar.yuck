@@ -26,13 +26,21 @@
     :cursor "pointer"
     (box :space-evenly false
       (label :text "${current_workspace}" :visible false)
-      (for workspace in workspaces
-        (button
-          :class "workspacesBox ${workspace.id == current_workspace ? 'active' : ''} ${workspace.windows > 0 ? 'inactive' : 'empty'}"
-          :onclick "hyprctl dispatch workspace ${workspace.id}"
-        )
-      )
+      (workspaceBtn :workspace {workspaces[0]})
+      (workspaceBtn :workspace {workspaces[1]})
+      (workspaceBtn :workspace {workspaces[2]})
+      (workspaceBtn :workspace {workspaces[3]})
+      (workspaceBtn :workspace {workspaces[4]})
+      (workspaceBtn :workspace {workspaces[5]})
+      (workspaceBtn :workspace {workspaces[6]})
+      (workspaceBtn :workspace {workspaces[7]})
     )
+  )
+)
+(defwidget workspaceBtn[workspace]
+  (button
+    :class "workspacesBox ${workspace.id == current_workspace ? 'active' : ''} ${workspace.windows > 0 ? 'inactive' : 'empty'}"
+    :onclick "hyprctl dispatch workspace ${workspace.id}"
   )
 )
 (defwidget right []
@@ -42,7 +50,7 @@
     :spacing 5
     (box
       :space-evenly false
-      (time-widget :hour {time.hour} :minute {time.min})
+      (time-widget :hour {formattime(EWW_TIME, "%k")} :minute {formattime(EWW_TIME, "%M")})
       (language-widget :layout {layout})
     )
     (box
@@ -57,10 +65,12 @@
 ; ---------------------------------------------------------------------------
 (defwidget launcher-widget []
   (eventbox
-    :onclick "./scripts/applications create & ./scripts/applications filter & ${EWW_CMD} ${windows_status.launcher} launcher"
+    :onclick "${EWW_CMD} update searchStr='' & ./scripts/window_toggle launcher"
+    :tooltip "    ${strings.open}/${strings.close} ${strings.launcher}   "
+
     :cursor "pointer"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   "
-    (label :class "bar_icon green" :text " ")
+    (label :class "bar_icon launcher" :text "󱁍 ")
   )
 )
 (defwidget player-widget [available status title artist]
@@ -70,6 +80,7 @@
     :duration "350ms"
     (eventbox
       :onclick "cmus-remote -u"
+      :onrightclick "pkill cmus"
       :onscroll "./scripts/scroll track {}"
       :cursor "pointer"
       (box
@@ -77,7 +88,7 @@
         :class "bar_module ${status=='Stopped' ? 'stopped' :''}"
         :spacing 5
         (label
-          :class "boldText ${status=='Playing' ? 'yellow' : ''}"
+          :class "boldText ${status=='Playing' ? 'playing' : ''}"
           :text "${title=='' ? 'Click to play' : '${artist}:'}")
         (label :class "smallText" :text title)
       )
@@ -92,7 +103,7 @@
     :class "bar_module left"
     :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
     (eventbox
-      :onclick "${EWW_CMD} ${windows_status.calendar} calendar"
+      :onclick "./scripts/window_toggle calendar"
       :halign "start"
       :cursor "pointer"
       (label :text "${hour}:${minute}" :class "boldText")
@@ -112,7 +123,7 @@
 (defwidget tray[]
   (eventbox
     :cursor "pointer"
-    :onclick "${EWW_CMD} ${windows_status.control} control-center"
+    :onclick "./scripts/window_toggle control_center & ${EWW_CMD} update cDay=0"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
     (box
       :space-evenly false

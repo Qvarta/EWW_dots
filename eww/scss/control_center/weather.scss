@@ -10,9 +10,14 @@
     font-size: 16px;
 
     &.overlayText {
-      background-color: $bg4;
+      background-color: $background3;
       padding: 3px;
-      border-radius: 5px;
+    }
+    &.up{
+      border-radius: 5px 5px 0 0;
+    }
+    &.down{
+      border-radius: 0 0 5px 5px;
     }
   }
   .largeIcon {
@@ -23,6 +28,6 @@
   }
   .day:hover{
     border-radius: 10px;
-    background-color: $yellow;
+    background-color: $color4;
   }
 }

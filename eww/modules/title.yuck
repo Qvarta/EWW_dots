@@ -25,7 +25,7 @@
         :onclick action2
         :visible visible2
         :width 40
-        (label :text iconR2 :class "iconR")
+        (label :text iconR2 :class "iconR ${color}")
       )
     )
   )

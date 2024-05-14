@@ -1,0 +1,59 @@
+#!/bin/bash
+source $HOME/.config/eww/var.conf
+source $HOME/.config/eww/jsons/favorites.conf
+source $HOME/.config/eww/jsons/hide.conf
+
+desktop_dir="/usr/share/applications"
+favorites="jsons/favorites.conf"
+hide_applications="jsons/hide.conf"
+
+favorites(){
+    input=$(eww get applications)
+    favorites=$(echo "${input}" | jq --argjson FAVORITES "$(printf '%s\n' "${FAVORITES[@]}" | jq -R . | jq -s .)" 'map(select(.path as $a | $FAVORITES | index($a)))')
+    echo "${favorites}"
+}
+add_favorites(){
+    new_string="$@"
+    FAVORITES+=("$new_string")
+    printf "FAVORITES=(" > $favorites
+    printf "\"%s\" " "${FAVORITES[@]}" >> $favorites
+    printf ")" >> $favorites
+}
+remove_favorites(){
+    string_to_remove="$@"
+    # Удаляем аргумент из списка
+    new_list=()
+    for item in "${FAVORITES[@]}"; do
+        if [[ "$item" != "$string_to_remove" ]]; then
+            new_list+=("$item")
+        fi
+    done
+    printf "FAVORITES=(" > "$favorites"
+    printf "\"%s\" " "${new_list[@]}" >> "$favorites"
+    printf ")" >> "$favorites"
+}
+hide(){
+    hide_string="$@"
+    HIDE+=("$hide_string")
+    printf "HIDE=(" > $hide_applications
+    printf "\"%s\" " "${HIDE[@]}" >> $hide_applications
+    printf ")" >> $hide_applications
+}
+
+case "$1" in
+  "favorites")
+    favorites
+    ;;
+  "add")
+    shift
+    add_favorites $@
+    ;;
+  "remove")
+    shift
+    remove_favorites $@
+    ;;
+  "hide")
+    shift
+    hide $@
+    ;;
+esac

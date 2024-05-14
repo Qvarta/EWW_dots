@@ -1,3 +1,5 @@
+@import "./colors.scss";
+
 //  ---------------------------------------------------------------------------
 //                                     Vars
 //  ---------------------------------------------------------------------------
@@ -6,20 +8,16 @@ $green: #09611f;
 $red: #cc241d;
 $yellow: #9a5f24;
 $blue: #333346;
-$gray: #a89984;
-$softgray: #5a524c;
-$darkgray: #3a3937;
 
-$fg1: #a89984;
-$fg2: rgba(238, 238, 238, 0.2);
-$bg1: #282828;
-$bg2: rgba(77, 69, 64, 0.8);
-$bg3: #3f3740;
-$bg4: #494949;
+$background2:  lighten($background, 10%);
+$background3:  lighten($background, 20%);
+$foreground2:  lighten($background3, 20%);
 
-$select: rgba(77, 69, 64, 0.8);
-$text_shadow: 1px 1px 2px black;
+$translucent: rgba($background, 0.5);
+$translucent2:  rgba($background, 0.3);
+$translucent3: rgba($background3, 0.6);
 
+$text_shadow: 1px 1px 2px darken($foreground, 90%);
 $border_radius: 15px;
-$border: 1px solid $gray;
-$border2: 2px solid $gray;
+$border: 1px solid $color3;
+$border2: 2px solid $color3;

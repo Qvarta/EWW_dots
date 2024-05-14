@@ -1,0 +1,61 @@
+; ---------------------------------------------------------------------------
+;                              VARS
+; ---------------------------------------------------------------------------
+(defpoll vars_info :initial "[]" :interval "10h" "./scripts/get_vars vars")
+(defpoll strings :initial "[]" :interval "10h" "./scripts/get_vars strings")
+
+(defvar searchStr "")
+(defvar hashDir "")
+(defvar chgTime "")
+(defvar currentApp "")
+(defvar applications "")
+(defpoll favorites_app :initial "[]" :interval "2s" "./scripts/applications/favoritesApp favorites")
+(deflisten searchApp :initial "[]" "./scripts/applications/showAppList")
+
+(defpoll bg_list :initial "[]" :interval "1m" "./scripts/background get")
+
+(deflisten cmus_status :initial "" "playerctl -F -p cmus status")
+(defpoll track_info :initial "[]" :interval "1s" "./scripts/cmus_player info")
+(defpoll sound_info :initial "[]" :interval "1s" "./scripts/sound info")
+
+(deflisten workspaces :initial "[]" "./scripts/workspaces")
+(deflisten current_workspace :initial "1" "./scripts/active_workspace")
+
+(defpoll bluetooth_state :interval "1s" "./scripts/bluetooth name")
+(deflisten list_devices :initial "[]" "./scripts/bt")
+
+(defpoll layout :interval "0.5s"  "./scripts/kb_layout getkb")
+
+(defvar password true)
+(defpoll wifi_info :initial "[]" :interval "1s" "./scripts/wifi/wifiInfo info")
+(deflisten list_net :initial "[]" "./scripts/wifi/wifiList")
+
+(defpoll brightness :initial "255" :interval "1s" "brightnessctl g")
+
+(defpoll date :initial "0" :interval "1h" 'date "+%A %d %B %G"')
+
+(defpoll checkupdates :initial false :interval "1h" "if checkupdates &> /dev/null; then echo true; else echo false; fi")
+; (deflisten weather_json :initialw "[]" "./test/test_weather")
+(deflisten weather_json :initial "[]" "./scripts/weather")
+
+
+
+(defvar power_rev false)
+(defvar sliders_rev false)
+(defvar graphs_rev false)
+(defvar popUp_rev false)
+
+; (defvar app_rev true) 
+; (defvar btn_rev false)
+; (defvar wifi_rev false)
+; (defvar weather_rev true)   
+
+(defvar new_ssid "none")
+(defvar cDay 0)
+(defvar cGraph "RAM")
+
+(defvar power_info "none")
+(defvar power_command "none")
+(defvar usePywal false)
+
+(defvar widgetNum 0)

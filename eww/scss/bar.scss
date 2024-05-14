@@ -2,38 +2,39 @@
 //                                Bar Widgets
 //  ---------------------------------------------------------------------------
 .bar {
-  background-color: $bg1;
+  background-color: $background;
   border: $border;
   border-radius: 20px;
-  padding: 2px 10px;
+  padding: 2px 5px;
 
   .bar_module {
     margin: 5px 1px;
     padding: 0 15px;
     border-radius: 10px;
-
+    background-color: $background2;
     &.left {
       border-radius: 10px 0 0 10px;
-      background-color: $bg4;
     }
 
     &.right {
       border-radius: 0 10px 10px 0;
-      background-color: $bg4;
-    }
-    &.stopped {
-      background-color: $bg4;
     }
   }
 
   .bar_icon {
     padding: 0px 8px;
     font-size: 18px;
+    &.launcher{
+      font-size: 26px;
+    }
   }
 
   .boldText {
     font-size: 18px;
     font-weight: bold;
+    &.playing {
+      color: $foreground2;
+    }
   }
 
   .mediumText {
@@ -51,24 +52,23 @@
 
 .workspacesBox {
   border-radius: $border_radius;
-  margin: 10px 3px;
+  background-color: $foreground;
+  margin: 8px 3px;
+  padding: 0 10px;
 
-  &.inactive {
-    padding: 0 15px;
-    background-color: $softgray;
-
-    &:hover {
-      background-color: $yellow;
-    }
+  &:hover {
+    background-color: $color8;
   }
 
   &.empty {
-    padding: 0 15px;
-    background-color: $fg2;
+    background-color: $background2;
+    &:hover {
+      background-color: $color8;
+    }
   }
 
   &.active {
     padding: 0 30px;
-    background-color: $yellow;
+    border:$border
   }
 }

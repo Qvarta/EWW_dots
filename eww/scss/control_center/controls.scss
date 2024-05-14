@@ -9,40 +9,40 @@
 
     .btn {
       border-radius: 10px;
-      background-color: $bg3;
+      background-color: $background2;
 
       &:hover {
-        background-color: $softgray;
+        background-color: $color4;
       }
     }
 
     .btnLeft {
-      border-radius: 10px 0 0 10px;
-      background-color: $bg3;
+      border-radius: 6px 0 0 6px;
+      background-color: $background2;
       font-size: 24px;
 
       &:hover {
-        background-color: $softgray;
+        background-color: $color4;
       }
     }
 
     .btnRight {
-      border-radius: 0 10px 10px 0;
-      background-color: $bg3;
+      border-radius: 0 6px 6px 0;
+      background-color: $background2;
 
       &.dark {
-        background-color: $bg4;
+        background-color: $background3;
 
         &:hover {
-          background-color: $softgray;
+          background-color: $color4;
         }
       }
     }
 
     .btnIcon {
       font-size: 27px;
-      padding-left: 20px;
-      min-width: 40px;
+      padding-left: 15px;
+      min-width: 30px;
     }
 
     .iconArrow {

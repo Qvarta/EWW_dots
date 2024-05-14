@@ -4,15 +4,14 @@
     font-weight: bold;
   }
   .icon {
-    font-size: 24px;
+    font-size: 30px;
     font-weight: bold;
   }
   .lblBtn {
-    background-color: $bg3;
-    border-radius: 6px;
-
     &:hover {
-      background-color: $softgray;
+      .icon{
+        color: $color4;
+      }
     }
   }
 
@@ -22,11 +21,11 @@
     border-radius: 6px;
 
     &:hover {
-      background-color: $softgray;
+      background-color: $color4;
     }
 
     &.active {
-      background-color: $bg4;
+      background-color: $color1;
     }
   }
 }

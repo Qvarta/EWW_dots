@@ -20,10 +20,9 @@ headers='User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_1) AppleWebKit
 icons_json=$(cat $file | jq -r '.codes')
 
 get_json() {
-    response=$(curl -s -H "${headers}" "${URL}")
-
+    response=$(curl -s -H "${2}" "${1}")
     if [ $? -eq 0 ]; then
-        create_new_json "${response}"
+        echo "${response}"
     else
         exit 1
     fi
@@ -32,7 +31,7 @@ get_json() {
 create_new_json() {
     in_data="${1}"
     out_data=()
-    number=0
+    number=-1
     while read -r line; do
         date_raw=$(echo "${line}" | jq -r '.Date' | cut -d'T' -f1)
         date=$(date -d "${date_raw}" '+%d.%m')
@@ -76,4 +75,12 @@ create_new_json() {
     echo '['$(IFS=,; echo "${out_data[*]}")']'
 }
 
-get_json
+while true; do
+    weather_json=$(get_json "$URL" "$headers")
+    if [[ $weather_json ]]; then
+        weather=$(create_new_json "$weather_json")
+        echo "$weather"
+        eww update weather="$weather"
+    fi
+    sleep 1800
+done

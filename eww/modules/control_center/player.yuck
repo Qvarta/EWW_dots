@@ -8,32 +8,38 @@
     :space-evenly false
     :height 130
     :spacing 2
-    (overlay
+    (box
+      :orientation "vertical"
+      :space-evenly false
       :class "Left"
+      :hexpand true
       (box
+        :vexpand true
         :space-evenly false
-        :class "cover"
-        :spacing 5
-        :width 310
-        :hexpand true
-        :style style
-      )
-      (box
-        :class "translucent"
-      )
-      (box
-        :class "info"
-        :orientation "v"
-        :spacing 10
-        :space-evenly false
-        :valign "center"
-        (label :class "artist" :text "${track_info.artist}")
-        (label 
-          :halign "center"
-          :wrap true
-          :justify "center"
-          :class "track" 
-          :text "${track_info.title}"  
+        (box
+          (box
+            :class "cover"
+            :width 120
+            :height 100
+            :style style
+          )
+        )
+        (box
+          :class "info"
+          :orientation "v"
+          :spacing 4
+          :space-evenly false
+          :valign "center"
+          :halign "fill"
+          :hexpand true
+          (label :class "artist" :text "${track_info.artist}")
+          (label 
+            :halign "center"
+            :wrap true
+            :justify "center"
+            :class "track" 
+            :text "${track_info.title}"  
+          )
         )
       )
       (scale
@@ -61,7 +67,7 @@
         :class "button"
         :cursor "pointer"
         :onclick "cmus-remote -u"
-        (label :class "iconBtn" :text {status=='Playing' ? ' ' : ''})
+        (label :class "iconBtn" :text {status=='Playing' ? '' : ''})
       )
       (eventbox
         :class "button"

@@ -17,10 +17,12 @@
     (title
       :text {strings.wallpapers}
       :iconL " "
-      :iconR1 "󰅚 "
-      :action1 "${EWW_CMD} close chg_bg" 
+      :iconR2 "󰅚 "
+      :action2 "${EWW_CMD} close chg_bg"
+      :visible2 true
+      :iconR1 {usePywal ? "󰌁 " : "󰹊 "}
+      :action1 "${EWW_CMD} update usePywal=${!usePywal}"
       :visible1 true
-      :visible2 false
     )
     (scroll
       :height 240
@@ -47,18 +49,26 @@
 )
 (defwidget img [path style]
   (eventbox
-    :onclick "./scripts/background set ${path}"
+    :onclick "./scripts/background set ${path} ${usePywal ? 'pywal' : ''}"
+    :onrightclick "${EWW_CMD} update popUp_rev=${!popUp_rev}"
     :timeout "5s"
     :class "imgBtn"
     :cursor "pointer"
     (box
       :class "imgContainer"
-      (box
-        :class "img"
-        :style style
+      (overlay
+        (box
+          :class "img"
+          :style style
+        )
+        (revealer :transition "crossfade" :reveal {popUp_rev} :duration "500ms"
+          (eventbox
+            :class "btn"
+            :onclick "./scripts/background delete ${path} & ${EWW_CMD} update popUp_rev=${!popUp_rev}"
+            (label :class "btnText red" :text "󱎘")
+          )
+        )
       )
     )
-    
   )
 )
-

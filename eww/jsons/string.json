@@ -31,6 +31,8 @@
         "net_list":["Networks","Cети"],
         "search":["Search networks", "Поиск сетей"],
         "toggle":["Toggle","Вкл/Выкл"],
-        "now":["Now","Сейчас"]                
+        "now":["Now","Сейчас"], 
+        "addfav":["Add favorites","В избранное"],
+        "hide":["Hide","Скрыть"]              
     }
 }

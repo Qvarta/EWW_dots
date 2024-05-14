@@ -1,0 +1,81 @@
+#!/bin/bash
+source $HOME/.config/eww/var.conf
+source $HOME/.config/eww/jsons/hide.conf
+
+desktop_dir="/usr/share/applications"
+
+
+get_icon_path() (
+    local icon_name="$1"
+    found_file=$(find -L "$SET_ICONS" -type f -name "*$icon_name*" -print -quit)
+    if [ -n "$found_file" ]; then
+        echo $found_file
+    else
+        echo "None"
+    fi
+)
+get_field() {
+    local desktop_file="$1"
+    local field_name="$2"
+    awk -F= -v field="$field_name" '/^\[Desktop Entry\]$/ { in_section=1; next } /^\[.*\]$/ { in_section=0 } in_section && $1 == field { print $2 }' "$desktop_file"
+}
+create_list(){
+    local json_array=()
+    for desktop_file in "$desktop_dir"/*.desktop; do
+        # Проверка, существует ли файл
+        if [ -e "$desktop_file" ]; then
+            # Проверка наличия строки NoDisplay=true в файле .desktop
+            if ! grep -q "NoDisplay=true" "$desktop_file"; then
+                name=$(get_field "$desktop_file" "Name")
+                icon=$(get_field "$desktop_file" "Icon")
+                comment=$(get_field "$desktop_file" "Comment")
+                comment_ru=$(get_field "$desktop_file" "Comment[ru]")
+                desktop=$(basename $desktop_file)
+                icon_path=$(get_icon_path "$icon")
+                if ! grep -q "Terminal=true" "$desktop_file"; then
+                    command="gtk-launch $desktop" 
+                else
+                    exec=$(get_field "$desktop_file" "Exec")
+                    command="$SET_TERM $exec" 
+                fi        
+                # # Проверка, содержит ли Name подстроки из массива hide
+                # skip=false
+                # for substring in "${HIDE[@]}"; do
+                #     if [[ "$desktop" == *"$substring"* ]]; then
+                #         skip=true
+                #         break
+                #     fi
+                # done
+                # Если не содержит подстроки из hide и не пустые, то добавляем в JSON-массив
+                # if [ "$skip" == false ] && [ -n "$name" ]; then
+                if [ -n "$name" ]; then
+                    new_entry=$(jq -n \
+                    --arg name "$name" \
+                    --arg icon "$icon" \
+                    --arg icon_path "$icon_path" \
+                    --arg desktop "$desktop" \
+                    --arg comment "$comment" \
+                    --arg comment_ru "$comment_ru" \
+                    --arg command "$command" \
+                    '{app: $name, icon_name: $icon, icon: $icon_path, path: $desktop, en: $comment, ru: $comment_ru, command: $command}')
+                    json_array+=("$new_entry")
+                fi
+            fi
+        fi
+    done
+    echo '['$(IFS=,; echo "${json_array[*]}")']'  
+}
+
+while true; do
+    # Получаем хэш сумму текущего состояния папки
+    current_hash=$(find "$desktop_dir" -type f -exec md5sum {} \; | sort | md5sum | awk '{print $1}')
+    previous_hash=$(eww get hashDir)
+    listApp=$(eww get applications)
+    if [ "$current_hash" != "$previous_hash" ] || [ "$listApp" == "[]" ]; then
+        eww update hashDir="$current_hash"
+        listApp=$(create_list)
+        echo "$listApp"
+        eww update applications="$listApp"
+    fi
+    sleep 10
+done

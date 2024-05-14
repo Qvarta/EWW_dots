@@ -46,6 +46,8 @@ track_info(){
         '{title: $title, artist: $artist, duration: $duration, position: $position, style: $style}')
 
     echo "$json" | jq -r .
+  else
+    echo "{\"title\":\"\",\"artist\":\"\",\"duration\":\"\",\"position\":\"\",\"style\":\"\"}"
   fi
 }
 track_info

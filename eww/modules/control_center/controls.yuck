@@ -1,36 +1,51 @@
 ; ---------------------------------------------------------------------------
-;                               QUICK BUTTON WIDGET
+;                               CONTROLS WIDGET
 ; ---------------------------------------------------------------------------
+(defwidget controls[]
+  (stack
+    :selected widgetNum
+    :transition "${widgetNum == 0 ? 'slideleft' : 'slideright'}"
+    :class "controls"
+    :same-size false
+      (box
+        :space-evenly false
+        :orientation "v"
+        (quickButtons)
+        (sliders)
+      )
+      (net_list)
+      (scroll_devices)
+  )
+
+)
 (defwidget quickButtons[]
   (box
     :spacing 10
     :class "QuickBtns"
     (quickBtn
-      :name {wifi_info.ssid}
+      :name "wifi"
+      :state {wifi_info.ssid}
       :icon "  "
-      :arrow true
-      :action1 "./scripts/wifi toggle"
-      :action2 "${EWW_CMD} ${windows_status.net_list} net_list"
-      :visible true
+      :action1 "./scripts/wifi/wifiInfo toggle"
+      :action2 "${EWW_CMD} update widgetNum=1"
     )
     (quickBtn
-      :name {bluetooth_state}
+      :name "bt"
+      :state {bluetooth_state}
       :icon "󰂯 "
-      :arrow false
       :action1 "./scripts/bluetooth toggle"
-      :visible false
+      :action2 "${EWW_CMD} update widgetNum=2"
     )
   )
 )
-(defwidget quickBtn[name icon arrow action1 ?action2 visible]
+(defwidget quickBtn[name state icon action1 action2]
   (box
     :class "quickBtn"
     :space-evenly false
     (eventbox
-      :class "${arrow ? 'btnLeft' : 'btn'}"
-      :onclick action1
+      :class "btnLeft"
       :hexpand true
-      :cursor "pointer"
+      :onclick action1
       (box
         :hexpand true
         :space-evenly false
@@ -39,16 +54,16 @@
           :class "btnText"
           :hexpand true
           :halign "start"
-          :text "${name == 'on' ? '${strings.unblocked}' : name == 'off' ? '${strings.blocked}' : substring(name, 0, 10)}"
+          :text "${state == 'on' ? '${strings.unblocked}' : state == 'off' ? '${strings.blocked}' : substring(state, 0, 10)}"
         )
       )
     )
     (eventbox
-      :onclick action2
-      :visible visible
-      :class "btnRight ${arrow ? 'dark' : ''}"
+      ; :onclick "${EWW_CMD} update currentBtn=${name} & ./scripts/open_popup popup"
+      :onclick  action2
+      :class "btnRight dark"
       :cursor "pointer"
-      (label :class "iconArrow" :text "${arrow ? '' : ''}")
+      (label :class "iconArrow" :text "")
     )
   )
 )

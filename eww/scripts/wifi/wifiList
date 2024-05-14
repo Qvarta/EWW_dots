@@ -1,0 +1,19 @@
+#!/bin/bash
+
+get_wifi_list() {
+  local json=$(nmcli -t -f SSID,SIGNAL device wifi list | awk -F: '{printf "{\"ssid\":\"%s\",\"signal\":\"%s\"},",$1,$2}')
+  json="[${json%?}]"
+  echo "$json" | jq 'map(select(.ssid != ""))'
+}
+
+
+
+while true; do
+  wifiStatus=$(eww get wifi_info | jq -r .status)
+  if [[ $wifiStatus == 'enabled' ]]; then
+    netList=$(get_wifi_list)
+    echo "$netList"
+    eww update list_net="$netList"
+  fi
+  sleep 10
+done

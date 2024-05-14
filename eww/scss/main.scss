@@ -9,6 +9,7 @@
 @import './control_center.scss';
 @import './wifi.scss';
 @import './power.scss';
+@import './popup.scss';
 
 //  ---------------------------------------------------------------------------
 //                                     Window
@@ -18,22 +19,27 @@
   font-family: "Iosevka NF";
   font-size: 16px;
   transition: all 0.3s ease-out;
-  color: $fg1;
+  color: $foreground;
   background-color: transparent;
   text-shadow: $text_shadow;
 }
 .main_container{
-  background-color: $bg1;
+  background-color: $background;
   border-radius: $border_radius;
   padding: 15px;
   margin: 10px;
   border: $border2;
 }
-.block {
-  background-color: $bg3; 
-  border-radius: 10px;
+.sub_container{
+  background-color: $background;
+  border-radius: $border_radius;
   padding: 10px;
-  // border: $border;
+  border: $border2;
+}
+.block {
+  background-color: $background2; 
+  border-radius: 6px;
+  padding: 10px;
 }
 .red {
   color: $red;
@@ -50,7 +56,7 @@
 tooltip{
   border-radius: 5px;
   border: $border;
-  color: $fg1;
-  text-shadow: $text_shadow;
-  background-color: $bg1;
+  color: $foreground;
+  text-shadow: $color9;
+  background-color: $background;
 }

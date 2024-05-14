@@ -1,0 +1,14 @@
+#!/bin/bash
+
+eww_output=$(eww active-windows)
+
+function toggle {
+  state=$(echo "$eww_output" | grep "$1" | awk '{print $2}')
+  if [[ "$state" == $1 ]]; then
+    eww close $1
+  else
+    eww open $1
+  fi
+}
+
+toggle $1

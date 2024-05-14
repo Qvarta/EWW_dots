@@ -1,11 +1,17 @@
-.desktopText {
-  color: $fg1;
-  font-weight: bold;
-  background-color: transparent;
-  &.medium {
-    font-size: 22px;
-  }
-  &.small {
-    font-size: 18px;
+.desktop {
+  background-color: $translucent2;
+  padding: 20px;
+  border-radius: $border_radius;
+  .desktopText {
+    color: $foreground;
+    text-shadow: $text_shadow;
+    font-weight: bold;
+    background-color: transparent;
+    &.medium {
+      font-size: 22px;
+    }
+    &.small {
+      font-size: 18px;
+    }
   }
 }

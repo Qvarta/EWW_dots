@@ -1,22 +1,18 @@
 # Global configuration options
-max-history=5
+max-history=4
 sort=+time
-
-# Binding options
-on-button-left=dismiss
-on-button-right=dismiss-all
 
 # Style options
 font=monospace 12
-background-color=#201f1c
-border-color=#e2cca9
-text-color=#a89984
-width=300
-height=100
+background-color=#0B0E11
+border-color=#7E817D
+text-color=#cecbc7
+width=400
+height=200
 margin=10
 padding=15
 border-size=1
-border-radius=6
+border-radius=8
 icons=1
 max-icon-size=128
 icon-location=left
@@ -28,18 +24,9 @@ default-timeout=15000
 layer=top
 anchor=top-center
 
-[category=CHANGE_LAYOUT]
-font=monospace 12
-background-color=#32302f
-text-color=#a89984
-width=400
-height=200
-margin=300
-padding=15
-border-size=1
-border-radius=10
-history=0
-text-alignment=center
-layer=top
-default-timeout=400
-anchor=top-center
+# Binding options
+on-button-left=dismiss
+on-button-right=invoke-default-action
+
+[urgency=critical]
+border-color=#c5808a

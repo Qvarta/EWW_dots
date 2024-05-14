@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+# @requires: bluez-hcitool bluetoothctl
+
 state=$(bluetoothctl show | grep 'Powered' | awk '{print $2}')
 
 get_name() {

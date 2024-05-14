@@ -1,50 +1,71 @@
 .launcher {
+  .titleLaucher{
+    font-size: 26px;
+  }
+  .titleBtn{
+    &:hover {
+      .iconBig, .iconSmall {
+        color: $color4;
+      }
+    }
+  }
+  .iconBig{
+    font-size: 32px;
+  }
+  .iconSmall{
+    font-size: 24px;
+  }
   .fav_icon {
     border: $border;
     border-color: transparent;
     border-radius: 6px;
   }
   .launcherInputBox {
-    border-radius: 10px;
-    background-color: $bg4;
-    margin: 5px 10px;
+    border-radius: 6px;
+    background-color: $background3;
+    margin: 5px 0;
   }
-  .launcherInputIcon{
+  .launcherInputIcon {
     font-size: 28px;
     padding: 0 10px;
   }
-  .launcherInput{
+  .launcherInput {
     font-size: 22px;
-    border-radius: 0 10px 10px 0;
-    background-color: $bg3;
+    border-radius: 0 6px 6px 0;
+    background-color: $background2;
   }
   .fav_btn:hover {
     .fav_icon {
-      background-color: $softgray;
+      background-color: $color4;
       border-color: $yellow;
     }
   }
-
-  .app_btn {
-    background-color: $bg3;
-    border-radius: 6px;
-
+  .btnLeft {
+    border-radius: 6px 0 0 6px;
+    background-color: $background3;
+    .appIcon {
+      padding: 5px;
+    }
     &:hover {
-      background-color: $softgray;
+      background-color: $color4;
+    }
+  }
+  .btnCenter {
+    border-radius: 0 6px 6px 0;
+    background-color: $background2;
+    &:hover {
+      background-color: $color4;
       border: $border;
       border-color: $yellow;
     }
   }
-
   .entry {
     padding: 5px 20px;
   }
-
   .mediumText {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
   }
-
   .smallText {
     font-size: 16px;
   }

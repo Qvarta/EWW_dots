@@ -1,41 +1,47 @@
 ; ---------------------------------------------------------------------------
 ;                               WEATHER WIDGET
 ; ---------------------------------------------------------------------------
-(defwidget weather[visible]
+(defwidget weather[]
   (box
     :class "block weather"
     :orientation "v"
     :space-evenly false
     :valign "center"
     :height 137
-    (eventbox
-      :visible {visible}
-      :onscroll "${EWW_CMD} update weather_rev=${!weather_rev}"
-      :vexpand true
-      (overlay
-        (current_day :current {weather_json[0]})
-        (current_day :current {weather_json[1]})
-        (current_day :current {weather_json[2]})
-        (current_day :current {weather_json[3]})
-        (current_day :current {weather_json[4]})
-        (forecast)
-      )
+    (stack
+      :selected "${weather_json!= '[]' && weather_json[0].icon != 'null' ? cDay : 6}"
+      :transition "crossfade"
+      :same-size true
+      (current_day :current {weather_json[0]})
+      (current_day :current {weather_json[1]})
+      (current_day :current {weather_json[2]})
+      (current_day :current {weather_json[3]})
+      (current_day :current {weather_json[4]})
+      (forecast)
+      (weather_err)
     )
-    (box
-      :visible {!visible}
-      :space-evenly false
-      :halign "center"
-      :spacing 20
-      (label :text " " :class "largeIcon")
-      (label :text "${strings.unavailable}" :class "mediumText")
+  )
+)
+(defwidget weather_err[]
+  (box
+    :space-evenly false
+    :halign "center"
+    :spacing 20
+    (label :text " " :class "largeIcon")
+    (label :text "${strings.unavailable}" :class "mediumText")
+  )
+)
+(defwidget forecast[]
+  (box
+    :spacing 5
+    (for entry in weather_json
+      (day :date {entry.date} :icon {entry.icon} :tmax {entry.temp_max} :number {entry.num})
     )
   )
 )
 (defwidget current_day[current]
-  (revealer
-    :transition "crossfade"
-    :reveal "${cDay == current.num && weather_rev ? 'true' : 'false'}"
-    :duration "500ms"
+  (eventbox
+    :onscroll "${EWW_CMD} update cDay=5"
     (overlay
       (box
         :space-evenly false
@@ -92,28 +98,18 @@
     )
   )
 )
-(defwidget forecast[]
-  (revealer :transition "crossfade" :reveal {!weather_rev} :duration "500ms"
-    (box
-      :spacing 5
-      (for entry in weather_json
-        (day :date {entry.date} :icon {entry.icon} :tmax {entry.temp_max} :number {entry.num})
-      )
-    )
-  )
-)
 (defwidget day[date icon tmax number]
   (eventbox
-    :onclick "${EWW_CMD} update cDay=${number} && ${EWW_CMD} update weather_rev=${!weather_rev}"
+    :onclick "${EWW_CMD} update cDay=${number}"
     :class "day"
     :cursor "pointer"
     (box
       :orientation "v"
       :spacing 5
       :space-evenly false
-      (label :class "overlayText smallText" :text date)
+      (label :class "overlayText smallText up " :text date)
       (label :class "mediumIcon" :text icon)
-      (label :class "overlayText smallText" :text "${round(tmax,0)}°C")
+      (label :class "overlayText smallText down" :text "${round(tmax,0)}°C")
     )
   )
 )
