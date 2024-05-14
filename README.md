@@ -1,3 +1,7 @@
+
+
+
+
 # My Eww Dotfiles for Hyprland.
 
 
@@ -5,7 +9,7 @@ This is my personal eww dotfiles repository. All widgets are EWW.
 
 at work...
 
-
+https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/a8014461-3ad9-461a-ad10-d2b30076e683
 
 https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/012d2831-7d03-4bfc-a56a-71c695755dd5
 
