@@ -44,7 +44,7 @@ https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/a8014461-3ad9-461a-ad10-d
 3. Make 'install' executable. Run it and follow the instructions.
 
 	```bash
-        
+        cd ~/GRUVBOX_EWW
         chmod +x install
         ./install
 	```
