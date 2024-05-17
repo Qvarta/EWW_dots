@@ -38,7 +38,7 @@ https://github.com/Qvarta/GRUVBOX_EWW/assets/145424608/a8014461-3ad9-461a-ad10-d
 2. Clone this repository.
 
 	```bash
-		git clone https://github.com/Qvarta/GRUVBOX_EWW.git
+	git clone https://github.com/Qvarta/GRUVBOX_EWW.git
 	```
 
 3. Make 'install' executable. Run it and follow the instructions.
