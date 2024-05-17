@@ -44,3 +44,25 @@
     }
   }
 }
+.windowTitle {
+  .iconR {
+    font-size: 30px;
+    font-weight: bold;
+  }
+  .titleBigText {
+    font-size: 32px;
+  }
+  .titleMediumText {
+    font-size: 24px;
+  }
+  .titleBtn {
+    border: $border;
+    border-color: transparent;
+    border-radius: 5px;
+    &:hover {
+      .iconR {
+        color: $color4;
+      }
+    }
+  }
+}

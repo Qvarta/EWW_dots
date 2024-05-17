@@ -14,12 +14,13 @@
     :orientation "v"
     :space-evenly false
     :class "main_container confirm"
-    
-    (title
-      :text text
-      :iconL " "
-      :visible1 false
-      :visible2 false
+    (box
+      :space-evenly false
+      :spacing 10
+      :class "windowTitle"
+      :halign "center"
+      (label :class "titleBigText" :text " ")
+      (label :class "titleMediumText" :text text)
     )
     (box
       :class "container"

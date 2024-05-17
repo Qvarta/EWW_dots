@@ -1,53 +1,53 @@
-(defwindow chg_bg
+(defwindow wallpapers
   :monitor "0"
   :namespace "chg_bg"
   :geometry (geometry
     :width "800px"
-    :height "240px"
+    :height "300px"
     :anchor "center"
   )
-  (bg_menu)
+  (mainBG)
 )
-(defwidget bg_menu[]
+(defwidget mainBG[]
   (box
     :class "main_container bg"
     :space-evenly false
     :orientation "v"
-    :spacing 20
-    (title
+    :spacing 6
+    (titleBG
       :text {strings.wallpapers}
       :iconL " "
       :iconR2 "󰅚 "
-      :action2 "${EWW_CMD} close chg_bg"
+      :action2 "${EWW_CMD} close wallpapers"
       :visible2 true
       :iconR1 {usePywal ? "󰌁 " : "󰹊 "}
       :action1 "${EWW_CMD} update usePywal=${!usePywal}"
       :visible1 true
     )
     (scroll
-      :height 240
+      :height 280
       :vscroll true
       (box
         :orientation "v"
         :spacing 10
         (for entry in bg_list
-          (create_line :list {entry})
+          (createLine :list {entry})
         )
       )
     )
   )
 )
-(defwidget create_line[list]
+(defwidget createLine[list]
   (box
     (for item in list
-      (img
+      (imgBG
         :style {item.style}
         :path {item.path}
       )
     )
   )
 )
-(defwidget img [path style]
+(defwidget imgBG [path style]
   (eventbox
     :onclick "./scripts/background set ${path} ${usePywal ? 'pywal' : ''}"
     :onrightclick "${EWW_CMD} update popUp_rev=${!popUp_rev}"
@@ -68,6 +68,35 @@
             (label :class "btnText red" :text "󱎘")
           )
         )
+      )
+    )
+  )
+)
+(defwidget titleBG [?class ?iconL ?text ?iconR1 ?action1 ?visible1 ?iconR2 ?action2 ?visible2 ?color]
+  (box
+    :space-evenly false
+    :spacing 10
+    :class "windowTitle"
+    (label :class "titleBigText ${class}" :text iconL :halign "start")
+    (label :class "titleMediumText" :text text :hexpand true :halign "start")
+    (box
+      :halign "end"
+      :space-evenly false
+      (eventbox
+        :class "titleBtn"
+        :cursor "pointer"
+        :onclick action1
+        :visible visible1
+        :width 40
+        (label :text iconR1 :class "iconR ${color}")
+      )
+      (eventbox
+        :class "titleBtn"
+        :cursor "pointer"
+        :onclick action2
+        :visible visible2
+        :width 40
+        (label :text iconR2 :class "iconR ${color}")
       )
     )
   )

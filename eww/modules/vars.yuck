@@ -45,11 +45,6 @@
 (defvar graphs_rev false)
 (defvar popUp_rev false)
 
-; (defvar app_rev true) 
-; (defvar btn_rev false)
-; (defvar wifi_rev false)
-; (defvar weather_rev true)   
-
 (defvar new_ssid "none")
 (defvar cDay 0)
 (defvar cGraph "RAM")

@@ -80,7 +80,7 @@
     :duration "350ms"
     (eventbox
       :onclick "cmus-remote -u"
-      :onrightclick "pkill cmus"
+      :onrightclick "pkill -9 cmus"
       :onscroll "./scripts/scroll track {}"
       :cursor "pointer"
       (box

@@ -2,9 +2,8 @@
 @import './bar.scss';
 @import './calendar.scss';
 @import './desktop.scss';
-@import './title.scss';
 @import './screenshot.scss';
-@import './background.scss';
+@import './wallpapers.scss';
 @import './app_launcher.scss';
 @import './control_center.scss';
 @import './wifi.scss';
@@ -49,6 +48,9 @@
 }
 .yellow {
   color: $yellow;
+}
+.trasparentBG {
+  background-color: transparent;
 }
 //  ---------------------------------------------------------------------------
 //                                  Tooltip 
