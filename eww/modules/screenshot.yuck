@@ -1,0 +1,46 @@
+(defwindow screenshot
+  :monitor "0"
+  :namespace "screenshot"
+  :geometry (geometry :width "250px" :height "50px" :anchor "center")
+  (scr_menu)
+)
+(defwidget scr_menu []
+  (eventbox
+    :orientation "v"
+    :class "main_container"
+    :onhoverlost "${EWW_CMD} close screenshot"
+    :space-evenly false
+    (box
+      :spacing 10
+      :style "margin: 20px;"
+      (scr_btn
+        :name "${strings.screen}"
+        :action "./scripts/window_toggle screenshot & hyprshot -m output -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
+        :style "background-image: url('images/ui/screenshot_d.png'); border: 2px solid rgb(168, 153, 132);"
+      )
+      (scr_btn
+        :name "${strings.window}"
+        :action "./scripts/window_toggle screenshot & hyprshot -m window -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
+        :style "background-image: url('images/ui/screenshot_w.png'); border: 2px solid rgb(168, 153, 132);"
+      )
+    )
+  )
+)
+(defwidget scr_btn[name style action]
+  (eventbox
+    :onclick action
+    :class "shBtnBlock"
+    :cursor "pointer"
+    (box
+      :orientation "v"
+      :space-evenly false
+      :spacing 10
+      (box
+        :height 100
+        :class "shBtn"
+        :style style
+      )
+      (label  :text name :class "shBtnNname")
+    )
+  )
+)

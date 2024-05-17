@@ -1,0 +1,38 @@
+; ---------------------------------------------------------------------------
+;                               TOP WIDGET
+; ---------------------------------------------------------------------------
+(defvar numTop 0)
+
+(defwidget tiltleControls []
+  (stack
+    :selected numTop
+    :transition "${numTop == 0 ? 'slideright' : 'slideleft'}"
+    (box
+      :class "CcTop"
+      (box
+        :halign "start"
+        :spacing 5
+        (label :text "${EWW_BATTERY[vars_info.battery].capacity < 20 ? " " :
+          EWW_BATTERY[vars_info.battery].capacity < 40 ? " " :
+          EWW_BATTERY[vars_info.battery].capacity < 80 ? " " :
+          EWW_BATTERY[vars_info.battery].capacity > 79 ? " " : "" }"
+          :class "iconR"
+        )
+        (label
+          :class "value"
+          :text "${EWW_BATTERY[vars_info.battery].status == 'Charging' ? '󱐌' : ''} ${EWW_BATTERY[vars_info.battery].capacity}%"
+        )
+      )
+      (label :hexpand true)
+      (eventbox
+        :class "titleBtn"
+        :halign "end"
+        :onclick "${EWW_CMD} update numTop=1"
+        :width 40
+        :cursor "pointer"
+        (label :class "iconR" :text " ")
+      )
+    )
+    (screenshot)
+  )
+)

@@ -1,0 +1,23 @@
+; ---------------------------------------------------------------------------
+;                             CALENDAR WINDOW
+; ---------------------------------------------------------------------------
+(defwindow calendar
+  :stacking "fg"
+  :monitor "0"
+  :namespace "calendar"
+  :geometry (geometry :width "250px" :height "150px" :anchor "top center")
+  (month_widget)
+)
+; ---------------------------------------------------------------------------
+;                          CALENDAR MAIN WIDGET
+; ---------------------------------------------------------------------------
+(defwidget month_widget[]
+  (eventbox
+    :onhoverlost "${EWW_CMD} close calendar"
+    (box
+      :width 350
+      :class "main_container"
+      (calendar :day {formattime(EWW_TIME, "%e")} :year {formattime(EWW_TIME, "%Y")})
+    )
+  )
+)

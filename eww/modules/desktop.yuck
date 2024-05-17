@@ -1,0 +1,36 @@
+(defwindow desktop
+  :stacking "bg"
+  :monitor "0"
+  :exclusive true
+  :namespace "desktop"
+  :geometry (geometry
+    :x "1%"
+    :y "2%"
+    :width "200px"
+    :height "100px"
+  :anchor "bottom right")
+  (info)
+)
+
+(defwidget info[]
+  (eventbox
+    :onclick "./test/cursor_pos"
+    (box
+      :class "desktop"
+      :orientation "v"
+      :space-evenly false
+      :spacing 10
+      (label :class "desktopText medium" :text "${date}")
+      (box
+        :spacing 20
+        :space-evenly false
+        :halign "center"
+        (label :class "desktopText small" :text "${EWW_BATTERY[vars_info.battery].status == 'Charging' ? '󰂄' : '󱊣'} ${EWW_BATTERY[vars_info.battery].capacity}%")
+        (label :class "desktopText small" :text "󰍛 ${round(EWW_RAM.used_mem_perc, 0)}%")
+        (label :class "desktopText small" :text " ${round(EWW_CPU.avg, 0)}%")
+        (label :class "desktopText small" :text " ${EWW_TEMPS[vars_info.sensor]}°C")
+      )
+    )
+  )
+  
+)

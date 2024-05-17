@@ -1,0 +1,41 @@
+; ---------------------------------------------------------------------------
+;                               BOTTOM WIDGET
+; ---------------------------------------------------------------------------
+(defwidget bottom [sensor]
+  (box
+    :class "monitor"
+    :space-evenly false
+    :spacing 10
+    (eventbox
+      :class "lblBtn"
+      :cursor "pointer"
+      :halign "start"
+      :onclick "${EWW_CMD} update graphs_rev=${!graphs_rev}"
+      (label :class "icon" :text "${graphs_rev ? ' '  : ' ' }" :xalign -1)
+    )
+    (box
+      :hexpand true      
+      (eventbox
+        :class "${cGraph == 'RAM' && graphs_rev == true ? 'btn active' : ''}"
+        :cursor "${graphs_rev == true ? 'pointer' : ''}"
+        :height 40
+        :onclick "${EWW_CMD} update cGraph='RAM'"
+        (label :text "󰍛 ${round(EWW_RAM.used_mem_perc, 0)}%" :class "text")
+      )
+      (eventbox
+        :class "${cGraph == 'CPU' && graphs_rev == true ? 'btn active' : ''}"
+        :cursor "${graphs_rev == true ? 'pointer' : ''}"
+        :height 40
+        :onclick "${EWW_CMD} update cGraph='CPU'"
+        (label :text " ${round(EWW_CPU.avg, 0)}%" :class "text")
+      )
+      (eventbox
+        :class "${cGraph == 'TEMP' && graphs_rev == true ? 'btn active' : ''}"
+        :cursor "${graphs_rev == true ? 'pointer' : ''}"
+        :height 40
+        :onclick "${EWW_CMD} update cGraph='TEMP'"
+        (label :text " ${EWW_TEMPS[sensor]}°C" :class "text")
+      )
+    )
+  )
+)

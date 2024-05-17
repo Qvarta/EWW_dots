@@ -1,0 +1,35 @@
+; ---------------------------------------------------------------------------
+;                               GRAPH WIDGET
+; ---------------------------------------------------------------------------
+(defwidget graphs[sensor]
+  (revealer
+    :reveal graphs_rev
+    :transition "slideup"
+    (box :orientation "v" :halign "center" :class "block"  :width 360
+      
+      (overlay
+        :hexpand true
+        (graph_block :name "RAM" :val "${round(EWW_RAM.used_mem_perc, 0)}" :description "%")
+        (graph_block :name "CPU" :val "${round(EWW_CPU.avg, 0)}" :description "%")
+        (graph_block :name "TEMP" :val "${round(EWW_TEMPS[sensor], 0)}" :description "°C")
+      )
+    )
+  )
+)
+(defwidget graph_block [name val description]
+  (revealer :transition "crossfade" :reveal {cGraph == "${name}" ? "true" : "false"} :duration "500ms"
+    (overlay
+      (graph
+        :class "${val < 40 ? 'green' : val < 70 ? 'yellow' : 'red'}"
+        :height 100
+        :min "0"
+        :max "100"
+        :thickness "2"
+        :value {val == "" ? 0 : val}
+        :dynamic "true"
+      :time-range "30s")
+      (label :class "graphDuration" :halign "start" :valign "end" :text "30 ${strings.sec}")
+      (label :class "graphVal" :halign "end" :valign "start" :text "${val}${description}")
+    )
+  )
+)

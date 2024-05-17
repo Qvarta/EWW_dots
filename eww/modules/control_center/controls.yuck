@@ -1,0 +1,69 @@
+; ---------------------------------------------------------------------------
+;                               CONTROLS WIDGET
+; ---------------------------------------------------------------------------
+(defwidget controls[]
+  (stack
+    :selected widgetNum
+    :transition "${widgetNum == 0 ? 'slideleft' : 'slideright'}"
+    :class "controls"
+    :same-size false
+      (box
+        :space-evenly false
+        :orientation "v"
+        (quickButtons)
+        (sliders)
+      )
+      (net_list)
+      (scroll_devices)
+  )
+
+)
+(defwidget quickButtons[]
+  (box
+    :spacing 10
+    :class "QuickBtns"
+    (quickBtn
+      :name "wifi"
+      :state {wifi_info.ssid}
+      :icon "  "
+      :action1 "./scripts/wifi/wifiInfo toggle"
+      :action2 "${EWW_CMD} update widgetNum=1"
+    )
+    (quickBtn
+      :name "bt"
+      :state {bluetooth_state}
+      :icon "󰂯 "
+      :action1 "./scripts/bluetooth toggle"
+      :action2 "${EWW_CMD} update widgetNum=2"
+    )
+  )
+)
+(defwidget quickBtn[name state icon action1 action2]
+  (box
+    :class "quickBtn"
+    :space-evenly false
+    (eventbox
+      :class "btnLeft"
+      :hexpand true
+      :onclick action1
+      (box
+        :hexpand true
+        :space-evenly false
+        (label  :class "btnIcon" :text icon)
+        (label
+          :class "btnText"
+          :hexpand true
+          :halign "start"
+          :text "${state == 'on' ? '${strings.unblocked}' : state == 'off' ? '${strings.blocked}' : substring(state, 0, 10)}"
+        )
+      )
+    )
+    (eventbox
+      ; :onclick "${EWW_CMD} update currentBtn=${name} & ./scripts/open_popup popup"
+      :onclick  action2
+      :class "btnRight dark"
+      :cursor "pointer"
+      (label :class "iconArrow" :text "")
+    )
+  )
+)

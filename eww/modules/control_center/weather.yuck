@@ -1,0 +1,115 @@
+; ---------------------------------------------------------------------------
+;                               WEATHER WIDGET
+; ---------------------------------------------------------------------------
+(defwidget weather[]
+  (box
+    :class "block weather"
+    :orientation "v"
+    :space-evenly false
+    :valign "center"
+    :height 137
+    (stack
+      :selected "${weather_json!= '[]' && weather_json[0].icon != 'null' ? cDay : 6}"
+      :transition "crossfade"
+      :same-size true
+      (current_day :current {weather_json[0]})
+      (current_day :current {weather_json[1]})
+      (current_day :current {weather_json[2]})
+      (current_day :current {weather_json[3]})
+      (current_day :current {weather_json[4]})
+      (forecast)
+      (weather_err)
+    )
+  )
+)
+(defwidget weather_err[]
+  (box
+    :space-evenly false
+    :halign "center"
+    :spacing 20
+    (label :text " " :class "largeIcon")
+    (label :text "${strings.unavailable}" :class "mediumText")
+  )
+)
+(defwidget forecast[]
+  (box
+    :spacing 5
+    (for entry in weather_json
+      (day :date {entry.date} :icon {entry.icon} :tmax {entry.temp_max} :number {entry.num})
+    )
+  )
+)
+(defwidget current_day[current]
+  (eventbox
+    :onscroll "${EWW_CMD} update cDay=5"
+    (overlay
+      (box
+        :space-evenly false
+        :spacing 15
+        :style "margin-left:5px;"
+        :valign "center"
+        (box
+          :orientation "v"
+          :space-evenly false
+          (label :text "${current.icon}" :class "largeIcon")
+          (label :text "${round(current.temp_max,0)}°C" :class "largeText")
+        )
+        (box
+          :orientation "v"
+          :valign "center"
+          :space-evenly false
+          (label :text "${current.icon_phrase}" :halign "start" :class "largeText")
+          (box
+            :space-evenly false
+            :halign "start"
+            :spacing 10
+            (label :text "${strings.probability}:" :class "mediumText")
+            (label :text "${current.prec}" :class "mediumText")
+          )
+          (box
+            :space-evenly false
+            :halign "start"
+            :spacing 10
+            (label :text "${strings.wind}:")
+            (label :text "${current.wind_speed} 󱗺 ${current.wind_dir}")
+          )
+          (box
+            :space-evenly false
+            :halign "start"
+            :spacing 20
+            (box
+              :space-evenly false
+              :halign "start"
+              :spacing 5
+              (label :text "󰜮" :class "mediumText")
+              (label :text "${round(current.temp_min,0)}°C")
+            )
+            (box
+              :space-evenly false
+              :halign "start"
+              :spacing 5
+              (label :text "󰜷" :class "mediumText")
+              (label :text "${round(current.temp_max,0)}°C")
+            )
+          )
+        )
+      )
+      (label :text "${current.date}" :halign "end" :valign "end" :class "overlayText smallText")
+    )
+  )
+)
+(defwidget day[date icon tmax number]
+  (eventbox
+    :onclick "${EWW_CMD} update cDay=${number}"
+    :class "day"
+    :cursor "pointer"
+    (box
+      :orientation "v"
+      :spacing 5
+      :space-evenly false
+      (label :class "overlayText smallText up " :text date)
+      (label :class "mediumIcon" :text icon)
+      (label :class "overlayText smallText down" :text "${round(tmax,0)}°C")
+    )
+  )
+)

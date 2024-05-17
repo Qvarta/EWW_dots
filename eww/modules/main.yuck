@@ -1,0 +1,29 @@
+(include "./modules/vars.yuck")
+(include "./modules/bar.yuck")
+(include "./modules/control_center.yuck")
+(include "./modules/calendar.yuck")
+(include "./modules/screenshot.yuck")
+(include "./modules/power.yuck")
+(include "./modules/wifi.yuck")
+(include "./modules/bluetooth.yuck")
+(include "./modules/wallpapers.yuck")
+(include "./modules/appLauncher/app_launcher.yuck")
+(include "./modules/appLauncher/popup.yuck")
+(include "./modules/desktop.yuck")
+
+; ---------------------------------------------------------------------------
+;                                MAIN WINDOW
+; ---------------------------------------------------------------------------
+(defwindow main
+  :stacking "fg"
+  :monitor "0"
+  :exclusive true
+  :namespace "main"
+  :geometry (geometry
+    :x "0px"
+    :y "5px"
+    :width "99%"
+    :height "24px"
+  :anchor "top center")
+  (bar)
+)

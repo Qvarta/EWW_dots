@@ -1,0 +1,80 @@
+; ---------------------------------------------------------------------------
+;                               PLAYER WIDGET
+; ---------------------------------------------------------------------------
+(defwidget player [available status style position duration]
+  (box
+    :class "player"
+    :visible available
+    :space-evenly false
+    :height 130
+    :spacing 2
+    (box
+      :orientation "vertical"
+      :space-evenly false
+      :class "Left"
+      :hexpand true
+      (box
+        :vexpand true
+        :space-evenly false
+        (box
+          (box
+            :class "cover"
+            :width 120
+            :height 100
+            :style style
+          )
+        )
+        (box
+          :class "info"
+          :orientation "v"
+          :spacing 4
+          :space-evenly false
+          :valign "center"
+          :halign "fill"
+          :hexpand true
+          (label :class "artist" :text "${track_info.artist}")
+          (label 
+            :halign "center"
+            :wrap true
+            :justify "center"
+            :class "track" 
+            :text "${track_info.title}"  
+          )
+        )
+      )
+      (scale
+        :valign "end"
+        :class "sliderScale"
+        :value position
+        :min 0
+        :max duration
+        :onchange "cmus-remote -k {}"
+      )
+    )
+    (box
+      :class "Right"
+      :orientation "v"
+      :halign "end"
+      :spacing 10
+      :width 50
+      (eventbox
+        :class "button"
+        :cursor "pointer"
+        :onclick "cmus-remote -r"
+        (label :class "iconBtn" :text " ")
+      )
+      (eventbox
+        :class "button"
+        :cursor "pointer"
+        :onclick "cmus-remote -u"
+        (label :class "iconBtn" :text {status=='Playing' ? '' : ''})
+      )
+      (eventbox
+        :class "button"
+        :cursor "pointer"
+        :onclick "cmus-remote -n"
+        (label :class "iconBtn" :text " ")
+      )
+    )
+  )
+)
