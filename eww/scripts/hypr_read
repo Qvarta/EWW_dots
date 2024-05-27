@@ -1,0 +1,10 @@
+#!/bin/bash
+FILE="$HOME/.config/hypr/vars/vars.conf"
+# Read the variables from vars.conf file
+vars=$(<$FILE)
+# Convert the variables to JSON format using jq
+json=$(echo "$vars" | jq -nR '
+    [inputs | select(length > 0) | gsub(" "; "") | split("=") | {(.[0][1:]): .[1]} ] | add
+')
+# Output the modified JSON
+echo $json | jq -r .

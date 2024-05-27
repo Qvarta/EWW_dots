@@ -146,7 +146,6 @@
         sound_info.sound_volume < 101 ? '' : ''}"
         :visible  true
       )
-      
     )
   )
 )

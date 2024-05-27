@@ -1,5 +1,5 @@
 (include "modules/control_center/top.yuck")
-(include "modules/control_center/screen_wall.yuck")
+(include "modules/control_center/settings.yuck")
 (include "modules/control_center/controls.yuck")
 (include "modules/control_center/slider.yuck")
 (include "modules/control_center/weather.yuck")
@@ -20,24 +20,32 @@
 ; ---------------------------------------------------------------------------
 ;                               MAIN WIDGET
 ; ---------------------------------------------------------------------------
+
 (defwidget control_center []
-  (box
-    :orientation "v"
-    :space-evenly false
-    :class "main_container"
-    :spacing 10
-    (tiltleControls)
-    (controls)
-    (weather)
-    (player 
-      :available {cmus_status !='' ? true : false}
-      :status {cmus_status}
-      :style {track_info.style} 
-      :position {track_info.position}
-      :duration {track_info.duration}
+  (stack
+    :selected numCC
+    :transition "${numCC == 0 ? 'slideright' : 'slideleft'}"
+    :same-size true
+    (box
+      :orientation "v"
+      :space-evenly false
+      :class "main_container"
+      :spacing 10
+      (tiltleControls)
+      (controls)
+      (weather)
+      (player 
+        :available {cmus_status !='' ? true : false}
+        :status {cmus_status}
+        :style {track_info.style} 
+        :position {track_info.position}
+        :duration {track_info.duration}
+      )
+      (graphs :sensor {vars_info.sensor})
+      (bottom :sensor {vars_info.sensor})
     )
-    (graphs :sensor {vars_info.sensor})
-    (bottom :sensor {vars_info.sensor})
+    (settings)
   )
+
 )
 

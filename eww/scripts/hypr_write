@@ -1,0 +1,16 @@
+#!/bin/bash
+FILE="$HOME/.config/hypr/vars/vars.conf"
+
+name=$1
+value=$2
+
+# Check if file exists and has write permissions
+if [ ! -f "$FILE" ] || [ ! -w "$FILE" ]; then
+    echo "Error: File does not exist or you don't have write permission"
+    exit 1
+fi
+# Read existing variables from the file
+source "$FILE"
+# Update the var.conf file with the new values
+sed -i "s/\$$name = .*/\$$name = $value/" "$FILE" >/dev/null 2>&1
+

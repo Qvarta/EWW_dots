@@ -3,8 +3,8 @@
 ; ---------------------------------------------------------------------------
 (defwidget controls[]
   (stack
-    :selected widgetNum
-    :transition "${widgetNum == 0 ? 'slideleft' : 'slideright'}"
+    :selected numButtons
+    :transition "${numButtons == 0 ? 'slideleft' : 'slideright'}"
     :class "controls"
     :same-size false
       (box
@@ -27,14 +27,14 @@
       :state {wifi_info.ssid}
       :icon "  "
       :action1 "./scripts/wifi/wifiInfo toggle"
-      :action2 "${EWW_CMD} update widgetNum=1"
+      :action2 "${EWW_CMD} update numButtons=1"
     )
     (quickBtn
       :name "bt"
       :state {bluetooth_state}
       :icon "󰂯 "
       :action1 "./scripts/bluetooth toggle"
-      :action2 "${EWW_CMD} update widgetNum=2"
+      :action2 "${EWW_CMD} update numButtons=2"
     )
   )
 )
@@ -54,14 +54,14 @@
           :class "btnText"
           :hexpand true
           :halign "start"
-          :text "${state == 'on' ? '${strings.unblocked}' : state == 'off' ? '${strings.blocked}' : substring(state, 0, 10)}"
+          :text "${state == 'on' ? '${strings.unblocked}' : state == 'off' ? '${strings.blocked}' : substring(state, 0, 8)}"
         )
       )
     )
     (eventbox
       ; :onclick "${EWW_CMD} update currentBtn=${name} & ./scripts/open_popup popup"
-      :onclick  action2
-      :class "btnRight dark"
+      :onclick "${state != 'off' ? action2 : ''}"
+      :class "btnRight ${state != 'off' ? 'dark' : 'off'}"
       :cursor "pointer"
       (label :class "iconArrow" :text "")
     )

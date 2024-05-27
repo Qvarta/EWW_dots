@@ -1,5 +1,3 @@
-(defvar numS 0)
-
 (defwindow launcher
   :monitor "0"
   :windowtype "normal"
@@ -20,15 +18,15 @@
     :class "main_container launcher"
     :orientation "v"
     (stack
-      :selected numS
+      :selected numLauncher
       :transition "slideleft"
       :same-size false
         (titleLauncher
           :iconL "󱎰 "
-          :actionL "${EWW_CMD} update numS=1"
+          :actionL "${EWW_CMD} update numLauncher=1"
           :text {strings.app}
           :iconR "󱓽 "
-          :actionR "./scripts/window_toggle launcher & kitty -e yay -Syu"
+          :actionR "./scripts/window_toggle launcher & ./scripts/applications/installUpdates"
           :visibleR {checkupdates}
           :colorR "red"
         )
@@ -45,7 +43,7 @@
             :class "launcherInput"
             :hexpand true
             :onchange "${EWW_CMD} update searchStr={}"
-            :onaccept "./scripts/window_toggle launcher & ${EWW_CMD} update numS=1"
+            :onaccept "./scripts/window_toggle launcher & ${EWW_CMD} update numLauncher=1"
           )
         )
     )

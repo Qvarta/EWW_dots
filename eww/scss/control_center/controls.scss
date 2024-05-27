@@ -37,8 +37,10 @@
           background-color: $color4;
         }
       }
+      &.off {
+        background-color: $background3;
+      }
     }
-
     .btnIcon {
       font-size: 27px;
       padding-left: 15px;

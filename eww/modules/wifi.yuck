@@ -33,7 +33,7 @@
       :class "button2"
       :cursor "pointer"
       :space-evenly false
-      :onclick "${EWW_CMD} update widgetNum=0"
+      :onclick "${EWW_CMD} update numButtons=0"
       (label :class "text" :text "󰜱 ")
     )
   )
@@ -70,14 +70,14 @@
         :class "input"
         :hexpand true
      
-        :onaccept "${EWW_CMD} close connect_network && ${EWW_CMD} update widgetNum=0 && scripts/wifi/wifiInfo connect ${new_ssid} {}"
+        :onaccept "${EWW_CMD} close connect_network && ${EWW_CMD} update numButtons=0 && scripts/wifi/wifiInfo connect ${new_ssid} {}"
       )
     )
     (eventbox
       :class "btnBack"
       :cursor "pointer"
       :width 20
-      :onclick "${EWW_CMD} update widgetNum=0 && ${EWW_CMD} close connect_network"
+      :onclick "${EWW_CMD} update numButtons=0 && ${EWW_CMD} close connect_network"
       (label  :class "text" :text "󰜱 ")
     )
   )

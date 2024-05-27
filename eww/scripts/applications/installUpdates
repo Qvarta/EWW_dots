@@ -1,0 +1,3 @@
+#!/bin/bash
+
+kitty -e yay -Syu && notify-send -t 3000 "Update complete" || notify-send -t 3000 "Update canseled"
