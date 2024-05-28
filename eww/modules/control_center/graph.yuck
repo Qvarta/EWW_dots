@@ -5,7 +5,9 @@
   (revealer
     :reveal graphs_rev
     :transition "slideup"
-    (box :orientation "v" :halign "center" :class "block"  :width 360
+    :hexpand true
+    (box :orientation "v" :halign "center" :class "block" :width 400
+
       
       (overlay
         :hexpand true

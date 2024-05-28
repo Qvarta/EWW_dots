@@ -1,31 +1,13 @@
-(defwindow wallpapers
-  :monitor "0"
-  :namespace "chg_bg"
-  :geometry (geometry
-    :width "800px"
-    :height "300px"
-    :anchor "center"
-  )
-  (mainBG)
-)
-(defwidget mainBG[]
+(defwidget Wallpapers[]
   (box
-    :class "main_container bg"
+    :class "bg"
     :space-evenly false
     :orientation "v"
-    :spacing 6
-    (titleBG
-      :text {strings.wallpapers}
-      :iconL " "
-      :iconR2 "󰅚 "
-      :action2 "${EWW_CMD} close wallpapers"
-      :visible2 true
-      :iconR1 {usePywal ? "󰌁 " : "󰹊 "}
-      :action1 "${EWW_CMD} update usePywal=${!usePywal}"
-      :visible1 true
-    )
+    :spacing 10
+    (titleWallpapers)
     (scroll
-      :height 280
+      :hexpand true
+      :vexpand true
       :vscroll true
       (box
         :orientation "v"
@@ -35,6 +17,7 @@
         )
       )
     )
+    (downWallpapers)
   )
 )
 (defwidget createLine[list]
@@ -72,32 +55,53 @@
     )
   )
 )
-(defwidget titleBG [?class ?iconL ?text ?iconR1 ?action1 ?visible1 ?iconR2 ?action2 ?visible2 ?color]
+(defwidget titleWallpapers[]
   (box
     :space-evenly false
-    :spacing 10
-    :class "windowTitle"
-    (label :class "titleBigText ${class}" :text iconL :halign "start")
-    (label :class "titleMediumText" :text text :hexpand true :halign "start")
+    :height 40
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=1"
+      :class "titleLeft dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
+    )
     (box
-      :halign "end"
+      :class "titleRight"
+      :hexpand true
       :space-evenly false
-      (eventbox
-        :class "titleBtn"
-        :cursor "pointer"
-        :onclick action1
-        :visible visible1
-        :width 40
-        (label :text iconR1 :class "iconR ${color}")
-      )
-      (eventbox
-        :class "titleBtn"
-        :cursor "pointer"
-        :onclick action2
-        :visible visible2
-        :width 40
-        (label :text iconR2 :class "iconR ${color}")
+      (label
+        :class "wallLbl"
+        :hexpand true
+        :halign "center"
+        :text {strings.wallpapers}
       )
     )
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=0"
+      :class "btnRight dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
+    )
+  )
+)
+(defwidget downWallpapers[]
+  (box
+    :class "checkContaner"
+    :height 40
+    :space-evenly false
+    :spacing 10
+    (eventbox
+      :class "check"
+      :cursor "pointer"
+      :onclick "${EWW_CMD} update usePywal=${!usePywal}"
+      :width 40
+      :height 40
+      (box
+        (label :text {usePywal ? " " : " "} :class "wallLbl")
+      )
+    )
+    (label :text "Pywal" :class "wallLbl" :hexpand true :xalign -1)
   )
 )

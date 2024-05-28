@@ -2,17 +2,17 @@
   (box
     :orientation "v"
     :space-evenly false
-    :class "main_container settings"
+    :class "settings"
     :spacing 10
-    (titleSet)
+    (titleSettings)
     (box
       :orientation "vertical"
       :space-evenly false
       :spacing 15
       :vexpand true
       (screenshot)
-      (hyprSet)
-      (buttSet)
+      (hyprSettings)
+      (downSettings)
     )
   )
 )
@@ -58,42 +58,42 @@
     )
   )
 )
-(defwidget hyprSet[]
+(defwidget hyprSettings[]
   (box
     :space-evenly false
     :orientation "vertical"
     :spacing 5
-    (sliderSet
+    (sliderSettings
       :level {hypr_json.gaps_in}
       :action "./scripts/hypr_write gaps_in {}"
       :name "gaps_in"
       :max_level 11
     )
-    (sliderSet
+    (sliderSettings
       :level {hypr_json.gaps_out}
       :action "./scripts/hypr_write gaps_out {}"
       :name "gaps_out"
       :max_level 21
     )
-    (sliderSet
+    (sliderSettings
       :level {hypr_json.border_size}
       :action "./scripts/hypr_write border_size {}"
       :max_level 11
       :name "border"
     )
-    (sliderSet
+    (sliderSettings
       :level {hypr_json.rounding}
       :action "./scripts/hypr_write rounding {}"
       :max_level 21
       :name "rounding"
     )
-    (sliderSet
+    (sliderSettings
       :level {hypr_json.shadow_range}
       :action "./scripts/hypr_write shadow_range {}"
       :max_level 21
       :name "shadow"
     )
-    (sliderSet
+    (sliderSettings
       :level {hypr_json.blur_size}
       :action "./scripts/hypr_write blur_size {}"
       :max_level 21
@@ -101,7 +101,7 @@
     )
   )
 )
-(defwidget sliderSet [level ?max_level action name]
+(defwidget sliderSettings [level ?max_level action name]
   (box
     :class "quickSlider full"
     :space-evenly false
@@ -116,6 +116,7 @@
       :flipped false
       :active true
       :hexpand true
+      :width 220
       :class "sliderScale"
       :value level
       :draw-value false
@@ -131,31 +132,7 @@
     )
   )
 )
-(defwidget buttSet[]
-  (box
-    :space-evenly false
-    :height 40
-    (box
-      :class "btnLeft"
-      :hexpand true
-      :space-evenly false
-      (label
-        :class "settingsLbl"
-        :hexpand true
-        :halign "center"
-        :text "  ${strings.chng} ${strings.wallpapers}"
-      )
-    )
-    (eventbox
-      :onclick "./scripts/background cache & ${EWW_CMD} open --toggle wallpapers"
-      :class "btnRight dark"
-      :cursor "pointer"
-      :width 40
-      (label :class "iconArrow" :text "")
-    )
-  )
-)
-(defwidget titleSet[]
+(defwidget titleSettings[]
   (box
     :space-evenly false
     :height 40
@@ -176,6 +153,49 @@
         :halign "center"
         :text {strings.appearance}
       )
+    )
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=2"
+      :class "btnRight dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
+    )
+  )
+)
+(defwidget downSettings[]
+  (box
+    :class "checkContaner"
+    :height 40
+    (box
+      :space-evenly false
+      :spacing 10
+      (eventbox
+        :class "check"
+        :cursor "pointer"
+        :onclick "./scripts/hypr_write drop_shadow ${hypr_json.drop_shadow == 'yes' ? 'no' : 'yes'}"
+        :width 40
+        :height 40
+        (box
+          (label :text "${hypr_json.drop_shadow == 'yes' ? ' ' : ' '}" :class "settingsLbl")
+        )
+      )
+      (label :text "Shadow" :class "settingsLbl" :hexpand true :xalign -1)
+    )
+    (box
+      :space-evenly false
+      :spacing 10
+      (eventbox
+        :class "check"
+        :cursor "pointer"
+        :onclick "./scripts/hypr_write blur_enabled ${hypr_json.blur_enabled == 'true' ? 'false' : 'true'}"
+        :width 40
+        :height 40
+        (box
+          (label :text "${hypr_json.blur_enabled == 'true' ? ' ' : ' '}" :class "settingsLbl")
+        )
+      )
+      (label :text "Blur" :class "settingsLbl" :hexpand true :xalign -1)
     )
   )
 )

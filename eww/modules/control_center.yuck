@@ -22,30 +22,32 @@
 ; ---------------------------------------------------------------------------
 
 (defwidget control_center []
-  (stack
-    :selected numCC
-    :transition "${numCC == 0 ? 'slideright' : 'slideleft'}"
-    :same-size true
-    (box
-      :orientation "v"
-      :space-evenly false
-      :class "main_container"
-      :spacing 10
-      (tiltleControls)
-      (controls)
-      (weather)
-      (player 
-        :available {cmus_status !='' ? true : false}
-        :status {cmus_status}
-        :style {track_info.style} 
-        :position {track_info.position}
-        :duration {track_info.duration}
+  (box
+    :class "main_container"
+    (stack
+      :selected numCC
+      :transition 'slideright'
+      :same-size true
+      (box
+        :orientation "v"
+        :space-evenly false
+        :spacing 10
+        (tiltleControls)
+        (controls)
+        (weather)
+        (player
+          :available {cmus_status !='' ? true : false}
+          :status {cmus_status}
+          :style {track_info.style}
+          :position {track_info.position}
+          :duration {track_info.duration}
+        )
+        (graphs :sensor {vars_info.sensor})
+        (bottom :sensor {vars_info.sensor})
       )
-      (graphs :sensor {vars_info.sensor})
-      (bottom :sensor {vars_info.sensor})
+      (settings)
+      (Wallpapers)
     )
-    (settings)
   )
-
 )
 
