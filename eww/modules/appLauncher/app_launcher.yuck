@@ -26,7 +26,7 @@
           :actionL "${EWW_CMD} update numLauncher=1"
           :text {strings.app}
           :iconR "󱓽 "
-          :actionR "./scripts/window_toggle launcher & ./scripts/applications/installUpdates"
+          :actionR "${EWW_CMD} open --toggle launcher & ./scripts/applications/installUpdates"
           :visibleR {checkupdates}
           :colorR "red"
         )
@@ -43,7 +43,7 @@
             :class "launcherInput"
             :hexpand true
             :onchange "${EWW_CMD} update searchStr={}"
-            :onaccept "./scripts/window_toggle launcher & ${EWW_CMD} update numLauncher=1"
+            :onaccept "${EWW_CMD} open --toggle launcher & ${EWW_CMD} update numLauncher=1"
           )
         )
     )
@@ -84,7 +84,7 @@
       (eventbox
         :cursor "pointer"
         :class "fav_btn"
-        :onclick "${entry.command} & ./scripts/window_toggle launcher"
+        :onclick "${entry.command} & ${EWW_CMD} open --toggle launcher"
         :onrightclick "scripts/applications/favoritesApp remove ${entry.path}"
         (image
           :class "fav_icon"
@@ -127,7 +127,7 @@
       :tooltip "${vars_info.lang =='EN' ? entry.en : entry.ru == '' ? entry.en : entry.ru}"
       :class "btnCenter"
       :hexpand true
-      :onclick "${entry.command} & ./scripts/window_toggle launcher"
+      :onclick "${entry.command} & ${EWW_CMD} open --toggle launcher"
       :onrightclick "${EWW_CMD} update currentApp=${entry.path} & ./scripts/open_popup popup"
       :height 20
       (box

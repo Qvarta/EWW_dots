@@ -147,7 +147,7 @@
       )
     )
     (eventbox
-      :onclick "./scripts/background cache & ./scripts/window_toggle wallpapers"
+      :onclick "./scripts/background cache & ${EWW_CMD} open --toggle wallpapers"
       :class "btnRight dark"
       :cursor "pointer"
       :width 40

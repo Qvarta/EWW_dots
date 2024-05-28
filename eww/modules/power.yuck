@@ -1,4 +1,4 @@
-(defwindow power
+(defwindow power [power_info power_command]
   :monitor "0"
   :namespace "power"
   :geometry (geometry

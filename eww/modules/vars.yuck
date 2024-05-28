@@ -39,21 +39,19 @@
 (deflisten weather_json :initial "[]" "./scripts/weather")
 
 
-
+(defvar previewList "null")
 (defvar power_rev false)
 (defvar sliders_rev false)
 (defvar graphs_rev false)
 (defvar popUp_rev false)
 
-(defvar new_ssid "none")
 (defvar cDay 0)
 (defvar cGraph "RAM")
 
-(defvar power_info "none")
-(defvar power_command "none")
 (defvar usePywal false)
 
 (defvar numButtons 0)
 (defvar numCC 0)
 (defvar numLauncher 0)
+
 (defpoll hypr_json :initial "[]" :interval "1s" "./scripts/hypr_read")

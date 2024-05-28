@@ -1,0 +1,10 @@
+#!/bin/bash
+
+clients=$(hyprctl -j clients)
+
+if [ ! -z "$1" ]; then
+    results=$(echo $clients | jq 'reduce .[] as $item ({};.["id\($item.workspace.id)"] += [$item.class])')
+    arg="id$1"
+    result=$(echo $results | jq -r ".$arg | join(\" \")")
+    eww update previewList="$result"
+fi

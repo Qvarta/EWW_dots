@@ -17,7 +17,7 @@
           (eventbox
             :class "button"
             :cursor "pointer"
-            :onclick "${EWW_CMD} update new_ssid=${entry.ssid} && ${EWW_CMD} open connect_network && ./scripts/wifi/wifiInfo disconnect"
+            :onclick "${EWW_CMD} open connect_network --arg ssid=${entry.ssid} && ./scripts/wifi/wifiInfo disconnect"
             (box
               :class "entry"
               :space-evenly false
@@ -38,7 +38,7 @@
     )
   )
 )
-(defwindow connect_network
+(defwindow connect_network [ssid]
   :monitor "0"
   :namespace "control-center"
   :geometry (geometry
@@ -46,9 +46,9 @@
     :height "30px"
   :anchor "center")
   :focusable "true"
-  (connect)
+  (connect :ssid ssid)
 )
-(defwidget connect[]
+(defwidget connect[ssid]
   (box
     :class "main_container connect"
     :orientation "v"
@@ -69,8 +69,7 @@
         :password {password}
         :class "input"
         :hexpand true
-     
-        :onaccept "${EWW_CMD} close connect_network && ${EWW_CMD} update numButtons=0 && scripts/wifi/wifiInfo connect ${new_ssid} {}"
+        :onaccept "${EWW_CMD} close connect_network && ${EWW_CMD} update numButtons=0 && scripts/wifi/wifiInfo connect ${ssid} {}"
       )
     )
     (eventbox

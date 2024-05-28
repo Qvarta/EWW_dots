@@ -25,6 +25,7 @@
   (eventbox
     :cursor "pointer"
     (box :space-evenly false
+      :spacing 4
       (label :text "${current_workspace}" :visible false)
       (workspaceBtn :workspace {workspaces[0]})
       (workspaceBtn :workspace {workspaces[1]})
@@ -38,9 +39,13 @@
   )
 )
 (defwidget workspaceBtn[workspace]
-  (button
-    :class "workspacesBox ${workspace.id == current_workspace ? 'active' : ''} ${workspace.windows > 0 ? 'inactive' : 'empty'}"
-    :onclick "hyprctl dispatch workspace ${workspace.id}"
+  (eventbox
+    :onhover "${workspace.windows > 0 ? './scripts/preview ${workspace.id}' : ''}" 
+    (button
+      :class "workspacesBox ${workspace.id == current_workspace ? 'active' : ''} ${workspace.windows > 0 ? 'inactive' : 'empty'}"
+      :onclick "hyprctl dispatch workspace ${workspace.id}"
+      :tooltip "${workspace.windows > 0 ? previewList : ''}"
+    )
   )
 )
 (defwidget right []
@@ -65,9 +70,9 @@
 ; ---------------------------------------------------------------------------
 (defwidget launcher-widget []
   (eventbox
-    :onclick "${EWW_CMD} update searchStr='' & ./scripts/window_toggle launcher"
+    :onclick "${EWW_CMD} update searchStr='' & ${EWW_CMD} open --toggle launcher"
     :tooltip "    ${strings.open}/${strings.close} ${strings.launcher}   "
-
+    
     :cursor "pointer"
     :tooltip "    ${strings.open}/${strings.close} ${strings.app}   "
     (label :class "bar_icon launcher" :text "󱁍 ")
@@ -89,7 +94,7 @@
         :spacing 5
         (label
           :class "boldText ${status=='Playing' ? 'playing' : ''}"
-          :text "${title=='' ? 'Click to play' : '${artist}:'}")
+        :text "${title=='' ? 'Click to play' : '${artist}:'}")
         (label :class "smallText" :text title)
       )
     )
@@ -103,7 +108,7 @@
     :class "bar_module left"
     :tooltip "    ${strings.open}/${strings.close} ${strings.calendar}    "
     (eventbox
-      :onclick "./scripts/window_toggle calendar"
+      :onclick "${EWW_CMD} open --toggle calendar"
       :halign "start"
       :cursor "pointer"
       (label :text "${hour}:${minute}" :class "boldText")
@@ -123,7 +128,8 @@
 (defwidget tray[]
   (eventbox
     :cursor "pointer"
-    :onclick "./scripts/window_toggle control_center & ${EWW_CMD} update cDay=0"
+    :timeout 50
+    :onclick "${EWW_CMD} open --toggle control_center & ${EWW_CMD} update cDay=0"
     :tooltip "    ${strings.open}/${strings.close} ${strings.controls}   "
     (box
       :space-evenly false
@@ -165,17 +171,17 @@
           :halign "end"
           :spacing 10
           (eventbox
-            :onclick "${EWW_CMD} update power_info='${strings.logoff}' && ${EWW_CMD} update power_command='hyprctl dispatch exit 0' && ${EWW_CMD} open power"
+            :onclick "${EWW_CMD} open power --arg power_info='${strings.logoff}' --arg power_command='hyprctl dispatch exit 0'"
             :tooltip " ${strings.logoff} "
             (label :class "bar_icon" :text "󰿅")
           )
           (eventbox
-            :onclick "${EWW_CMD} update power_info='${strings.reboot}' && ${EWW_CMD} update power_command='systemctl reboot' && ${EWW_CMD} open power"
+            :onclick "${EWW_CMD} open power --arg power_info='${strings.reboot}' --arg power_command='systemctl reboot'"
             :tooltip "  ${strings.reboot}  "
             (label :class "bar_icon" :text "")
           )
           (eventbox
-            :onclick "${EWW_CMD} update power_info='${strings.poweroff}' && ${EWW_CMD} update power_command='systemctl poweroff' && ${EWW_CMD} open power"
+            :onclick "${EWW_CMD} open power --arg power_info='${strings.poweroff}' --arg power_command='systemctl poweroff'"
             :tooltip "  ${strings.poweroff} "
             (label :class "bar_icon" :text "󰤆")
           )
