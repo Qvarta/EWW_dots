@@ -12,7 +12,36 @@
       :vexpand true
       (screenshot)
       (hyprSettings)
-      (downSettings)
+    )
+  )
+)
+(defwidget titleSettings[]
+  (box
+    :space-evenly false
+    :height 40
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=0"
+      :class "btnLeft dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
+    )
+    (box
+      :hexpand true
+      :space-evenly false
+      (label
+        :class "settingsLbl"
+        :hexpand true
+        :halign "center"
+        :text {strings.appearance}
+      )
+    )
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=2"
+      :class "btnRight dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
     )
   )
 )
@@ -87,11 +116,21 @@
       :max_level 21
       :name "rounding"
     )
+    (checkSettings
+      :name "Shadow"
+      :action "./scripts/hypr_write drop_shadow ${hypr_json.drop_shadow == 'yes' ? 'no' : 'yes'}"
+      :icon "${hypr_json.drop_shadow == 'yes' ? ' ' : ' '}"
+    )
     (sliderSettings
       :level {hypr_json.shadow_range}
       :action "./scripts/hypr_write shadow_range {}"
       :max_level 21
       :name "shadow"
+    )
+    (checkSettings
+      :name "Blur"
+      :action "./scripts/hypr_write blur_enabled ${hypr_json.blur_enabled == 'true' ? 'false' : 'true'}"
+      :icon "${hypr_json.blur_enabled == 'true' ? ' ' : ' '}"
     )
     (sliderSettings
       :level {hypr_json.blur_size}
@@ -132,70 +171,15 @@
     )
   )
 )
-(defwidget titleSettings[]
-  (box
-    :space-evenly false
-    :height 40
-    (eventbox
-      :onclick "${EWW_CMD} update numCC=0"
-      :class "titleLeft dark"
-      :cursor "pointer"
-      :width 40
-      (label :class "iconArrow" :text "")
-    )
-    (box
-      :class "titleRight"
-      :hexpand true
-      :space-evenly false
-      (label
-        :class "settingsLbl"
-        :hexpand true
-        :halign "center"
-        :text {strings.appearance}
-      )
-    )
-    (eventbox
-      :onclick "${EWW_CMD} update numCC=2"
-      :class "btnRight dark"
-      :cursor "pointer"
-      :width 40
-      (label :class "iconArrow" :text "")
-    )
-  )
-)
-(defwidget downSettings[]
-  (box
-    :class "checkContaner"
-    :height 40
+(defwidget checkSettings[name action icon]
+  (eventbox
+    :class "checkbox"
+    :cursor "pointer"
+    :onclick action
     (box
       :space-evenly false
-      :spacing 10
-      (eventbox
-        :class "check"
-        :cursor "pointer"
-        :onclick "./scripts/hypr_write drop_shadow ${hypr_json.drop_shadow == 'yes' ? 'no' : 'yes'}"
-        :width 40
-        :height 40
-        (box
-          (label :text "${hypr_json.drop_shadow == 'yes' ? ' ' : ' '}" :class "settingsLbl")
-        )
-      )
-      (label :text "Shadow" :class "settingsLbl" :hexpand true :xalign -1)
-    )
-    (box
-      :space-evenly false
-      :spacing 10
-      (eventbox
-        :class "check"
-        :cursor "pointer"
-        :onclick "./scripts/hypr_write blur_enabled ${hypr_json.blur_enabled == 'true' ? 'false' : 'true'}"
-        :width 40
-        :height 40
-        (box
-          (label :text "${hypr_json.blur_enabled == 'true' ? ' ' : ' '}" :class "settingsLbl")
-        )
-      )
-      (label :text "Blur" :class "settingsLbl" :hexpand true :xalign -1)
+      (label :text name :class "checkTxt" :hexpand true)
+      (label :text icon :class "checkTxt")
     )
   )
 )

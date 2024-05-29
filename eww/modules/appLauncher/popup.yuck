@@ -5,7 +5,6 @@
   :geometry (geometry :width "10px" :height "10px" :anchor "bottom left")
   (popup)
 )
-
 (defwidget popup []
   (box 
     :orientation "v"

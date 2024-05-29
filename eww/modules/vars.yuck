@@ -35,8 +35,8 @@
 (defpoll date :initial "0" :interval "1h" 'date "+%A %d %B %G"')
 
 (defpoll checkupdates :initial false :interval "1h" "if checkupdates &> /dev/null; then echo true; else echo false; fi")
-(deflisten weather_json :initialw "[]" "./test/test_weather")
-; (deflisten weather_json :initial "[]" "./scripts/weather")
+; (deflisten weather_json :initialw "[]" "./test/test_weather")
+(deflisten weather_json :initial "[]" "./scripts/weather")
 
 
 (defvar previewList "null")

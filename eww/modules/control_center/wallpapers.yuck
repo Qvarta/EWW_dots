@@ -1,6 +1,6 @@
 (defwidget Wallpapers[]
   (box
-    :class "bg"
+    :class "wallpapers"
     :space-evenly false
     :orientation "v"
     :spacing 10
@@ -20,17 +20,47 @@
     (downWallpapers)
   )
 )
+(defwidget titleWallpapers[]
+  (box
+    :space-evenly false
+    :height 40
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=1"
+      :class "btnLeft dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
+    )
+    (box
+      :hexpand true
+      :space-evenly false
+      (label
+        :class "wallLbl"
+        :hexpand true
+        :halign "center"
+        :text {strings.wallpapers}
+      )
+    )
+    (eventbox
+      :onclick "${EWW_CMD} update numCC=0"
+      :class "btnRight dark"
+      :cursor "pointer"
+      :width 40
+      (label :class "iconArrow" :text "")
+    )
+  )
+)
 (defwidget createLine[list]
   (box
     (for item in list
-      (imgBG
+      (imgWallpapers
         :style {item.style}
         :path {item.path}
       )
     )
   )
 )
-(defwidget imgBG [path style]
+(defwidget imgWallpapers [path style]
   (eventbox
     :onclick "./scripts/background set ${path} ${usePywal ? 'pywal' : ''}"
     :onrightclick "${EWW_CMD} update popUp_rev=${!popUp_rev}"
@@ -55,53 +85,16 @@
     )
   )
 )
-(defwidget titleWallpapers[]
-  (box
-    :space-evenly false
-    :height 40
-    (eventbox
-      :onclick "${EWW_CMD} update numCC=1"
-      :class "titleLeft dark"
-      :cursor "pointer"
-      :width 40
-      (label :class "iconArrow" :text "")
-    )
-    (box
-      :class "titleRight"
-      :hexpand true
-      :space-evenly false
-      (label
-        :class "wallLbl"
-        :hexpand true
-        :halign "center"
-        :text {strings.wallpapers}
-      )
-    )
-    (eventbox
-      :onclick "${EWW_CMD} update numCC=0"
-      :class "btnRight dark"
-      :cursor "pointer"
-      :width 40
-      (label :class "iconArrow" :text "")
-    )
-  )
-)
 (defwidget downWallpapers[]
-  (box
-    :class "checkContaner"
-    :height 40
-    :space-evenly false
-    :spacing 10
-    (eventbox
-      :class "check"
-      :cursor "pointer"
-      :onclick "${EWW_CMD} update usePywal=${!usePywal}"
-      :width 40
-      :height 40
-      (box
-        (label :text {usePywal ? " " : " "} :class "wallLbl")
-      )
+  (eventbox
+    :class "checkbox"
+    :cursor "pointer"
+    :onclick "${EWW_CMD} update usePywal=${!usePywal}"
+    (box
+      :space-evenly false
+      (label :text "Pywal" :class "checkTxt" :hexpand true)
+      (label :text {usePywal ? " " : " "} :class "checkTxt")
     )
-    (label :text "Pywal" :class "wallLbl" :hexpand true :xalign -1)
   )
+  
 )
