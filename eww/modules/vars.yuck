@@ -15,7 +15,7 @@
 (defpoll bg_list :initial "[]" :interval "1m" "./scripts/background get")
 
 (deflisten cmus_status :initial "" "playerctl -F -p cmus status")
-(defpoll track_info :initial "[]" :interval "1s" "./scripts/cmus_player info")
+(defpoll track_info :initial "[]" :interval "1s" "./scripts/cmus_player")
 (defpoll sound_info :initial "[]" :interval "1s" "./scripts/sound info")
 
 (deflisten workspaces :initial "[]" "./scripts/workspaces")
@@ -38,7 +38,7 @@
 ; (deflisten weather_json :initialw "[]" "./test/test_weather")
 (deflisten weather_json :initial "[]" "./scripts/weather")
 
-
+(defvar transitionCC "slideleft")
 (defvar previewList "null")
 (defvar power_rev false)
 (defvar sliders_rev false)

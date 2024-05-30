@@ -1,7 +1,7 @@
 .settings {
   .btnLeft {
     border-radius: 6px 0 0 6px;
-    background-color: $background2;
+    background-color: $background3;
 
     &:hover {
       background-color: $color4;
@@ -9,20 +9,16 @@
   }
   .btnRight {
     border-radius: 0 6px 6px 0;
-    background-color: $background2;
+    background-color: $background3;
 
-    &.dark {
-      background-color: $background3;
-
-      &:hover {
-        background-color: $color4;
-      }
+    &:hover {
+      background-color: $color4;
     }
   }
   .checkbox {
     background-color: $background2;
     border-radius: 6px;
-    .checkTxt{
+    .checkTxt {
       font-size: 20px;
       padding-right: 10px;
     }

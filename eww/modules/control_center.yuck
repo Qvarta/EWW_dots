@@ -30,7 +30,7 @@
     :class "main_container"
     (stack
       :selected numCC
-      :transition 'slideright'
+      :transition {transitionCC}
       :same-size true
       (box
         :orientation "v"
@@ -38,6 +38,7 @@
         :spacing 10
         (tiltleControls)
         (controls)
+        (screenshot)
         (weather)
         (player
           :available {cmus_status !='' ? true : false}
@@ -49,8 +50,8 @@
         (graphs :sensor {vars_info.sensor})
         (bottom :sensor {vars_info.sensor})
       )
-      (settings)
       (Wallpapers)
+      (settings)
     )
   )
 )

@@ -5,12 +5,8 @@
   (revealer
     :reveal graphs_rev
     :transition "slideup"
-    :hexpand true
-    (box :orientation "v" :halign "center" :class "block" :width 400
-
-      
+    (box :orientation "v" :halign "center" :class "block" :width 350
       (overlay
-        :hexpand true
         (graph_block :name "RAM" :val "${round(EWW_RAM.used_mem_perc, 0)}" :description "%")
         (graph_block :name "CPU" :val "${round(EWW_CPU.avg, 0)}" :description "%")
         (graph_block :name "TEMP" :val "${round(EWW_TEMPS[sensor], 0)}" :description "°C")

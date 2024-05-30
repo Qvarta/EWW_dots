@@ -25,8 +25,8 @@
     :space-evenly false
     :height 40
     (eventbox
-      :onclick "${EWW_CMD} update numCC=1"
-      :class "btnLeft dark"
+      :onclick "${EWW_CMD} update transitionCC='slideright' & ${EWW_CMD} update numCC=0"
+      :class "btnLeft"
       :cursor "pointer"
       :width 40
       (label :class "iconArrow" :text "")
@@ -42,8 +42,8 @@
       )
     )
     (eventbox
-      :onclick "${EWW_CMD} update numCC=0"
-      :class "btnRight dark"
+      :onclick "${EWW_CMD} update transitionCC='slideleft' & ${EWW_CMD} update numCC=2"
+      :class "btnRight"
       :cursor "pointer"
       :width 40
       (label :class "iconArrow" :text "")

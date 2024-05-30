@@ -11,7 +11,7 @@
     margin: 5px 1px;
     padding: 0 15px;
     border-radius: 10px;
-    border-bottom: 1px solid $color4;
+    // border-bottom: 1px solid $color4;
     background-color: $background2;
     &.left {
       border-radius: 10px 0 0 10px;
@@ -25,7 +25,7 @@
   .bar_icon {
     padding: 0px 8px;
     font-size: 18px;
-    &.launcher{
+    &.launcher {
       font-size: 26px;
     }
   }
@@ -44,6 +44,11 @@
 
   .smallText {
     font-size: 16px;
+  }
+  .player:hover{
+    .boldText{
+      color:$color4;
+    }
   }
 }
 
@@ -70,6 +75,6 @@
 
   &.active {
     padding: 0 30px;
-    border:$border
+    border: $border;
   }
 }

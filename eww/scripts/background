@@ -24,7 +24,7 @@ create_thumbnails(){
 get_bg(){
     json="[["
     count=0
-    in_line=4
+    in_line=3
 
     for file in $cache_folder/*; do
         if [ -f "$file" ]; then

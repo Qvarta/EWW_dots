@@ -24,6 +24,9 @@ get_style(){
   if [[ ! -f "$temp_folder/$1.jpg" ]]; then
     ffmpeg -i "$mp3_file" -an -vcodec copy "$temp_folder/$1.jpg" 2>/dev/null
   fi
+  if [[ $(get_value position) == "3" ]]; then
+      notify-send -i "$temp_folder/$1.jpg" -t 3000 "$(get_tag artist)" "$(get_tag title)"
+  fi
   style=$([ -e "$temp_folder/$1.jpg" ] && echo "background-image: url('$temp_folder/$1.jpg');" || echo $default_style)
   echo $style
 }

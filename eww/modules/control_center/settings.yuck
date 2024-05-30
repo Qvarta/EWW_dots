@@ -3,14 +3,13 @@
     :orientation "v"
     :space-evenly false
     :class "settings"
-    :spacing 10
+    :spacing 20
     (titleSettings)
     (box
       :orientation "vertical"
       :space-evenly false
       :spacing 15
       :vexpand true
-      (screenshot)
       (hyprSettings)
     )
   )
@@ -20,8 +19,8 @@
     :space-evenly false
     :height 40
     (eventbox
-      :onclick "${EWW_CMD} update numCC=0"
-      :class "btnLeft dark"
+      :onclick "${EWW_CMD} update transitionCC='slideright' & ${EWW_CMD} update numCC=1"
+      :class "btnLeft"
       :cursor "pointer"
       :width 40
       (label :class "iconArrow" :text "")
@@ -37,53 +36,11 @@
       )
     )
     (eventbox
-      :onclick "${EWW_CMD} update numCC=2"
-      :class "btnRight dark"
+      :onclick "${EWW_CMD} update transitionCC='slideleft' & ${EWW_CMD} update numCC=0"
+      :class "btnRight"
       :cursor "pointer"
       :width 40
       (label :class "iconArrow" :text "")
-    )
-  )
-)
-(defwidget screenshot[]
-  (box
-    :space-evenly false
-    :class "CcTop"
-    :style "padding:0;"
-    (box
-      :hexpand true
-      :spacing 10
-      (eventbox
-        :class "optionBtn"
-        :tooltip "${strings.shot}-${strings.screen}"
-        :cursor "pointer"
-        :height 40
-        :onclick "${EWW_CMD} close control_center & hyprshot -m output -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
-        (label :text " " :class "iconR")
-      )
-      (eventbox
-        :class "optionBtn"
-        :tooltip "${strings.shot}-${strings.window}"
-        :height 40
-        :onclick "${EWW_CMD} close control_center & hyprshot -m window -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
-        (label :text " " :class "iconR")
-      )
-      (eventbox
-        :class "optionBtn"
-        :tooltip "${strings.shot}-${strings.region}"
-        :cursor "pointer"
-        :height 40
-        :onclick "${EWW_CMD} close control_center & hyprshot -m region -o ${vars_info.scr_path} -f $(date +'%s_hyprshot.png')"
-        (label :text "󰞤 " :class "iconR")
-      )
-      ; (eventbox
-        ;   :class "optionBtn"
-        ;   :style "background-color:transparent;"
-        ;   :onclick "${EWW_CMD} update numCC=0"
-        ;   :width 40
-        ;   :cursor "pointer"
-        ;   (label :class "iconR red" :text "󰜺 " :halign "end")
-      ; )
     )
   )
 )
@@ -155,7 +112,7 @@
       :flipped false
       :active true
       :hexpand true
-      :width 220
+      ; :width 220
       :class "sliderScale"
       :value level
       :draw-value false
